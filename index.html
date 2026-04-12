@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Cuerpo de Bomberos Voluntarios del Paraguay - Cuartel K141 Caazapá. Siempre listos para protegerte. Done, sé voluntario o difunde nuestra labor.">
-    <title>CBVP K141 Caazapá | Bomberos Voluntarios - Siempre Listos para Protegerte</title>
-    
+    <title>CBVP K141 Caazapá | Bombeiros Voluntarios - Siempre Listos para Protegerte</title>
+
+    <!-- Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <!-- Si viene con token de confirmación, redirigir a la página de registro -->
+    <script>
+        if (window.location.hash.includes('confirmation_token')) {
+            window.location.href = '/admin/confirm.html' + window.location.hash;
+        }
+    </script>
+
     <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
