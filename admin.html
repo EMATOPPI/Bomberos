@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - CBVP K141</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f7f7f7;
+            padding: 20px;
+        }
+
+        .header {
+            background: #B91C1C;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .header h1 { font-size: 1.5rem; }
+        .header p { opacity: 0.9; font-size: 0.9rem; }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #111827;
+            border-bottom: 2px solid #B91C1C;
+            padding-bottom: 10px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #E5E7EB;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #B91C1C;
+        }
+
+        .form-group textarea { min-height: 100px; resize: vertical; }
+
+        .btn {
+            padding: 12px 24px;
+            background: #B91C1C;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover { background: #991B1B; }
+        .btn:disabled { background: #9CA3AF; cursor: not-allowed; }
+
+        .btn-secondary {
+            background: #6B7280;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover { background: #4B5563; }
+
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .message.success { background: #D1FAE5; color: #065F46; display: block; }
+        .message.error { background: #FEE2E2; color: #991B1B; display: block; }
+
+        .news-item {
+            background: #F9FAFB;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 4px solid #B91C1C;
+        }
+
+        .news-item h3 { font-size: 1rem; color: #111827; margin-bottom: 5px; }
+        .news-item .date { font-size: 0.85rem; color: #6B7280; }
+        .news-item .excerpt { font-size: 0.9rem; color: #374151; margin-top: 5px; }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #E5E7EB;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: #B91C1C;
+            color: white;
+        }
+
+        .tab:hover:not(.active) { background: #D1D5DB; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .password-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .password-section input {
+            padding: 15px;
+            font-size: 1.1rem;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .login-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="container">
+        <div class="header">
+            <h1>CBVP K141 Caazapá</h1>
+            <p>Panel de Administración del Cuartel de Bombeiros</p>
+        </div>
+        <div class="card password-section">
+            <h2>Acceso Restringido</h2>
+            <p style="color: #6B7280; margin-bottom: 20px;">Ingresá la contraseña de administrador</p>
+            <input type="password" id="admin-password" placeholder="Contraseña" style="display:block;margin:0 auto;">
+            <button class="btn login-btn" onclick="checkPassword()">Ingresar</button>
+            <p id="login-error" style="color: #991B1B; margin-top: 10px; display: none;">Contraseña incorrecta</p>
+        </div>
+    </div>
+
+    <!-- Admin Screen -->
+    <div id="admin-screen" class="container" style="display:none;">
+        <div class="header">
+            <h1>CBVP K141 Caazapá</h1>
+            <p>Panel de Administración</p>
+            <button class="btn btn-secondary" style="margin-top:10px;" onclick="logout()">Cerrar Sesión</button>
+        </div>
+
+        <div id="save-message" class="message"></div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('contacto')">Contacto</button>
+            <button class="tab" onclick="showTab('banco')">Datos Bancarios</button>
+            <button class="tab" onclick="showTab('redes')">Redes Sociales</button>
+            <button class="tab" onclick="showTab('noticias')">Noticias</button>
+        </div>
+
+        <!-- Tab: Contacto -->
+        <div id="tab-contacto" class="tab-content active">
+            <div class="card">
+                <h2>Datos de Contacto</h2>
+                <form id="contacto-form">
+                    <div class="form-group">
+                        <label>Teléfono de Emergencias</label>
+                        <input type="text" id="telefonoEmergencias" placeholder="+595 21 XXX-XXX">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono Central</label>
+                        <input type="text" id="telefonoCentral" placeholder="+595 XXX XXX-XXX">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Institucional</label>
+                        <input type="email" id="emailInstitucional" placeholder="cuartel@ejemplo.org.py">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Personal</label>
+                        <input type="email" id="emailPersonal" placeholder="email@ejemplo.com">
+                    </div>
+                    <button type="submit" class="btn">Guardar Contacto</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab: Banco -->
+        <div id="tab-banco" class="tab-content">
+            <div class="card">
+                <h2>Datos para Donaciones</h2>
+                <form id="banco-form">
+                    <div class="form-group">
+                        <label>Banco</label>
+                        <input type="text" id="banco" placeholder="Nombre del banco">
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Cuenta</label>
+                        <select id="tipoCuenta">
+                            <option value="Cuenta Corriente">Cuenta Corriente</option>
+                            <option value="Cuenta de Ahorro">Cuenta de Ahorro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Número de Cuenta / CBU</label>
+                        <input type="text" id="numeroCuenta" placeholder="XXX-XXX-XXX">
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre del Titular</label>
+                        <input type="text" id="nombreTitular" placeholder="Nombre completo">
+                    </div>
+                    <div class="form-group">
+                        <label>RUC</label>
+                        <input type="text" id="ruc" placeholder="XX-XXX-XXX-X">
+                    </div>
+                    <div class="form-group">
+                        <label>Observaciones (para donantees)</label>
+                        <textarea id="observaciones" placeholder="Instrucciones para realizar la donación..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">Guardar Datos Bancarios</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab: Redes -->
+        <div id="tab-redes" class="tab-content">
+            <div class="card">
+                <h2>Redes Sociales</h2>
+                <form id="redes-form">
+                    <div class="form-group">
+                        <label>Facebook</label>
+                        <input type="url" id="facebook" placeholder="https://facebook.com/tupagina">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram</label>
+                        <input type="url" id="instagram" placeholder="https://instagram.com/tupagina">
+                    </div>
+                    <div class="form-group">
+                        <label>Twitter / X</label>
+                        <input type="url" id="twitter" placeholder="https://x.com/tupagina">
+                    </div>
+                    <div class="form-group">
+                        <label>YouTube</label>
+                        <input type="url" id="youtube" placeholder="https://youtube.com/tucanal">
+                    </div>
+                    <button type="submit" class="btn">Guardar Redes Sociales</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab: Noticias -->
+        <div id="tab-noticias" class="tab-content">
+            <div class="card">
+                <h2>Agregar Nueva Noticia</h2>
+                <form id="noticia-form">
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" id="noticia-titulo" placeholder="Título de la noticia" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <input type="date" id="noticia-fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Resumen</label>
+                        <input type="text" id="noticia-resumen" placeholder="Breve descripción...">
+                    </div>
+                    <div class="form-group">
+                        <label>Contenido</label>
+                        <textarea id="noticia-contenido" placeholder="Contenido completo de la noticia..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">Publicar Noticia</button>
+                </form>
+
+                <h3 style="margin-top:30px;margin-bottom:15px;color:#374151;">Noticias Publicadas</h3>
+                <div id="news-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Config - CAMBIAR ESTA CONTRASEÑA
+        const ADMIN_PASSWORD = 'Bomberos2026!';
+        const DATA_URL = '/data/config.json';
+        const NEWS_URL = '/data/news.json';
+
+        // State
+        let configData = {};
+        let newsData = [];
+
+        // Show message
+        function showMessage(text, type) {
+            const msg = document.getElementById('save-message');
+            msg.textContent = text;
+            msg.className = 'message ' + type;
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 4000);
+        }
+
+        // Check password
+        function checkPassword() {
+            const pwd = document.getElementById('admin-password').value;
+            if (pwd === ADMIN_PASSWORD) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-screen').style.display = 'block';
+                loadData();
+            } else {
+                document.getElementById('login-error').style.display = 'block';
+            }
+        }
+
+        // Logout
+        function logout() {
+            document.getElementById('admin-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('admin-password').value = '';
+        }
+
+        // Tab navigation
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+            document.querySelector(`.tab[onclick="showTab('${tabName}')"]`).classList.add('active');
+        }
+
+        // Load data
+        async function loadData() {
+            try {
+                // Load config
+                const configRes = await fetch(DATA_URL);
+                configData = await configRes.json();
+
+                // Populate contacto form
+                document.getElementById('telefonoEmergencias').value = configData.contacto?.telefonoEmergencias || '';
+                document.getElementById('telefonoCentral').value = configData.contacto?.telefonoCentral || '';
+                document.getElementById('emailInstitucional').value = configData.contacto?.emailInstitucional || '';
+                document.getElementById('emailPersonal').value = configData.contacto?.emailPersonal || '';
+
+                // Populate banco form
+                document.getElementById('banco').value = configData.donaciones?.banco || '';
+                document.getElementById('tipoCuenta').value = configData.donaciones?.tipoCuenta || 'Cuenta Corriente';
+                document.getElementById('numeroCuenta').value = configData.donaciones?.numeroCuenta || '';
+                document.getElementById('nombreTitular').value = configData.donaciones?.nombreTitular || '';
+                document.getElementById('ruc').value = configData.donaciones?.ruc || '';
+                document.getElementById('observaciones').value = configData.donaciones?.observaciones || '';
+
+                // Populate redes form
+                document.getElementById('facebook').value = configData.redesSociales?.facebook || '';
+                document.getElementById('instagram').value = configData.redesSociales?.instagram || '';
+                document.getElementById('twitter').value = configData.redesSociales?.twitter || '';
+                document.getElementById('youtube').value = configData.redesSociales?.youtube || '';
+
+                // Load news
+                const newsRes = await fetch(NEWS_URL);
+                newsData = await newsRes.json();
+                renderNews();
+
+            } catch (err) {
+                console.error('Error loading data:', err);
+                showMessage('Error al cargar datos', 'error');
+            }
+        }
+
+        // Render news list
+        function renderNews() {
+            const list = document.getElementById('news-list');
+            if (!newsData || newsData.length === 0) {
+                list.innerHTML = '<p style="color:#6B7280;">No hay noticias publicadas</p>';
+                return;
+            }
+
+            list.innerHTML = newsData.map(news => `
+                <div class="news-item">
+                    <h3>${news.title}</h3>
+                    <div class="date">${news.date}</div>
+                    ${news.excerpt ? `<p class="excerpt">${news.excerpt}</p>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Handle contacto form
+        document.getElementById('contacto-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            configData.contacto = {
+                telefonoEmergencias: document.getElementById('telefonoEmergencias').value,
+                telefonoCentral: document.getElementById('telefonoCentral').value,
+                emailInstitucional: document.getElementById('emailInstitucional').value,
+                emailPersonal: document.getElementById('emailPersonal').value
+            };
+            await saveData();
+        });
+
+        // Handle banco form
+        document.getElementById('banco-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            configData.donaciones = {
+                banco: document.getElementById('banco').value,
+                tipoCuenta: document.getElementById('tipoCuenta').value,
+                numeroCuenta: document.getElementById('numeroCuenta').value,
+                nombreTitular: document.getElementById('nombreTitular').value,
+                ruc: document.getElementById('ruc').value,
+                moneda: configData.donaciones?.moneda || 'PYG',
+                observaciones: document.getElementById('observaciones').value
+            };
+            await saveData();
+        });
+
+        // Handle redes form
+        document.getElementById('redes-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            configData.redesSociales = {
+                facebook: document.getElementById('facebook').value,
+                instagram: document.getElementById('instagram').value,
+                twitter: document.getElementById('twitter').value,
+                youtube: document.getElementById('youtube').value
+            };
+            await saveData();
+        });
+
+        // Handle noticia form
+        document.getElementById('noticia-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newNews = {
+                title: document.getElementById('noticia-titulo').value,
+                date: document.getElementById('noticia-fecha').value,
+                excerpt: document.getElementById('noticia-resumen').value,
+                content: document.getElementById('noticia-contenido').value,
+                author: 'CBVP K141 Caazapá',
+                published: true
+            };
+            newsData.unshift(newNews);
+            await saveNews();
+            renderNews();
+            e.target.reset();
+            showMessage('Noticia publicada correctamente', 'success');
+        });
+
+        // Save config data
+        async function saveData() {
+            // For a static site, we can't write files directly
+            // This would need a serverless function or Netlify Forms
+            // For now, we'll use localStorage as a demo
+            localStorage.setItem('cbvp-config', JSON.stringify(configData));
+            showMessage('Datos guardados (localmente) - Para producción se necesita GitHub integration)', 'success');
+        }
+
+        // Save news
+        async function saveNews() {
+            localStorage.setItem('cbvp-news', JSON.stringify(newsData));
+            showMessage('Noticia guardada (localmente) - Para producción se necesita GitHub integration)', 'success');
+        }
+
+        // Load from localStorage on startup
+        if (localStorage.getItem('cbvp-config')) {
+            configData = JSON.parse(localStorage.getItem('cbvp-config'));
+        }
+        if (localStorage.getItem('cbvp-news')) {
+            newsData = JSON.parse(localStorage.getItem('cbvp-news'));
+        }
+    </script>
+</body>
+</html>
