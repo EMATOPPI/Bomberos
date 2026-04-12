@@ -1,0 +1,1 @@
+{"name":"cbvp-k141","type":"module","scripts":{"test":"node test.js"},"dependencies":{"playwright":"^1.59.1"}}

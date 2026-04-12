@@ -1,0 +1,219 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Donde se guardan los archivos de contenido
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  # ==========================================
+  # Configuración General (datos del cuartel)
+  # ==========================================
+  - name: "config"
+    label: "Configuración General"
+    label_singular: "Configuración"
+    description: "Datos generales del cuartel - teléfono, cuenta bancaria, redes sociales"
+    files:
+      - name: "config"
+        label: "Datos del Cuartel"
+        file: "data/config.json"
+        fields:
+          - label: "Nombre del Cuartel"
+            name: "nombre"
+            widget: "string"
+            hint: "Ej: CBVP K141 Caazapá"
+
+          - label: "Nombre Completo"
+            name: "nombreCompleto"
+            widget: "string"
+            hint: "Cuerpo de Bombeiros Voluntarios del Paraguay - Cuartel K141"
+
+          - label: "Año de Fundación"
+            name: "fundacion"
+            widget: "number"
+            value_type: "int"
+            min: 1900
+            max: 2030
+
+          - label: "Dirección"
+            name: "direccion"
+            widget: "string"
+
+          - label: "Ciudad"
+            name: "ciudad"
+            widget: "string"
+
+          - label: "País"
+            name: "pais"
+            widget: "string"
+            default: "Paraguay"
+            locked: true
+
+          - label: "Teléfono de Emergencias"
+            name: "telefonoEmergencias"
+            widget: "string"
+            hint: "Número que aparece como principal en la sección de contacto"
+
+          - label: "Teléfono Central"
+            name: "telefonoCentral"
+            widget: "string"
+            hint: "Segundo número de contacto"
+
+          - label: "Email Institucional"
+            name: "emailInstitucional"
+            widget: "string"
+
+          - label: "Email Personal (de contacto directo)"
+            name: "emailPersonal"
+            widget: "string"
+            hint: "Email personal del comandante o contacto directo"
+
+  # ==========================================
+  # Datos Bancarios para Donaciones
+  # ==========================================
+  - name: "donaciones"
+    label: "Datos para Donaciones"
+    label_singular: "Datos Bancarios"
+    description: "Información de cuenta bancaria para recibir donaciones"
+    files:
+      - name: "donaciones"
+        label: "Cuenta Bancaria"
+        file: "data/config.json"
+        fields:
+          - label: "Banco"
+            name: "banco"
+            widget: "string"
+            hint: "Ej: Banco de la Nación Paraguay"
+
+          - label: "Tipo de Cuenta"
+            name: "tipoCuenta"
+            widget: "select"
+            options: ["Cuenta Corriente", "Cuenta de Ahorro", "Cuenta Personal"]
+
+          - label: "Número de Cuenta / CBU"
+            name: "numeroCuenta"
+            widget: "string"
+            hint: "Número de cuenta o CBU para transferencias"
+
+          - label: "Nombre del Titular"
+            name: "nombreTitular"
+            widget: "string"
+
+          - label: "RUC de la Organización"
+            name: "ruc"
+            widget: "string"
+            hint: "RUC de la institución sin fines de lucro"
+
+          - label: "Moneda"
+            name: "moneda"
+            widget: "select"
+            options: ["PYG", "USD", "ARS"]
+            default: "PYG"
+
+          - label: "Observaciones"
+            name: "observaciones"
+            widget: "text"
+            required: false
+            hint: "Instrucciones adicionales para quienes quieran donate"
+
+  # ==========================================
+  # Redes Sociales
+  # ==========================================
+  - name: "redes"
+    label: "Redes Sociales"
+    label_singular: "Red Social"
+    files:
+      - name: "redes"
+        label: "Redes Sociales"
+        file: "data/config.json"
+        fields:
+          - label: "Facebook"
+            name: "facebook"
+            widget: "string"
+            hint: "URL completa de la página de Facebook"
+
+          - label: "Instagram"
+            name: "instagram"
+            widget: "string"
+            required: false
+
+          - label: "Twitter / X"
+            name: "twitter"
+            widget: "string"
+            required: false
+
+          - label: "YouTube"
+            name: "youtube"
+            widget: "string"
+            required: false
+
+  # ==========================================
+  # Comandante
+  # ==========================================
+  - name: "comandante"
+    label: "Comandante"
+    label_singular: "Comandante"
+    files:
+      - name: "comandante"
+        label: "Datos del Comandante"
+        file: "data/config.json"
+        fields:
+          - label: "Nombre del Comandante"
+            name: "nombre"
+            widget: "string"
+            hint: "Nombre completo o nombre de pila usado públicamente"
+
+          - label: "Teléfono de Contacto"
+            name: "telefono"
+            widget: "string"
+            hint: "Teléfono directo del comandante (opcional)"
+
+  # ==========================================
+  # Noticias
+  # ==========================================
+  - name: "news"
+    label: "Noticias"
+    label_singular: "Noticia"
+    description: "Novedades y actualités del cuartel"
+    folder: "data/news"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: "Título"
+        name: "title"
+        widget: "string"
+
+      - label: "Fecha"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+
+      - label: "Resumen"
+        name: "excerpt"
+        widget: "string"
+        hint: "Breve descripción que aparece en la lista de noticias"
+
+      - label: "Contenido Completo"
+        name: "content"
+        widget: "markdown"
+        hint: "Cuerpo de la noticia. Soporta texto enriquecido y enlaces"
+
+      - label: "Imagen"
+        name: "image"
+        widget: "image"
+        required: false
+        hint: "Imagen destacada de la noticia (opcional)"
+
+      - label: "Autor"
+        name: "author"
+        widget: "string"
+        default: "CBVP K141 Caazapá"
+
+      - label: "Publicada"
+        name: "published"
+        widget: "boolean"
+        default: true
+        hint: "Desmarcar para guardar como borrador sin publicar"

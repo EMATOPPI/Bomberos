@@ -1,0 +1,35 @@
+{
+  "cuartel": {
+    "nombre": "CBVP K141 Caazapá",
+    "nombreCompleto": "Cuerpo de Bombeiros Voluntarios del Paraguay - Cuartel K141",
+    "fundacion": 1985,
+    "direccion": "Calle Principal esq. Avenida Central",
+    "ciudad": "Caazapá",
+    "pais": "Paraguay"
+  },
+  "contacto": {
+    "telefonoEmergencias": "+595 21 XXX-XXX",
+    "telefonoCentral": "+595 XXX XXX-XXX",
+    "emailInstitucional": "cuartel141@cbvp.org.py",
+    "emailPersonal": "toppiemanuel@gmail.com"
+  },
+  "donaciones": {
+    "banco": "Banco de la Nación Paraguay",
+    "tipoCuenta": "Cuenta Corriente",
+    "numeroCuenta": "XXX-XXX-XXX",
+    "nombreTitular": "Cuerpo de Bombeiros Voluntarios del Paraguay K141",
+    "ruc": "XX-XXX-XXX-X",
+    "moneda": "PYG",
+    "observaciones": "Para transferencias desde otros bancos, consultar por CBU"
+  },
+  "redesSociales": {
+    "facebook": "https://facebook.com/cbvpk141",
+    "instagram": "",
+    "twitter": "",
+    "youtube": ""
+  },
+  "comandante": {
+    "nombre": "",
+    "telefono": ""
+  }
+}
