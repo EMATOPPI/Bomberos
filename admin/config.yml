@@ -4,6 +4,9 @@ backend:
 
 publish_mode: editorial_workflow
 
+site_url: https://bomberos-k141.netlify.app
+logo_url: https://bomberos-k141.netlify.app/images/logo.png
+
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
