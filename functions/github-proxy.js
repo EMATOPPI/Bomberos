@@ -1,17 +1,19 @@
-export default async function handler(req, res) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
-
-    const { content, filePath, commitMsg } = req.body;
+export async function onRequestPost({ request, env }) {
+    const { content, filePath, commitMsg } = await request.json();
 
     if (!content || !filePath || !commitMsg) {
-        return res.status(400).json({ error: 'Missing required fields' });
+        return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 
-    const token = process.env.GITHUB_TOKEN;
+    const token = env.GITHUB_TOKEN;
     if (!token) {
-        return res.status(500).json({ error: 'GitHub token not configured' });
+        return new Response(JSON.stringify({ error: 'GitHub token not configured' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 
     const repoOwner = 'EMATOPPI';
@@ -31,7 +33,7 @@ export default async function handler(req, res) {
 
     const body = {
         message: commitMsg,
-        content: Buffer.from(JSON.stringify(content, null, 2)).toString('base64'),
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
         branch: branch
     };
     if (sha) body.sha = sha;
@@ -47,8 +49,14 @@ export default async function handler(req, res) {
 
     if (!putRes.ok) {
         const err = await putRes.json();
-        return res.status(400).json({ error: err.message || 'Error saving to GitHub' });
+        return new Response(JSON.stringify({ error: err.message || 'Error saving to GitHub' }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 
-    return res.status(200).json({ success: true });
+    return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+    });
 }

@@ -1154,7 +1154,7 @@
         // ============ GITHub Connection ============
         async function checkGitHubConnection() {
             try {
-                const res = await fetch('/.netlify/functions/github-proxy', {
+                const res = await fetch('/.functions/github-proxy', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ content: {}, filePath: 'test', commitMsg: 'test' })
@@ -1263,9 +1263,9 @@
             `).join('');
         }
 
-        // ============ GITHub API (via Netlify Function) ============
+        // ============ GITHub API (via Cloudflare Pages Function) ============
         async function githubPutFile(content, filePath, commitMsg) {
-            const res = await fetch('/.netlify/functions/github-proxy', {
+            const res = await fetch('/.functions/github-proxy', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ content, filePath, commitMsg })

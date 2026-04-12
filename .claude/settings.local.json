@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(netlify functions:logs github-proxy)",
+      "Bash(netlify logs:*)",
+      "Bash(netlify logs:function github-proxy)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
