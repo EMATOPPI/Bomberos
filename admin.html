@@ -27,6 +27,14 @@
             --transition: 0.3s ease;
         }
 
+        body.light-mode {
+            --dark-bg: #F3F4F6;
+            --dark-card: #FFFFFF;
+            --dark-sidebar: #E5E7EB;
+            --gray-medium: #6B7280;
+            --gray-light: #9CA3AF;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
@@ -201,6 +209,22 @@
         .admin-header .btn-logout:hover {
             border-color: var(--error);
             color: var(--error);
+        }
+
+        .admin-header .btn-theme {
+            background: transparent;
+            border: 1px solid var(--gray-medium);
+            color: var(--gray-light);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .admin-header .btn-theme:hover {
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
         /* MAIN CONTENT */
@@ -718,6 +742,9 @@
             </div>
             <div class="user-info">
                 <span class="user-badge"><i class="fas fa-shield-alt"></i> Admin</span>
+                <button class="btn-theme" onclick="toggleTheme()" title="Cambiar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
                 <button class="btn-logout" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i> Salir
                 </button>
@@ -1061,6 +1088,19 @@
             if (sessionStorage.getItem('admin_logged')) {
                 showAdminLayout();
                 loadData();
+            }
+            // Restore theme preference
+            if (localStorage.getItem('admin_theme') === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            if (document.body.classList.contains('light-mode')) {
+                localStorage.setItem('admin_theme', 'light');
+            } else {
+                localStorage.removeItem('admin_theme');
             }
         }
 
