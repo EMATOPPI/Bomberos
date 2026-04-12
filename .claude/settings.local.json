@@ -4,7 +4,10 @@
       "Bash(netlify functions:logs github-proxy)",
       "Bash(netlify logs:*)",
       "Bash(netlify logs:function github-proxy)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(export CLOUDFLARE_API_TOKEN=\"cfut_PuS5FBCa8pSjbDlQJ5jtuq0b7a5V32UId7o8PWDo776454bd\")",
+      "Bash(wrangler pages:*)"
     ]
   }
 }
