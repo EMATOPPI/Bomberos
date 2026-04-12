@@ -3,60 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - CBVP K141 Caazapá</title>
+    <title>Admin - CBVP K141 Caazapá</title>
 
-    <!-- Netlify Identity Widget (requerido para autenticación) -->
+    <!-- Netlify Identity Widget (DEBE cargarse primero) -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
     <!-- Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
     <style>
-        /* Estilos mínimos para el admin */
+        /* Reset básico */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f7f7f7;
-            margin: 0;
-            padding: 20px;
+            color: #111827;
         }
+
+        /* Header de la página admin */
         .admin-header {
-            background: #B91C1C;
+            background: linear-gradient(135deg, #B91C1C 0%, #991B1B 100%);
             color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            padding: 30px 20px;
             text-align: center;
         }
+
         .admin-header h1 {
-            margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
+            margin-bottom: 5px;
         }
+
         .admin-header p {
-            margin: 10px 0 0;
             opacity: 0.9;
+            font-size: 0.95rem;
         }
-        .admin-link {
-            display: inline-block;
-            background: #111827;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 20px;
+
+        /* Instrucciones */
+        .admin-instructions {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 0 20px;
+            text-align: center;
         }
-        .admin-link:hover {
-            background: #1F2937;
+
+        .admin-instructions h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #1F2937;
+        }
+
+        .admin-instructions p {
+            color: #6B7280;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        /* El contenedor del CMS de Decap */
+        #decap-cms {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Loading state */
+        .cms-loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+        }
+
+        .cms-loading::after {
+            content: 'Cargando panel de administración...';
         }
     </style>
 </head>
 <body>
+    <!-- Header visible -->
     <div class="admin-header">
         <h1>CBVP K141 Caazapá</h1>
-        <p>Panel de Administración del Cuartel de Bomberos</p>
+        <p>Panel de Administración del Cuartel de Bombeiros Voluntarios</p>
     </div>
 
-    <!-- El admin panel real de Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <!-- Instrucciones de login -->
+    <div class="admin-instructions" id="login-instructions">
+        <h2>Acceso al Panel de Administración</h2>
+        <p>Este panel es solo para personal autorizado del Cuerpo de Bombeiros.</p>
+        <p>Si aún no tenés usuario, el comandante o administrador del sitio debe invitarte por email.</p>
+    </div>
+
+    <!-- El CMS de Decap se renderiza aquí -->
+    <div id="decap-cms">
+        <div class="cms-loading"></div>
+    </div>
+
+    <!-- Script para manejar Netlify Identity -->
+    <script>
+        // Escuchar eventos de Netlify Identity
+        window.netlifyIdentity.on('init', user => {
+            if (user) {
+                // Usuario logueado - el CMS aparecerá automáticamente
+                document.getElementById('login-instructions').style.display = 'none';
+                console.log('Usuario autenticado:', user.email);
+            } else {
+                // No hay usuario - mostrar botón de login
+                document.getElementById('login-instructions').innerHTML +=
+                    '<p style="margin-top:20px;"><a href="#" onclick="window.netlifyIdentity.open();return false;">Hacer clic aquí para iniciar sesión</a></p>';
+            }
+        });
+
+        window.netlifyIdentity.on('logout', () => {
+            console.log('Logged out');
+            document.getElementById('login-instructions').style.display = 'block';
+        });
+
+        // Manejar el token de confirmación del hash URL
+        // Netlify Identity procesa automáticamente los tokens #confirmation_token
+        // cuando el script está cargado, no necesitamos hacer nada especial
+        if (window.location.hash.includes('confirmation_token')) {
+            console.log('Token de confirmación detectado, procesando...');
+            // El widget de Netlify Identity maneja esto automáticamente
+            // Recargar después de un momento para completar la confirmación
+            setTimeout(() => {
+                window.netlifyIdentity.refresh().then(() => {
+                    window.location.hash = '';
+                    window.location.reload();
+                }).catch(err => {
+                    console.log('Confirmación procesada, recargando página...');
+                    window.location.hash = '';
+                    window.location.reload();
+                });
+            }, 1500);
+        }
+    </script>
 </body>
 </html>
