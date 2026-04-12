@@ -2,12 +2,19 @@ backend:
   name: git-gateway
   branch: main
 
-# Habilitar Identity para autenticación
+# Usar la página de confirmación custom
+site_url: https://bomberos-k141.netlify.app
+logo_url: https://bomberos-k141.netlify.app/images/logo.svg
+
+# Habilitar flujo editorial (borradores)
 publish_mode: editorial_workflow
 
 # Donde se guardan los archivos subidos
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
+
+# Página de login custom
+login_url: /admin/confirm.html
 
 collections:
   # ==========================================
