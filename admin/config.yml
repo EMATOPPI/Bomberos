@@ -2,28 +2,15 @@ backend:
   name: git-gateway
   branch: main
 
-# Usar la página de confirmación custom
-site_url: https://bomberos-k141.netlify.app
-logo_url: https://bomberos-k141.netlify.app/images/logo.svg
-
-# Habilitar flujo editorial (borradores)
 publish_mode: editorial_workflow
 
-# Donde se guardan los archivos subidos
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-# Página de login custom
-login_url: /admin/confirm.html
-
 collections:
-  # ==========================================
-  # CONFIGURACIÓN - Todo en un solo archivo JSON
-  # ==========================================
   - name: "config"
     label: "Configuración del Sitio"
     label_singular: "Configuración"
-    description: "Datos generales del cuartel - teléfono, cuenta bancaria, redes sociales"
     files:
       - name: "config"
         label: "Datos del Cuartel"
@@ -32,31 +19,23 @@ collections:
           - label: "Nombre del Cuartel"
             name: "nombre"
             widget: "string"
-
           - label: "Nombre Completo"
             name: "nombreCompleto"
             widget: "string"
-
           - label: "Año de Fundación"
             name: "fundacion"
             widget: "number"
-
           - label: "Dirección del Cuartel"
             name: "direccion"
             widget: "string"
-
           - label: "Ciudad"
             name: "ciudad"
             widget: "string"
-
           - label: "País"
             name: "pais"
             widget: "string"
             default: "Paraguay"
 
-  # ==========================================
-  # CONTACTO - Datos de contacto
-  # ==========================================
   - name: "contacto"
     label: "Datos de Contacto"
     label_singular: "Contacto"
@@ -68,27 +47,19 @@ collections:
           - label: "Teléfono de Emergencias"
             name: "telefonoEmergencias"
             widget: "string"
-            hint: "Número principal para emergencias"
-
-          - label: "Teléfono Central/Secretaría"
+          - label: "Teléfono Central"
             name: "telefonoCentral"
             widget: "string"
-
           - label: "Email Institucional"
             name: "emailInstitucional"
             widget: "string"
-
           - label: "Email Personal"
             name: "emailPersonal"
             widget: "string"
 
-  # ==========================================
-  # DONACIONES - Cuenta bancaria
-  # ==========================================
   - name: "donaciones"
     label: "Datos para Donaciones"
     label_singular: "Datos Bancarios"
-    description: "Información de cuenta bancaria para recibir donaciones"
     files:
       - name: "donaciones"
         label: "Cuenta Bancaria"
@@ -97,93 +68,73 @@ collections:
           - label: "Banco"
             name: "banco"
             widget: "string"
-
           - label: "Tipo de Cuenta"
             name: "tipoCuenta"
             widget: "select"
             options: ["Cuenta Corriente", "Cuenta de Ahorro"]
-
           - label: "Número de Cuenta / CBU"
             name: "numeroCuenta"
             widget: "string"
-
           - label: "Nombre del Titular"
             name: "nombreTitular"
             widget: "string"
-
           - label: "RUC de la Organización"
             name: "ruc"
             widget: "string"
-
           - label: "Moneda"
             name: "moneda"
             widget: "select"
             options: ["PYG", "USD", "ARS"]
             default: "PYG"
-
-          - label: "Observaciones para Donantes"
+          - label: "Observaciones"
             name: "observaciones"
             widget: "text"
             required: false
 
-  # ==========================================
-  # REDES SOCIALES
-  # ==========================================
   - name: "redes"
     label: "Redes Sociales"
     label_singular: "Red Social"
     files:
       - name: "redes"
-        label: "Enlaces a Redes"
+        label: "Redes Sociales"
         file: "data/config.json"
         fields:
           - label: "Facebook"
             name: "facebook"
             widget: "string"
             required: false
-
           - label: "Instagram"
             name: "instagram"
             widget: "string"
             required: false
-
           - label: "Twitter / X"
             name: "twitter"
             widget: "string"
             required: false
-
           - label: "YouTube"
             name: "youtube"
             widget: "string"
             required: false
 
-  # ==========================================
-  # COMANDANTE
-  # ==========================================
   - name: "comandante"
     label: "Datos del Comandante"
     label_singular: "Comandante"
     files:
       - name: "comandante"
-        label: "Información del Comandante"
+        label: "Comandante"
         file: "data/config.json"
         fields:
           - label: "Nombre del Comandante"
             name: "nombre"
             widget: "string"
-
           - label: "Teléfono del Comandante"
             name: "telefono"
             widget: "string"
             required: false
 
-  # ==========================================
-  # NOTICIAS - Carpeta de archivos
-  # ==========================================
   - name: "news"
     label: "Noticias"
     label_singular: "Noticia"
-    description: "Novedades y actualités del cuartel"
     folder: "data/news"
     create: true
     slug: "{{slug}}"
@@ -191,32 +142,26 @@ collections:
       - label: "Título"
         name: "title"
         widget: "string"
-
       - label: "Fecha"
         name: "date"
         widget: "datetime"
         format: "YYYY-MM-DD"
         date_format: "YYYY-MM-DD"
         time_format: false
-
       - label: "Resumen"
         name: "excerpt"
         widget: "string"
-
       - label: "Contenido"
         name: "content"
         widget: "markdown"
-
       - label: "Imagen"
         name: "image"
         widget: "image"
         required: false
-
       - label: "Autor"
         name: "author"
         widget: "string"
         default: "CBVP K141 Caazapá"
-
       - label: "Publicada"
         name: "published"
         widget: "boolean"
