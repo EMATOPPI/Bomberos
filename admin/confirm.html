@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmar Cuenta - CBVP K141</title>
 
-    <!-- Netlify Identity Widget -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,7 +18,7 @@
             padding: 20px;
         }
 
-        .confirm-container {
+        .container {
             background: white;
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -31,59 +28,15 @@
             text-align: center;
         }
 
-        .logo {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 20px;
-        }
+        .logo { width: 60px; height: 60px; margin: 0 auto 20px; }
+        .logo svg { width: 100%; height: 100%; }
 
-        .logo svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        h1 {
-            color: #111827;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #6B7280;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-
-        input[type="password"], input[type="email"] {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #E5E7EB;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #B91C1C;
-        }
+        h1 { color: #111827; font-size: 1.5rem; margin-bottom: 10px; }
+        .subtitle { color: #6B7280; margin-bottom: 30px; line-height: 1.5; }
 
         .btn {
-            width: 100%;
-            padding: 14px;
+            display: inline-block;
+            padding: 14px 32px;
             background: #B91C1C;
             color: white;
             border: none;
@@ -91,70 +44,32 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
+            text-decoration: none;
             transition: background 0.2s;
         }
 
-        .btn:hover {
-            background: #991B1B;
-        }
-
-        .btn:disabled {
-            background: #9CA3AF;
-            cursor: not-allowed;
-        }
+        .btn:hover { background: #991B1B; }
 
         .message {
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 20px;
             display: none;
+            font-size: 0.9rem;
         }
 
-        .message.error {
-            background: #FEE2E2;
-            color: #991B1B;
-            display: block;
-        }
+        .message.error { background: #FEE2E2; color: #991B1B; display: block; }
+        .message.success { background: #D1FAE5; color: #065F46; display: block; }
+        .message.info { background: #DBEAFE; color: #1E40AF; display: block; }
 
-        .message.success {
-            background: #D1FAE5;
-            color: #065F46;
-            display: block;
-        }
+        .help-text { font-size: 0.85rem; color: #9CA3AF; margin-top: 20px; }
 
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid white;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-right: 8px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .btn-loading .spinner {
-            display: inline-block;
-        }
-
-        .btn-loading .btn-text {
-            display: none;
-        }
-
-        .help-text {
-            font-size: 0.85rem;
-            color: #9CA3AF;
-            margin-top: 20px;
-        }
+        /* Ocultar el widget de Netlify Identity para que no tape todo */
+        #netlify-identity-widget { display: none !important; }
     </style>
 </head>
 <body>
-    <div class="confirm-container">
-        <!-- Logo BOMBEROS -->
+    <div class="container">
         <div class="logo">
             <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="24" cy="24" r="22" stroke="#B91C1C" stroke-width="3" fill="none"/>
@@ -166,154 +81,76 @@
         </div>
 
         <h1>CBVP K141 Caazapá</h1>
-        <p class="subtitle">Creá tu contraseña para acceder al panel de administración</p>
+        <p class="subtitle">Confirmá tu cuenta para acceder al panel de administración</p>
 
         <div id="message" class="message"></div>
 
-        <form id="signup-form">
-            <div class="form-group">
-                <label for="email">Tu Email</label>
-                <input type="email" id="email" required placeholder="tu@email.com">
-            </div>
+        <button class="btn" id="open-login">Iniciar Sesión / Crear Cuenta</button>
 
-            <div class="form-group">
-                <label for="password">Nueva Contraseña</label>
-                <input type="password" id="password" required placeholder="Mínimo 8 caracteres" minlength="8">
-            </div>
-
-            <button type="submit" class="btn" id="submit-btn">
-                <span class="spinner"></span>
-                <span class="btn-text">Crear Mi Cuenta</span>
-            </button>
-        </form>
-
-        <p class="help-text" id="help-text">Procesando invitación...</p>
+        <p class="help-text" id="help-text">Si já recibiste el email de invitación, hacé clic en el botón de arriba.</p>
     </div>
 
-    <script>
-        const form = document.getElementById('signup-form');
-        const messageEl = document.getElementById('message');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const submitBtn = document.getElementById('submit-btn');
-        const helpText = document.getElementById('help-text');
+    <!-- Netlify Identity Widget - AGREGAR AL FINAL -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
-        // Mostrar mensaje
+    <script>
+        const messageEl = document.getElementById('message');
+        const helpText = document.getElementById('help-text');
+        const loginBtn = document.getElementById('open-login');
+
         function showMessage(text, type) {
             messageEl.textContent = text;
             messageEl.className = 'message ' + type;
-            messageEl.style.display = 'block';
         }
 
-        // Obtener token del hash URL
-        function getToken() {
-            const hash = window.location.hash;
-            const match = hash.match(/confirmation_token=([^&]+)/);
-            return match ? match[1] : null;
-        }
+        // Cuando el usuario hace clic en el botón, abrir el widget de Netlify Identity
+        loginBtn.addEventListener('click', () => {
+            window.netlifyIdentity.open();
+        });
 
-        // Obtener email del hash (a veces viene incluido)
-        function getEmailFromHash() {
-            const hash = window.location.hash;
-            const match = hash.match(/email=([^&]+)/);
-            if (match) {
-                return decodeURIComponent(match[1]);
-            }
-            return null;
-        }
-
-        // Inicializar Netlify Identity
+        // Netlify Identity maneja todo el flujo:
+        // - Si viene con confirmation_token: procesa la confirmación
+        // - Si no: muestra pantalla de login/registro
         window.netlifyIdentity.on('init', user => {
-            const token = getToken();
-            const emailFromHash = getEmailFromHash();
-
             if (user) {
-                // Ya logueado - redirigir al admin
+                // Usuario ya logueado - ir al admin
                 showMessage('Sesión activa. Redirigiendo al panel...', 'success');
-                setTimeout(() => {
-                    window.location.href = '/admin';
-                }, 1000);
-                return;
-            }
-
-            if (token) {
-                helpText.textContent = 'Enlace de invitación detectado. Completá los datos para crear tu cuenta.';
-
-                // Si hay email en el hash, pre-llenar
-                if (emailFromHash) {
-                    emailInput.value = emailFromHash;
-                }
-
-                // El widget de Netlify Identity maneja la confirmación del token
-                // Solo necesitamos mostrar el formulario
+                setTimeout(() => window.location.href = '/admin', 1000);
             } else {
-                helpText.textContent = 'No se detectó enlace de invitación. Asegurate de hacer clic en el enlace del email.';
-                showMessage('Enlace de invitación inválido o expirado.', 'error');
+                // No hay usuario logueado
+                // Verificar si hay un token de confirmación en el hash
+                const hash = window.location.hash;
+                if (hash.includes('confirmation_token')) {
+                    // El widget de Netlify Identity procesa automáticamente el token
+                    showMessage('Procesando invitación...', 'info');
+                    helpText.textContent = 'Por favor esperá mientras se confirma tu cuenta.';
+                } else {
+                    showMessage('Iniciá sesión o creá una cuenta nueva.', 'info');
+                    helpText.textContent = 'Si no tenés cuenta, pedí una invitación al administrador del sitio.';
+                }
             }
         });
 
-        // Manejar envío del formulario
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Cuando el usuario confirma exitosamente
+        window.netlifyIdentity.on('signup', user => {
+            console.log('Signup event:', user);
+            showMessage('Cuenta creada. Redirigiendo...', 'success');
+            setTimeout(() => window.location.href = '/admin', 1000);
+        });
 
-            const email = emailInput.value.trim();
-            const password = passwordInput.value;
-            const token = getToken();
+        // Cuando el usuario inicia sesión
+        window.netlifyIdentity.on('login', user => {
+            console.log('Login event:', user);
+            showMessage('Sesión iniciada. Redirigiendo...', 'success');
+            // Ir al admin y cerrar el widget
+            window.netlifyIdentity.close();
+            setTimeout(() => window.location.href = '/admin', 500);
+        });
 
-            if (!email || !password) {
-                showMessage('Por favor completá todos los campos.', 'error');
-                return;
-            }
-
-            if (password.length < 8) {
-                showMessage('La contraseña debe tener al menos 8 caracteres.', 'error');
-                return;
-            }
-
-            // Mostrar estado de carga
-            submitBtn.disabled = true;
-            submitBtn.classList.add('btn-loading');
-
-            try {
-                // Netlify Identity confirma el usuario y crea la contraseña
-                const response = await fetch('/.netlify/identity/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        token: token,
-                        email: email,
-                        password: password
-                    })
-                });
-
-                if (response.ok) {
-                    showMessage('¡Cuenta creada exitosamente! Redirigiendo...', 'success');
-
-                    // Esperar y luego redirigir al admin
-                    setTimeout(() => {
-                        window.location.href = '/admin';
-                    }, 1500);
-                } else {
-                    const data = await response.json();
-                    showMessage(data.message || 'Error al crear la cuenta. Intentá de nuevo.', 'error');
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('btn-loading');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-
-                // Como fallback, abrir el widget de Netlify Identity
-                try {
-                    window.netlifyIdentity.open();
-                } catch (e) {
-                    showMessage('Error de conexión. Probá de nuevo o contactá al administrador.', 'error');
-                }
-
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('btn-loading');
-            }
+        // Manejar errores
+        window.netlifyIdentity.on('error', err => {
+            console.error('Identity error:', err);
+            showMessage('Error: ' + (err.message || 'Algo salió mal'), 'error');
         });
     </script>
 </body>
