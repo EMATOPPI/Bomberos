@@ -3,60 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cuerpo de Bomberos Voluntarios del Paraguay - Cuartel K141 Caazapá. Siempre listos para protegerte. Done, sé voluntario o difunde nuestra labor.">
+    <meta name="description" content="Cuerpo de Bomberos Voluntarios del Paraguay K141 Caazapá. Siempre listos para protegerte. Servicio de emergencia 24/7. Done, sé voluntario o difunde nuestra labor.">
     <title>CBVP K141 Caazapá | Bombeiros Voluntarios - Siempre Listos para Protegerte</title>
 
-    <!-- Netlify Identity -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-    <!-- Si viene con token de confirmación, redirigir a la página de registro -->
-    <script>
-        if (window.location.hash.includes('confirmation_token')) {
-            window.location.href = '/admin/confirm.html' + window.location.hash;
-        }
-    </script>
-
-    <!-- Preconnect to external resources -->
+    <!-- Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Main Stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
     <link rel="stylesheet" href="css/styles.css">
-    
+
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function(){
-            emailjs.init({
-                publicKey: "Or9eKFJRX2Et2VoRF",
-            });
+            emailjs.init({ publicKey: "Or9eKFJRX2Et2VoRF" });
         })();
     </script>
 
-    <!-- Open Graph para redes sociales -->
+    <!-- Open Graph -->
     <meta property="og:title" content="CBVP K141 Caazapá | Bomberos Voluntarios">
     <meta property="og:description" content="Siempre listos para protegerte. Cuerpo de Bombeiros Voluntarios del Paraguay, Cuartel K141 Caazapá.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://bomberos-k141.netlify.app">
     <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
     <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
     <!-- ==========================================
-         Header Component
+         EMERGENCY BAR
+         ========================================== -->
+    <div class="emergency-bar">
+        <a href="tel:132" class="emergency-bar__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Emergencias: <strong>132</strong></span>
+        </a>
+        <span class="emergency-bar__divider">|</span>
+        <span class="emergency-bar__status">
+            <span class="emergency-bar__dot"></span>
+            Atencion 24/7
+        </span>
+    </div>
+
+    <!-- ==========================================
+         HEADER
          ========================================== -->
     <header class="header" id="header">
         <div class="container">
             <div class="header__container">
                 <a href="#" class="header__logo">
-                    <svg class="header__logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="24" cy="24" r="22" stroke="#B91C1C" stroke-width="3" fill="none"/>
+                    <svg class="header__logo-icon" viewBox="0 0 48 48" fill="none">
+                        <circle cx="24" cy="24" r="22" stroke="#B91C1C" stroke-width="2.5" fill="none"/>
                         <path d="M24 8L28 16H20L24 8Z" fill="#B91C1C"/>
                         <rect x="20" y="16" width="8" height="16" rx="2" fill="#B91C1C"/>
                         <rect x="18" y="32" width="12" height="4" rx="1" fill="#B91C1C"/>
                         <circle cx="24" cy="24" r="4" fill="#DC2626"/>
+                        <path d="M24 36V42" stroke="#B91C1C" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M20 40H28" stroke="#B91C1C" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
                     <div class="header__logo-text">
                         <span class="header__logo-title">CBVP K141</span>
@@ -68,21 +74,20 @@
                         <li><a href="#inicio" class="header__menu-link">Inicio</a></li>
                         <li><a href="#nosotros" class="header__menu-link">Nosotros</a></li>
                         <li><a href="#servicios" class="header__menu-link">Servicios</a></li>
-                        <li><a href="#impacto" class="header__menu-link">Impacto</a></li>
+                        <li><a href="#estadisticas" class="header__menu-link">Estadísticas</a></li>
                         <li><a href="#galeria" class="header__menu-link">Galería</a></li>
+                        <li><a href="#noticias" class="header__menu-link">Noticias</a></li>
                         <li><a href="#contacto" class="header__menu-link">Contacto</a></li>
                     </ul>
                     <a href="#donar" class="btn btn--primary">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                         </svg>
                         Donar
                     </a>
                     <button class="header__menu-toggle" id="menuToggle" aria-label="Abrir menú">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="3" y1="6" x2="21" y2="6"/>
-                            <line x1="3" y1="12" x2="21" y2="12"/>
-                            <line x1="3" y1="18" x2="21" y2="18"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
                         </svg>
                     </button>
                 </nav>
@@ -90,106 +95,172 @@
         </div>
     </header>
 
-    <!-- ==========================================
-         Mobile Menu Component
-         ========================================== -->
+    <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <button class="mobile-menu__close" id="mobileMenuClose" aria-label="Cerrar menú">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="18" y1="6" x2="6" y2="18"/>
-                <line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
-        <a href="#inicio" class="header__menu-link">Inicio</a>
-        <a href="#nosotros" class="header__menu-link">Nosotros</a>
-        <a href="#servicios" class="header__menu-link">Servicios</a>
-        <a href="#impacto" class="header__menu-link">Impacto</a>
-        <a href="#galeria" class="header__menu-link">Galería</a>
-        <a href="#contacto" class="header__menu-link">Contacto</a>
-        <a href="#donar" class="btn btn--primary">Donar Ahora</a>
-        <a href="#voluntario" class="btn btn--secondary">Ser Voluntario</a>
+        <a href="#inicio" class="header__menu-link mobile-link">Inicio</a>
+        <a href="#nosotros" class="header__menu-link mobile-link">Nosotros</a>
+        <a href="#servicios" class="header__menu-link mobile-link">Servicios</a>
+        <a href="#estadisticas" class="header__menu-link mobile-link">Estadísticas</a>
+        <a href="#galeria" class="header__menu-link mobile-link">Galería</a>
+        <a href="#noticias" class="header__menu-link mobile-link">Noticias</a>
+        <a href="#contacto" class="header__menu-link mobile-link">Contacto</a>
+        <a href="#donar" class="btn btn--primary mobile-donate">Donar Ahora</a>
     </div>
 
     <main id="main">
         <!-- ==========================================
-             Hero Section
+             HERO
              ========================================== -->
         <section class="hero" id="inicio">
+            <div class="hero__bg-pattern"></div>
+            <div class="hero__fire-overlay"></div>
             <div class="hero__content">
                 <div class="hero__badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                     </svg>
-                    Servicio Voluntario Desde 1985
+                    Al Servicio de Caazapá Desde 1985
                 </div>
                 <h1 class="hero__title">
-                    Siempre Listos<br>
-                    <span class="hero__title-highlight">para Protegerte</span>
+                    Cuando el fuego amenaza,<br>
+                    <span class="hero__title-highlight">nosotros respondemos</span>
                 </h1>
                 <p class="hero__subtitle">
-                    Somos vecinos que arriesgan su vida por otros vecinos. 
-                    Sin uniforme de pago, sin horario de oficina. Solo compromiso, 
-                    valentía y el amor por nuestra comunidad de Caazapá.
+                    Somos <strong>45 voluntarios</strong> que arriesgan su vida por otros. Sin salarios,
+                    sin horarios. Solo compromiso y valentía. Ayúdanos a seguir protegiendo Caazapá.
                 </p>
                 <div class="hero__cta">
-                    <a href="#donar" class="btn btn--primary">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <a href="#donar" class="btn btn--primary btn--large">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                         </svg>
                         Donar Ahora
                     </a>
-                    <a href="#voluntario" class="btn btn--secondary">
+                    <a href="tel:132" class="btn btn--emergency">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
                         </svg>
-                        Ser Voluntario
+                        Llamar al 132
                     </a>
+                </div>
+                <div class="hero__trust">
+                    <div class="hero__trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
+                        </svg>
+                        <span>Organización certificada</span>
+                    </div>
+                    <div class="hero__trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+                        </svg>
+                        <span>Respuesta en menos de 10 min</span>
+                    </div>
+                    <div class="hero__trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <span>100% voluntarios</span>
+                    </div>
                 </div>
             </div>
             <div class="hero__scroll">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="6 9 12 15 18 9"/>
-                </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
         </section>
 
         <!-- ==========================================
-             About Section (Nosotros)
+             EMERGENCIAS — Prominent Section
+             ========================================== -->
+        <section class="section section--emergency" id="emergencias">
+            <div class="container">
+                <div class="emergency-grid">
+                    <div class="emergency-card emergency-card--main">
+                        <div class="emergency-card__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                        </div>
+                        <div class="emergency-card__content">
+                            <span class="emergency-card__label">Línea de Emergencias</span>
+                            <a href="tel:132" class="emergency-card__number">132</a>
+                            <p class="emergency-card__sub">Atención las 24 horas, los 365 días</p>
+                        </div>
+                    </div>
+                    <div class="emergency-card">
+                        <div class="emergency-card__icon emergency-card__icon--secondary">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
+                        <div class="emergency-card__content">
+                            <span class="emergency-card__label">Central del Cuartel</span>
+                            <a href="tel:+595542232132" class="emergency-card__phone" id="telefono-central">+595 542 232 132</a>
+                        </div>
+                    </div>
+                    <div class="emergency-card">
+                        <div class="emergency-card__icon emergency-card__icon--secondary">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <div class="emergency-card__content">
+                            <span class="emergency-card__label">Email</span>
+                            <a href="mailto:bomberosk141caazapa@gmail.com" class="emergency-card__email" id="email-institucional">bomberosk141caazapa@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             NOSOTROS
              ========================================== -->
         <section class="section about" id="nosotros">
             <div class="container">
                 <div class="about__grid">
-                    <div class="about__image animate-on-scroll">
-                        <svg class="about__image-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            <path d="M9 12l2 2 4-4"/>
-                        </svg>
+                    <div class="about__visual animate-on-scroll">
+                        <div class="about__image-wrapper">
+                            <div class="about__shield">
+                                <svg viewBox="0 0 120 140" fill="none">
+                                    <path d="M60 5L110 25V70C110 100 60 135 60 135C60 135 10 100 10 70V25L60 5Z" fill="#B91C1C" opacity="0.1" stroke="#B91C1C" stroke-width="3"/>
+                                    <path d="M60 20L90 33V63C90 83 60 105 60 105C60 105 30 83 30 63V33L60 20Z" fill="#B91C1C" opacity="0.2"/>
+                                    <path d="M60 20L90 33V63C90 83 60 105 60 105C60 105 30 83 30 63V33L60 20Z" stroke="#B91C1C" stroke-width="2"/>
+                                    <text x="60" y="68" text-anchor="middle" fill="#B91C1C" font-family="Montserrat" font-weight="900" font-size="32">K141</text>
+                                    <text x="60" y="86" text-anchor="middle" fill="#B91C1C" font-family="Montserrat" font-weight="600" font-size="9">CAAZAPÁ</text>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="about__founder-badge">
+                            <span class="about__founder-year">Desde</span>
+                            <span class="about__founder-num">1985</span>
+                        </div>
                     </div>
                     <div class="about__content animate-on-scroll">
                         <span class="section__label">Quiénes Somos</span>
                         <h2>Una Tradición de Valor al Servicio de Caazapá</h2>
                         <p>
-                            El Cuartel K141 de Caazapá del Cuerpo de Bomberos Voluntarios del Paraguay 
-                            nació en 1985 de la necesidad de proteger a nuestra comunidad. Somos una 
-                            organización sin fines de lucro, compuesta exclusivamente por voluntarios 
-                            que dedicamos nuestro tiempo, esfuerzo y, cuando es necesario, nuestra 
-                            propia seguridad para salvaguardar las vidas y bienes de los habitantes 
+                            El Cuartel K141 de Caazapá del Cuerpo de Bomberos Voluntarios del Paraguay
+                            nació en 1985 de la necesidad de proteger a nuestra comunidad. Somos una
+                            organización sin fines de lucro, compuesta exclusivamente por voluntarios
+                            que dedicamos nuestro tiempo, esfuerzo y, cuando es necesario, nuestra
+                            propia seguridad para salvaguardar las vidas y bienes de los habitantes
                             de Caazapá y sus alrededores.
                         </p>
                         <p>
-                            No recibimos salarios. Operamos gracias a la solidaridad de personas como tú, 
-                            empresas locales y actividades de recaudación. Cada intervención que 
+                            No recibimos salarios. Operamos gracias a la solidaridad de personas como tú,
+                            empresas locales y actividades de recaudación. Cada intervención que
                             realizamos, cada vida que salvamos, es posible gracias al apoyo de la comunidad.
                         </p>
                         <div class="about__values">
                             <div class="about__value">
                                 <div class="about__value-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                    </svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                                 </div>
                                 <div class="about__value-text">
                                     <h4>Compromiso</h4>
@@ -198,10 +269,7 @@
                             </div>
                             <div class="about__value">
                                 <div class="about__value-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <path d="M12 6v6l4 2"/>
-                                    </svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                                 </div>
                                 <div class="about__value-text">
                                     <h4>Disponibilidad</h4>
@@ -210,9 +278,7 @@
                             </div>
                             <div class="about__value">
                                 <div class="about__value-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                                    </svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                                 </div>
                                 <div class="about__value-text">
                                     <h4>Solidaridad</h4>
@@ -221,13 +287,11 @@
                             </div>
                             <div class="about__value">
                                 <div class="about__value-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                    </svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                                 </div>
                                 <div class="about__value-text">
                                     <h4>Excelencia</h4>
-                                    <p>Formación y capacitación</p>
+                                    <p>Formación y capacitación continua</p>
                                 </div>
                             </div>
                         </div>
@@ -237,7 +301,7 @@
         </section>
 
         <!-- ==========================================
-             Services Section
+             SERVICIOS
              ========================================== -->
         <section class="section section--gray services" id="servicios">
             <div class="container">
@@ -245,65 +309,65 @@
                     <span class="section__label">Qué Hacemos</span>
                     <h2 class="section__title">Servicios que Salvan Vidas</h2>
                     <p class="section__description">
-                        Estamos preparados y equipados para responder a múltiples emergencias, 
+                        Estamos preparados y equipados para responder a múltiples emergencias,
                         siempre con la misión de proteger la vida y los bienes de nuestra comunidad.
                     </p>
                 </div>
                 <div class="services__grid">
                     <article class="services__card animate-on-scroll">
                         <div class="services__card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
                             </svg>
                         </div>
                         <h3>Combate de Incendios</h3>
                         <p>
-                            Extinción de incendios estructurales, forestales y vehiculares. 
-                            Contamos con equipamiento especializado y personal capacitado para 
+                            Extinción de incendios estructurales, forestales y vehiculares.
+                            Contamos con equipamiento especializado y personal capacitado para
                             actuar de manera eficiente y segura.
                         </p>
                     </article>
                     <article class="services__card animate-on-scroll">
                         <div class="services__card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M12 8v4l3 3"/>
-                                <path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+                                <path d="M15 18H9"/>
+                                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
+                                <circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>
                             </svg>
                         </div>
                         <h3>Rescate Urbano</h3>
                         <p>
-                            Extricación de víctimas en accidentes de tránsito, rescates en 
-                            altura y espacios confinados. Actuamos con agilidad en situaciones 
+                            Extricación de víctimas en accidentes de tránsito, rescates en
+                            altura y espacios confinados. Actuamos con agilidad en situaciones
                             donde cada segundo cuenta.
                         </p>
                     </article>
                     <article class="services__card animate-on-scroll">
                         <div class="services__card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
                             </svg>
                         </div>
                         <h3>Emergencias Médicas</h3>
                         <p>
-                            Primera respuesta médica prehospitalaria. Soporte vital básico y 
-                            estabilización de pacientes hasta la llegada de ambulancia especializada 
+                            Primera respuesta médica prehospitalaria. Soporte vital básico y
+                            estabilización de pacientes hasta la llegada de ambulancia especializada
                             o traslado a centros de salud.
                         </p>
                     </article>
                     <article class="services__card animate-on-scroll">
                         <div class="services__card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                                 <polyline points="9 22 9 12 15 12 15 22"/>
-                                <path d="M12 2v4"/>
-                                <path d="M12 18v4"/>
+                                <path d="M12 2v4M12 18v4"/>
                             </svg>
                         </div>
                         <h3>Asistencia Comunitaria</h3>
                         <p>
-                            Charlas preventivas en escuelas, revisiones de seguridad en eventos 
-                            públicos, ayuda en desastres naturales y colaboración con otras 
+                            Charlas preventivas en escuelas, revisiones de seguridad en eventos
+                            públicos, ayuda en desastres naturales y colaboración con otras
                             instituciones de emergencia locales.
                         </p>
                     </article>
@@ -312,136 +376,224 @@
         </section>
 
         <!-- ==========================================
-             Impact Section
+             ESTADÍSTICAS
              ========================================== -->
-        <section class="section section--dark impact" id="impacto">
+        <section class="section section--dark stats" id="estadisticas">
             <div class="container">
                 <div class="section__header animate-on-scroll">
                     <span class="section__label">Nuestro Impacto</span>
-                    <h2 class="section__title">Números que Salvan Vidas</h2>
+                    <h2 class="section__title">Números que Hablan por Sí Solos</h2>
                     <p class="section__description">
-                        Cada chiffre representa una vida salvada, una familia protegida 
-                        o una comunidad más segura. Estos son los resultados de décadas 
+                        Cada chiffre representa una vida salvada, una familia protegida
+                        o una comunidad más segura. Estos son los resultados de décadas
                         de compromiso y dedicación.
                     </p>
                 </div>
-                <div class="impact__grid">
-                    <div class="impact__stat animate-on-scroll">
-                        <div class="impact__stat-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="stats__grid">
+                    <div class="stats__card animate-on-scroll">
+                        <div class="stats__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
                             </svg>
                         </div>
-                        <div class="impact__stat-number"><span data-count="847">0</span><span>+</span></div>
-                        <div class="impact__stat-label">Incendios Atendidos</div>
+                        <div class="stats__number"><span data-count="847">0</span><span class="stats__plus">+</span></div>
+                        <div class="stats__label">Incendios Atendidos</div>
                     </div>
-                    <div class="impact__stat animate-on-scroll">
-                        <div class="impact__stat-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M12 8v4l3 3"/>
-                            </svg>
-                        </div>
-                        <div class="impact__stat-number"><span data-count="39">0</span></div>
-                        <div class="impact__stat-label">Años de Servicio</div>
-                    </div>
-                    <div class="impact__stat animate-on-scroll">
-                        <div class="impact__stat-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <div class="stats__card animate-on-scroll">
+                        <div class="stats__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                                 <circle cx="9" cy="7" r="4"/>
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                             </svg>
                         </div>
-                        <div class="impact__stat-number"><span data-count="45">0</span></div>
-                        <div class="impact__stat-label">Voluntarios Activos</div>
+                        <div class="stats__number"><span data-count="2340">0</span><span class="stats__plus">+</span></div>
+                        <div class="stats__label">Vidas Salvadas</div>
                     </div>
-                    <div class="impact__stat animate-on-scroll">
-                        <div class="impact__stat-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    <div class="stats__card animate-on-scroll">
+                        <div class="stats__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                                <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
                             </svg>
                         </div>
-                        <div class="impact__stat-number"><span data-count="2340">0</span><span>+</span></div>
-                        <div class="impact__stat-label">Vidas Salvadas</div>
+                        <div class="stats__number"><span data-count="39">0</span></div>
+                        <div class="stats__label">Años de Servicio</div>
+                    </div>
+                    <div class="stats__card animate-on-scroll">
+                        <div class="stats__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="stats__number"><span data-count="45">0</span></div>
+                        <div class="stats__label">Voluntarios Activos</div>
+                    </div>
+                    <div class="stats__card animate-on-scroll">
+                        <div class="stats__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                        <div class="stats__number"><span data-count="312">0</span></div>
+                        <div class="stats__label">Rescates Urbanos</div>
+                    </div>
+                    <div class="stats__card animate-on-scroll">
+                        <div class="stats__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                <path d="M12 2v4M12 18v4"/>
+                            </svg>
+                        </div>
+                        <div class="stats__number"><span data-count="589">0</span></div>
+                        <div class="stats__label">Emergencias Médicas</div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ==========================================
-             Help Section (Cómo Ayudar)
+             DONADORES — Where Does the Money Go
              ========================================== -->
-        <section class="section help" id="donar">
+        <section class="section donors" id="donadores">
             <div class="container">
                 <div class="section__header animate-on-scroll">
-                    <span class="section__label">Cómo Ayudar</span>
-                    <h2 class="section__title">Únete a Nuestra Misión</h2>
+                    <span class="section__label">Transparencia Total</span>
+                    <h2 class="section__title">¿Dónde Va Tu Donación?</h2>
                     <p class="section__description">
-                        El trabajo de los bomberos voluntarios depende enteramente de la 
-                        apoyo de la comunidad. Hay muchas formas de contribuir y hacer 
-                        la diferencia en la seguridad de Caazapá.
+                        Cada guaraní que recibimos se invierte directamente en proteger vidas.
+                        Así es como distribuimos los fondos.
                     </p>
                 </div>
-                <div class="help__grid">
-                    <article class="help__card help__card--donate animate-on-scroll" id="donar-card">
-                        <div class="help__card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                            </svg>
+                <div class="donors__grid">
+                    <div class="donors__breakdown animate-on-scroll">
+                        <h3>Distribución de Donaciones</h3>
+                        <div class="donors__bar-item">
+                            <div class="donors__bar-label"><span>Equipamiento de Protección</span><span>35%</span></div>
+                            <div class="donors__bar-track"><div class="donors__bar-fill" style="--w: 35%"></div></div>
                         </div>
-                        <h3>Donaciones</h3>
-                        <p>
-                            Tu aporte económico nos permite mantener el cuartel operativo,
-                            adquirir equipamiento de protección personal, combustible para
-                            las unidades y realizar mantenimiento de vehículos.
-                        </p>
-                        <div class="donacion__datos" id="banco-info">
-                            <p class="donacion__cargando">Cargando datos bancarios...</p>
+                        <div class="donors__bar-item">
+                            <div class="donors__bar-label"><span>Combustible y Vehículos</span><span>25%</span></div>
+                            <div class="donors__bar-track"><div class="donors__bar-fill" style="--w: 25%"></div></div>
                         </div>
-                    </article>
-                    <article class="help__card help__card--volunteer animate-on-scroll" id="voluntario">
-                        <div class="help__card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                <circle cx="9" cy="7" r="4"/>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                            </svg>
+                        <div class="donors__bar-item">
+                            <div class="donors__bar-label"><span>Capacitación y Certificación</span><span>20%</span></div>
+                            <div class="donors__bar-track"><div class="donors__bar-fill" style="--w: 20%"></div></div>
                         </div>
-                        <h3>Voluntariado</h3>
-                        <p>
-                            Si tienes espíritu de servicio y deseas ayudar a tu comunidad, 
-                            puedes unirte a nuestro equipo de voluntarios. Te proporcionamos 
-                            formación completa en rescate y primeros auxilios.
-                        </p>
-                        <a href="#contacto" class="btn btn--outline">Ser Voluntario</a>
-                    </article>
-                    <article class="help__card help__card--share animate-on-scroll">
-                        <div class="help__card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="18" cy="5" r="3"/>
-                                <circle cx="6" cy="12" r="3"/>
-                                <circle cx="18" cy="19" r="3"/>
-                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-                            </svg>
+                        <div class="donors__bar-item">
+                            <div class="donors__bar-label"><span>Mantenimiento del Cuartel</span><span>15%</span></div>
+                            <div class="donors__bar-track"><div class="donors__bar-fill" style="--w: 15%"></div></div>
                         </div>
-                        <h3>Difusión</h3>
-                        <p>
-                            Comparte nuestra labor en redes sociales, habla de nosotros en 
-                            tu trabajo o escuela. Más visibilidad significa más apoyo, y más 
-                            apoyo significa más vidas protegidas.
-                        </p>
-                        <a href="#contacto" class="btn btn--outline">Conocer Más</a>
-                    </article>
+                        <div class="donors__bar-item">
+                            <div class="donors__bar-label"><span>Programas Comunitarios</span><span>5%</span></div>
+                            <div class="donors__bar-track"><div class="donors__bar-fill" style="--w: 5%"></div></div>
+                        </div>
+                    </div>
+                    <div class="donors__impact animate-on-scroll">
+                        <h3>Lo Que Puedes Lograr</h3>
+                        <div class="donors__impact-list">
+                            <div class="donors__impact-item">
+                                <div class="donors__impact-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                </div>
+                                <div class="donors__impact-text">
+                                    <strong>100.000 Gs.</strong>
+                                    <span>Equipamiento básico de protección para un voluntario</span>
+                                </div>
+                            </div>
+                            <div class="donors__impact-item">
+                                <div class="donors__impact-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6"/></svg>
+                                </div>
+                                <div class="donors__impact-text">
+                                    <strong>500.000 Gs.</strong>
+                                    <span>Un mes de combustible para las unidades de emergencia</span>
+                                </div>
+                            </div>
+                            <div class="donors__impact-item">
+                                <div class="donors__impact-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                                </div>
+                                <div class="donors__impact-text">
+                                    <strong>2.000.000 Gs.</strong>
+                                    <span>Curso completo de rescate vehicular para 3 voluntarios</span>
+                                </div>
+                            </div>
+                            <div class="donors__impact-item">
+                                <div class="donors__impact-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                </div>
+                                <div class="donors__impact-text">
+                                    <strong>5.000.000 Gs.</strong>
+                                    <span>Equipo de respiración autónoma completo (ERA)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="donors__cta">
+                            <a href="#donar" class="btn btn--primary">Donar Ahora</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- ==========================================
-             Gallery Section
+             DONAR — Bank Info
+             ========================================== -->
+        <section class="section section--donate" id="donar">
+            <div class="container">
+                <div class="donate__wrapper">
+                    <div class="donate__header animate-on-scroll">
+                        <span class="section__label">Hacé Tu Donación</span>
+                        <h2 class="section__title">Ayudanos a Seguir Protegiendo Caazapá</h2>
+                        <p class="section__description">
+                            Tu aporte económico nos permite mantener el cuartel operativo,
+                            adquirir equipamiento y formar a nuestros voluntarios.
+                        </p>
+                    </div>
+                    <div class="donate__content animate-on-scroll">
+                        <div class="donate__bank-card">
+                            <div class="donate__bank-header">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+                                </svg>
+                                <span>Datos Bancarios</span>
+                            </div>
+                            <div class="donate__bank-body" id="banco-info">
+                                <p class="donacion__cargando">Cargando datos bancarios...</p>
+                            </div>
+                        </div>
+                        <div class="donate__alternatives">
+                            <h4>Otras formas de ayudar</h4>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Donaciones en especie (equipamiento, combustible)
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Patrocinio empresarial
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Voluntariado (consultá requisitos)
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Contactanos para coordinar
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             GALERÍA
              ========================================== -->
         <section class="section section--gray gallery" id="galeria">
             <div class="container">
@@ -449,65 +601,68 @@
                     <span class="section__label">Galería</span>
                     <h2 class="section__title">Nuestro Trabajo en Imágenes</h2>
                     <p class="section__description">
-                        Momentos capturados de nuestro día a día, intervenciones de emergencia 
+                        Momentos capturados de nuestro día a día, intervenciones de emergencia
                         y actividades comunitarias que muestran la realidad de ser bombero voluntario.
                     </p>
                 </div>
                 <div class="gallery__grid">
                     <div class="gallery__item gallery__item--large animate-on-scroll" data-lightbox>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                            <line x1="11" y1="8" x2="11" y2="14"/>
-                            <line x1="8" y1="11" x2="14" y2="11"/>
-                        </svg>
+                        <div class="gallery__placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            <span>Intervención de Emergencia</span>
+                        </div>
                     </div>
                     <div class="gallery__item animate-on-scroll" data-lightbox>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                            <line x1="11" y1="8" x2="11" y2="14"/>
-                            <line x1="8" y1="11" x2="14" y2="11"/>
-                        </svg>
+                        <div class="gallery__placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            <span>Capacitación</span>
+                        </div>
                     </div>
                     <div class="gallery__item animate-on-scroll" data-lightbox>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                            <line x1="11" y1="8" x2="11" y2="14"/>
-                            <line x1="8" y1="11" x2="14" y2="11"/>
-                        </svg>
+                        <div class="gallery__placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                            <span>Mantenimiento</span>
+                        </div>
                     </div>
                     <div class="gallery__item animate-on-scroll" data-lightbox>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                            <line x1="11" y1="8" x2="11" y2="14"/>
-                            <line x1="8" y1="11" x2="14" y2="11"/>
-                        </svg>
+                        <div class="gallery__placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+                            </svg>
+                            <span>Trabajo en Equipo</span>
+                        </div>
                     </div>
                     <div class="gallery__item animate-on-scroll" data-lightbox>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                            <line x1="11" y1="8" x2="11" y2="14"/>
-                            <line x1="8" y1="11" x2="14" y2="11"/>
-                        </svg>
+                        <div class="gallery__placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                            <span>Comunidad</span>
+                        </div>
                     </div>
                     <div class="gallery__item animate-on-scroll" data-lightbox>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                            <line x1="11" y1="8" x2="11" y2="14"/>
-                            <line x1="8" y1="11" x2="14" y2="11"/>
-                        </svg>
+                        <div class="gallery__placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                            <span>Rescate</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ==========================================
-             Testimonials Section
+             TESTIMONIOS
              ========================================== -->
         <section class="section testimonials" id="testimonios">
             <div class="container">
@@ -515,15 +670,22 @@
                     <span class="section__label">Testimonios</span>
                     <h2 class="section__title">Voces de Nuestra Comunidad</h2>
                     <p class="section__description">
-                        Las palabras de quienes han sido beneficiarios directos de nuestro 
+                        Las palabras de quienes han sido beneficiarios directos de nuestro
                         trabajo son el mayor reconocimiento que podemos recibir.
                     </p>
                 </div>
                 <div class="testimonials__grid">
                     <article class="testimonials__card animate-on-scroll">
+                        <div class="testimonials__stars">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        </div>
                         <p class="testimonials__text">
-                            "Cuando el incendio estalló en nuestro comercio a las 3 de la mañana, 
-                            fueron los bomberos voluntarios quienes llegaron primero. Sin su rápida 
+                            "Cuando el incendio estalló en nuestro comercio a las 3 de la mañana,
+                            fueron los bomberos voluntarios quienes llegaron primero. Sin su rápida
                             respuesta, habríamos perdido todo. Mi familia y yo les debemos eternamente."
                         </p>
                         <div class="testimonials__author">
@@ -535,9 +697,16 @@
                         </div>
                     </article>
                     <article class="testimonials__card animate-on-scroll">
+                        <div class="testimonials__stars">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        </div>
                         <p class="testimonials__text">
-                            "Mi hijo quedó atrapado en el auto después del accidente. Los bomberos 
-                            llegaron en minutos y con una profesionalidad increíble lograron 
+                            "Mi hijo quedó atrapado en el auto después del accidente. Los bomberos
+                            llegaron en minutos y con una profesionalidad increíble lograron
                             liberarlo. Gracias a ellos mi hijo está vivo y sin lesiones graves."
                         </p>
                         <div class="testimonials__author">
@@ -549,9 +718,16 @@
                         </div>
                     </article>
                     <article class="testimonials__card animate-on-scroll">
+                        <div class="testimonials__stars">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        </div>
                         <p class="testimonials__text">
-                            "Ser voluntaria del cuerpo me ha dado un propósito. Ver la gratitud en 
-                            los ojos de las personas que ayudamos es lo que me motiva a seguir 
+                            "Ser voluntaria del cuerpo me ha dado un propósito. Ver la gratitud en
+                            los ojos de las personas que ayudamos es lo que me motiva a seguir
                             formando parte de esta familia bomberil. Aquí todos somos uno."
                         </p>
                         <div class="testimonials__author">
@@ -567,9 +743,9 @@
         </section>
 
         <!-- ==========================================
-             News Section
+             NOTICIAS
              ========================================== -->
-        <section class="section news" id="noticias">
+        <section class="section section--gray news" id="noticias">
             <div class="container">
                 <div class="section__header animate-on-scroll">
                     <span class="section__label">Novedades</span>
@@ -578,14 +754,64 @@
                         Enterate de las últimas actividades, logros y actualidad del cuartel.
                     </p>
                 </div>
-                <div class="news__grid" id="news-container">
-                    <!-- Noticias se cargan dinámicamente desde data/news.json -->
+                <div class="news__grid" id="news-container"></div>
+                <div class="news__all-link">
+                    <a href="noticias.html" class="btn btn--outline">
+                        Ver Todas las Noticias
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </section>
 
         <!-- ==========================================
-             Contact Section
+             VOLUNTARIOS — CTA Section
+             ========================================== -->
+        <section class="section section--volunteer" id="voluntario">
+            <div class="container">
+                <div class="volunteer__wrapper animate-on-scroll">
+                    <div class="volunteer__content">
+                        <span class="section__label section__label--light"> Unite al Equipo</span>
+                        <h2>¿Querés Ser Bombero Voluntario?</h2>
+                        <p>
+                            Si tenés espíritu de servicio y deseás ayudar a tu comunidad,
+                            podés unirte a nuestro equipo. Te proporcionamos formación completa
+                            en rescate, primeros auxilios y combate de incendios — sin costo.
+                        </p>
+                        <div class="volunteer__requirements">
+                            <div class="volunteer__req">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Ser mayor de 18 años</span>
+                            </div>
+                            <div class="volunteer__req">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Disponibilidad horaria (Turnos de guardia)</span>
+                            </div>
+                            <div class="volunteer__req">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Compromiso y responsabilidad</span>
+                            </div>
+                            <div class="volunteer__req">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Nilván de antecedentes</span>
+                            </div>
+                        </div>
+                        <a href="#contacto" class="btn btn--primary btn--large">Contactanos para Info</a>
+                    </div>
+                    <div class="volunteer__image">
+                        <div class="volunteer__image-badge">
+                            <span class="volunteer__image-num">45</span>
+                            <span class="volunteer__image-label">Voluntarios<br>Activos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             CONTACTO
              ========================================== -->
         <section class="section section--gray contact" id="contacto">
             <div class="container">
@@ -594,33 +820,32 @@
                         <span class="section__label">Contacto</span>
                         <h3>Estamos Aquí para Ayudarte</h3>
                         <p>
-                            ¿Tienes preguntas sobre cómo donate, ser voluntario o necesitas 
-                            nuestros servicios de emergencia? Estamos disponibles las 24 horas, 
-                            los 7 días de la semana.
+                            ¿Tienes preguntas sobre cómo donate, ser voluntario o necesitas
+                            nuestros servicios? Estamos disponibles las 24 horas para emergencias,
+                            y en horario de oficina para consultas generales.
                         </p>
                         <div class="contact__details">
                             <div class="contact__item">
                                 <div class="contact__item-icon">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                        <circle cx="12" cy="10" r="3"/>
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                                     </svg>
                                 </div>
                                 <div class="contact__item-text">
                                     <h4>Dirección del Cuartel</h4>
-                                    <p>Calle Principal esq. Avenida Central<br>Caazapá, Paraguay</p>
+                                    <p>Calle Benjamin Aceval esq. Colonel T. Mazó<br>Caazapá, Paraguay</p>
                                 </div>
                             </div>
                             <div class="contact__item">
-                                <div class="contact__item-icon">
+                                <div class="contact__item-icon contact__item-icon--emergency">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
                                     </svg>
                                 </div>
                                 <div class="contact__item-text">
                                     <h4>Emergencias</h4>
-                                    <p id="telefono-emergencia">+595 21 XXX-XXX</p>
-                                    <p>Central: <span id="telefono-central">+595 XXX XXX-XXX</span></p>
+                                    <p><strong class="contact__emergency-num"><a href="tel:132">132</a></strong></p>
+                                    <p>Central: <a href="tel:+595542232132" id="telefono-central-2">+595 542 232 132</a></p>
                                 </div>
                             </div>
                             <div class="contact__item">
@@ -632,33 +857,16 @@
                                 </div>
                                 <div class="contact__item-text">
                                     <h4>Correo Electrónico</h4>
-                                    <p><span id="email-institucional">cuartel141@cbvp.org.py</span><br><span id="email-personal">toppiemanuel@gmail.com</span></p>
+                                    <p><a href="mailto:bomberosk141caazapa@gmail.com" id="email-contact">bomberosk141caazapa@gmail.com</a></p>
                                 </div>
                             </div>
                         </div>
-                        <div class="contact__social">
-                            <a href="#" id="social-facebook" class="contact__social-link" aria-label="Facebook" style="display:none">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                                </svg>
+                        <div class="contact__social" id="contact-social">
+                            <a href="#" id="social-facebook" class="contact__social-link" aria-label="Facebook" target="_blank" rel="noopener">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                             </a>
-                            <a href="#" id="social-instagram" class="contact__social-link" aria-label="Instagram" style="display:none">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                                </svg>
-                            </a>
-                            <a href="#" id="social-twitter" class="contact__social-link" aria-label="Twitter" style="display:none">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
-                                </svg>
-                            </a>
-                            <a href="#" id="social-youtube" class="contact__social-link" aria-label="YouTube" style="display:none">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
-                                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#111827"/>
-                                </svg>
+                            <a href="#" id="social-instagram" class="contact__social-link" aria-label="Instagram" target="_blank" rel="noopener">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                             </a>
                         </div>
                     </div>
@@ -666,11 +874,11 @@
                         <h3>Envíanos un Mensaje</h3>
                         <form id="contactForm">
                             <div class="form__group">
-                                <label for="nombre" class="form__label">Nombre Completo</label>
-                                <input type="text" id="nombre" name="nombre" class="form__input" placeholder="Ingresa tu nombre" required>
+                                <label for="nombre" class="form__label">Nombre Completo *</label>
+                                <input type="text" id="nombre" name="nombre" class="form__input" placeholder="Tu nombre completo" required>
                             </div>
                             <div class="form__group">
-                                <label for="email" class="form__label">Correo Electrónico</label>
+                                <label for="email" class="form__label">Correo Electrónico *</label>
                                 <input type="email" id="email" name="email" class="form__input" placeholder="tu@email.com" required>
                             </div>
                             <div class="form__group">
@@ -678,13 +886,22 @@
                                 <input type="tel" id="telefono" name="telefono" class="form__input" placeholder="+595 XXX XXX-XXX">
                             </div>
                             <div class="form__group">
-                                <label for="mensaje" class="form__label">Mensaje</label>
+                                <label for="asunto" class="form__label">Asunto</label>
+                                <select id="asunto" name="asunto" class="form__input">
+                                    <option value="">Seleccionar...</option>
+                                    <option value="donacion">Quiero hacer una donación</option>
+                                    <option value="voluntario">Quiero ser voluntario</option>
+                                    <option value="charla">Solicitar charla preventiva</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="form__group">
+                                <label for="mensaje" class="form__label">Mensaje *</label>
                                 <textarea id="mensaje" name="mensaje" class="form__textarea" placeholder="¿En qué podemos ayudarte?" required></textarea>
                             </div>
                             <button type="submit" class="btn btn--primary form__submit">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <line x1="22" y1="2" x2="11" y2="13"/>
-                                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                    <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
                                 </svg>
                                 Enviar Mensaje
                             </button>
@@ -696,30 +913,38 @@
     </main>
 
     <!-- ==========================================
-         Footer Component
+         FOOTER
          ========================================== -->
     <footer class="footer">
         <div class="container">
             <div class="footer__grid">
                 <div class="footer__brand">
-                    <a href="#" class="header__logo">
-                        <svg class="header__logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="24" cy="24" r="22" stroke="#B91C1C" stroke-width="3" fill="none"/>
+                    <a href="#" class="footer__logo">
+                        <svg class="footer__logo-icon" viewBox="0 0 48 48" fill="none">
+                            <circle cx="24" cy="24" r="22" stroke="#B91C1C" stroke-width="2.5" fill="none"/>
                             <path d="M24 8L28 16H20L24 8Z" fill="#B91C1C"/>
                             <rect x="20" y="16" width="8" height="16" rx="2" fill="#B91C1C"/>
                             <rect x="18" y="32" width="12" height="4" rx="1" fill="#B91C1C"/>
                             <circle cx="24" cy="24" r="4" fill="#DC2626"/>
                         </svg>
-                        <div class="header__logo-text">
-                            <span class="header__logo-title">CBVP K141</span>
-                            <span class="header__logo-subtitle">CAAZAPÁ</span>
+                        <div>
+                            <div class="footer__logo-title">CBVP K141</div>
+                            <div class="footer__logo-subtitle">Caazapá, Paraguay</div>
                         </div>
                     </a>
                     <p>
-                        Cuerpo de Bomberos Voluntarios del Paraguay, Cuartel K141 Caazapá. 
-                        Una organización sin fines de lucro dedicada a proteger la vida y 
+                        Cuerpo de Bomberos Voluntarios del Paraguay, Cuartel K141 Caazapá.
+                        Una organización sin fines de lucro dedicada a proteger la vida y
                         los bienes de nuestra comunidad desde 1985.
                     </p>
+                    <div class="footer__social" id="footer-social">
+                        <a href="#" id="footer-facebook" class="footer__social-link" aria-label="Facebook" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                        <a href="#" id="footer-instagram" class="footer__social-link" aria-label="Instagram" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                        </a>
+                    </div>
                 </div>
                 <div class="footer__column">
                     <h4>Navegación</h4>
@@ -727,62 +952,65 @@
                         <li><a href="#inicio">Inicio</a></li>
                         <li><a href="#nosotros">Nosotros</a></li>
                         <li><a href="#servicios">Servicios</a></li>
-                        <li><a href="#impacto">Impacto</a></li>
+                        <li><a href="#estadisticas">Estadísticas</a></li>
                         <li><a href="#galeria">Galería</a></li>
+                        <li><a href="#noticias">Noticias</a></li>
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                 </div>
                 <div class="footer__column">
-                    <h4>Cómo Ayudar</h4>
+                    <h4>Emergencias</h4>
+                    <ul class="footer__links footer__links--emergency">
+                        <li>
+                            <a href="tel:132" class="footer__emergency">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                <strong>132</strong>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+595542232132" class="footer__emergency">
+                                Central: +595 542 232 132
+                            </a>
+                        </li>
+                    </ul>
+                    <h4 style="margin-top: 24px">Cómo Ayudar</h4>
                     <ul class="footer__links">
                         <li><a href="#donar">Donaciones</a></li>
                         <li><a href="#voluntario">Ser Voluntario</a></li>
-                        <li><a href="#">Difundir</a></li>
-                        <li><a href="#">Patrocinadores</a></li>
-                        <li><a href="#">Eventos</a></li>
+                        <li><a href="#donadores">Transparencia</a></li>
                     </ul>
                 </div>
-                <div class="footer__column footer__newsletter">
-                    <h4>Boletín de Noticias</h4>
-                    <p>
-                        Recibe actualizaciones sobre nuestras actividades, emergencias 
-                        atendidas y formas de participar.
+                <div class="footer__column">
+                    <h4>Ubicación</h4>
+                    <p class="footer__address">
+                        Calle Benjamin Aceval esq. Colonel T. Mazó<br>
+                        Caazapá, Paraguay<br><br>
+                        <strong>Horario:</strong><br>
+                        Atencion 24 horas<br>
+                        los 365 días del año
                     </p>
-                    <form class="footer__newsletter-form" id="newsletterForm">
-                        <input type="email" class="footer__newsletter-input" placeholder="Tu correo electrónico" required>
-                        <button type="submit" class="footer__newsletter-btn">Suscribirse</button>
-                    </form>
                 </div>
             </div>
             <div class="footer__bottom">
-                <p class="footer__copyright">© 2024 Cuerpo de Bomberos Voluntarios del Paraguay - K141 Caazapá. Todos los derechos reservados.</p>
+                <p class="footer__copyright">© 2025 Cuerpo de Bomberos Voluntarios del Paraguay — K141 Caazapá. Todos los derechos reservados.</p>
                 <div class="footer__legal">
                     <a href="#">Política de Privacidad</a>
                     <a href="#">Términos de Uso</a>
-                    <a href="#">Avisos Legales</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- ==========================================
-         Lightbox Component
-         ========================================== -->
+    <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
         <div class="lightbox__content">
             <button class="lightbox__close" id="lightboxCerrar" aria-label="Cerrar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"/>
-                    <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
-            <div class="lightbox__image">
-                Imagen de la Galería
-            </div>
+            <div class="lightbox__image" id="lightboxImage"></div>
         </div>
     </div>
 
-    <!-- Main JavaScript -->
     <script src="js/main.js"></script>
 </body>
 </html>

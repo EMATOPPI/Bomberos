@@ -1,0 +1,22 @@
+name = "cbvp-admin-auth"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+# Cloudflare KV Namespace for session and data storage
+# Create with: wrangler kv:namespace create "CBVP_KV"
+# For production, use a binding name matching your kv_namespace_id
+kv_namespaces = [
+  { binding = "CBVP_KV", id = "e05c10dbdb7f4f7c87cddadb2f3b8b4e" }
+]
+
+# For Pages Functions, also expose as KV (no ID needed in pages)
+# Pages will use: vite.config.ts or _worker.js with KV binding
+
+[dev]
+# Local development — uses in-memory store
+# Run: wrangler dev --local
+
+[env.production]
+kv_namespaces = [
+  { binding = "CBVP_KV", id = "e05c10dbdb7f4f7c87cddadb2f3b8b4e" }
+]

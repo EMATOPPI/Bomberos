@@ -3,17 +3,913 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - CBVP K141 Caazapá</title>
-
-    <!-- Netlify Identity Widget -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-    </style>
+    <title>Admin | CBVP K141 Caazapá</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- El CMS de Decap se carga automáticamente aquí -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+<!-- ============================================
+     LOGIN PAGE (shown when not authenticated)
+     ============================================ -->
+<div class="login-page" id="loginPage">
+    <div class="login-card">
+        <div class="login-card__logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M9 12l2 2 4-4"/>
+            </svg>
+        </div>
+        <h1 class="login-card__title">Panel de Administración</h1>
+        <p class="login-card__subtitle">Cuerpo de Bomberos Voluntarios K141 Caazapá</p>
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label class="form-label" for="password">Contraseña</label>
+                <input type="password" id="password" class="form-input" placeholder="Ingresá tu contraseña" autocomplete="current-password">
+                <p class="form-error" id="loginError">Contraseña incorrecta. Intentá de nuevo.</p>
+            </div>
+            <button type="submit" class="btn btn--primary" id="loginBtn">
+                Ingresar al Panel
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- ============================================
+     ADMIN PANEL (shown when authenticated)
+     ============================================ -->
+<div class="admin-layout" id="adminPanel" style="display:none">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar__header">
+            <div class="sidebar__logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+            </div>
+            <div class="sidebar__brand-text">
+                <span class="sidebar__brand-name">CBVP K141</span>
+                <span class="sidebar__brand-sub">Panel Admin</span>
+            </div>
+        </div>
+
+        <nav class="sidebar__nav">
+            <span class="sidebar__section-label">Principal</span>
+            <button class="nav-item active" data-page="dashboard" onclick="showPage('dashboard')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                Dashboard
+            </button>
+            <button class="nav-item" data-page="news" onclick="showPage('news')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                Noticias
+            </button>
+            <button class="nav-item" data-page="config" onclick="showPage('config')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                Configuración
+            </button>
+            <button class="nav-item" data-page="donations" onclick="showPage('donations')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                Donaciones
+            </button>
+
+            <span class="sidebar__section-label">Sitio</span>
+            <a class="nav-item" href="../index.html" target="_blank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Ver Sitio
+            </a>
+            <a class="nav-item" href="noticias.html" target="_blank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Ver Noticias
+            </a>
+        </nav>
+
+        <div class="sidebar__footer">
+            <div class="sidebar__user">
+                <div class="sidebar__avatar">A</div>
+                <div>
+                    <div class="sidebar__user-name">Administrador</div>
+                    <div class="sidebar__user-role">CBVP K141</div>
+                </div>
+            </div>
+            <button class="btn btn--logout" onclick="logout()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Cerrar Sesión
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <div class="admin-page" id="page-dashboard">
+            <div class="main-header">
+                <div>
+                    <h1 class="main-header__title">Dashboard</h1>
+                    <div class="main-header__breadcrumb">Inicio / Dashboard</div>
+                </div>
+                <div class="main-header__right">
+                    <a href="../index.html" class="main-header__link" target="_blank">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        Ver sitio
+                    </a>
+                </div>
+            </div>
+            <div class="main-body">
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-card__icon stat-card__icon--red">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        </div>
+                        <div class="stat-card__number" id="stat-news">0</div>
+                        <div class="stat-card__label">Noticias Publicadas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__icon stat-card__icon--blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3"/></svg>
+                        </div>
+                        <div class="stat-card__number">132</div>
+                        <div class="stat-card__label">Emergencias</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__icon stat-card__icon--green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </div>
+                        <div class="stat-card__number">39</div>
+                        <div class="stat-card__label">Años de Servicio</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__icon stat-card__icon--gold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                        </div>
+                        <div class="stat-card__number">45</div>
+                        <div class="stat-card__label">Voluntarios</div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="content-card__header">
+                        <h2 class="content-card__title">Últimas Noticias</h2>
+                        <button class="btn btn--primary btn--small" onclick="showPage('news'); setTimeout(() => document.getElementById('btn-new-news').click(), 100);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Nueva Noticia
+                        </button>
+                    </div>
+                    <div class="content-card__body" style="padding:0">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-news-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Page -->
+        <div class="admin-page" id="page-news" style="display:none">
+            <div class="main-header">
+                <div>
+                    <h1 class="main-header__title">Gestión de Noticias</h1>
+                    <div class="main-header__breadcrumb">Inicio / Noticias</div>
+                </div>
+                <div class="main-header__right">
+                    <button class="btn btn--primary btn--small" id="btn-new-news" onclick="openNewsModal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Nueva Noticia
+                    </button>
+                </div>
+            </div>
+            <div class="main-body">
+                <div class="content-card">
+                    <div class="content-card__body" style="padding:0;overflow-x:auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Autor</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="news-table-body"></tbody>
+                        </table>
+                        <div class="empty-state" id="news-empty" style="display:none">
+                            <div class="empty-state__icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                            </div>
+                            <h3 class="empty-state__title">No hay noticias</h3>
+                            <p class="empty-state__text">Empezá creando tu primera noticia.</p>
+                            <button class="btn btn--primary" onclick="openNewsModal()">Crear Noticia</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Config Page -->
+        <div class="admin-page" id="page-config" style="display:none">
+            <div class="main-header">
+                <div>
+                    <h1 class="main-header__title">Configuración General</h1>
+                    <div class="main-header__breadcrumb">Inicio / Configuración</div>
+                </div>
+            </div>
+            <div class="main-body">
+                <form id="configForm" onsubmit="saveConfig(event)">
+                    <div class="content-card">
+                        <div class="content-card__header"><h2 class="content-card__title">Datos del Cuartel</h2></div>
+                        <div class="content-card__body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Nombre Completo</label>
+                                    <input type="text" class="form-input" id="cfg-nombre-completo">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Ciudad</label>
+                                    <input type="text" class="form-input" id="cfg-ciudad">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Dirección</label>
+                                    <input type="text" class="form-input" id="cfg-direccion">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono de Emergencias (132)</label>
+                                    <input type="text" class="form-input" id="cfg-tel-emergencias">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono Central</label>
+                                    <input type="text" class="form-input" id="cfg-tel-central">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono Comandante</label>
+                                    <input type="text" class="form-input" id="cfg-tel-comandante">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email Institucional</label>
+                                    <input type="email" class="form-input" id="cfg-email-inst">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email Personal</label>
+                                    <input type="email" class="form-input" id="cfg-email-personal">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" style="margin-top:24px">
+                        <div class="content-card__header"><h2 class="content-card__title">Redes Sociales</h2></div>
+                        <div class="content-card__body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Facebook URL</label>
+                                    <input type="url" class="form-input" id="cfg-facebook" placeholder="https://facebook.com/...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Instagram URL</label>
+                                    <input type="url" class="form-input" id="cfg-instagram" placeholder="https://instagram.com/...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" style="margin-top:24px">
+                        <div class="content-card__header"><h2 class="content-card__title">Comandante</h2></div>
+                        <div class="content-card__body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Nombre del Comandante</label>
+                                    <input type="text" class="form-input" id="cfg-comandante-nombre">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono del Comandante</label>
+                                    <input type="text" class="form-input" id="cfg-comandante-tel">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary" id="configSaveBtn">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Donations Page -->
+        <div class="admin-page" id="page-donations" style="display:none">
+            <div class="main-header">
+                <div>
+                    <h1 class="main-header__title">Información para Donaciones</h1>
+                    <div class="main-header__breadcrumb">Inicio / Donaciones</div>
+                </div>
+            </div>
+            <div class="main-body">
+                <form id="donationsForm" onsubmit="saveDonations(event)">
+                    <div class="content-card">
+                        <div class="content-card__header"><h2 class="content-card__title">Datos Bancarios</h2></div>
+                        <div class="content-card__body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Banco</label>
+                                    <input type="text" class="form-input" id="don-banco">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Tipo de Cuenta</label>
+                                    <input type="text" class="form-input" id="don-tipo">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Número de Cuenta / CBU</label>
+                                    <input type="text" class="form-input" id="don-cuenta">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nombre del Titular</label>
+                                    <input type="text" class="form-input" id="don-titular">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">RUC</label>
+                                    <input type="text" class="form-input" id="don-ruc">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Moneda</label>
+                                    <input type="text" class="form-input" id="don-moneda" placeholder="PYG">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top:16px">
+                                <label class="form-label">Observaciones</label>
+                                <textarea class="form-input" id="don-obs" rows="3" placeholder="Notas adicionales para transferencias..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary" id="donationsSaveBtn">Guardar Datos Bancarios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- ============================================
+     NEWS MODAL
+     ============================================ -->
+<div class="modal-overlay hidden" id="newsModal">
+    <div class="modal">
+        <div class="modal__header">
+            <h2 class="modal__title" id="newsModalTitle">Nueva Noticia</h2>
+            <button class="modal__close" onclick="closeNewsModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="modal__body">
+            <form id="newsForm">
+                <input type="hidden" id="news-id">
+                <div class="form-group">
+                    <label class="form-label">Título *</label>
+                    <input type="text" class="form-input" id="news-title" required placeholder="Título de la noticia">
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Fecha *</label>
+                        <input type="date" class="form-input" id="news-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Autor</label>
+                        <input type="text" class="form-input" id="news-author" placeholder="Nombre del autor">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Extracto (breve descripción) *</label>
+                    <textarea class="form-input" id="news-excerpt" rows="2" required placeholder="Breve resumen que aparece en la tarjeta..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contenido Completo</label>
+                    <textarea class="form-input" id="news-content" rows="6" placeholder="Contenido completo de la noticia. Separá párrafos con doble línea."></textarea>
+                    <p class="form-hint">Separar párrafos con una línea en blanco.</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">URL de Imagen (opcional)</label>
+                    <input type="url" class="form-input" id="news-image" placeholder="https://...">
+                    <p class="form-hint">Dejá vacío si no tenés imagen.</p>
+                </div>
+                <div class="form-group">
+                    <label class="toggle">
+                        <input type="checkbox" id="news-published" checked>
+                        <span class="toggle__slider"></span>
+                        <span>Publicada</span>
+                    </label>
+                </div>
+            </form>
+        </div>
+        <div class="modal__footer">
+            <button class="btn btn--secondary" onclick="closeNewsModal()">Cancelar</button>
+            <button class="btn btn--success" id="btn-preview" onclick="previewNews()" style="margin-right:auto;background:var(--admin-blue)">Vista Previa</button>
+            <button class="btn btn--primary" id="btn-save-news" onclick="saveNews()">Guardar Noticia</button>
+        </div>
+    </div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal-overlay hidden" id="previewModal">
+    <div class="modal" style="max-width:700px">
+        <div class="modal__header">
+            <h2 class="modal__title">Vista Previa</h2>
+            <button class="modal__close" onclick="closePreviewModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="modal__body" id="previewContent"></div>
+    </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal-overlay hidden" id="deleteModal">
+    <div class="modal" style="max-width:400px">
+        <div class="modal__header">
+            <h2 class="modal__title">Confirmar Eliminación</h2>
+            <button class="modal__close" onclick="closeDeleteModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="modal__body">
+            <p>¿Estás seguro de que querés eliminar esta noticia? Esta acción no se puede deshacer.</p>
+        </div>
+        <div class="modal__footer">
+            <button class="btn btn--secondary" onclick="closeDeleteModal()">Cancelar</button>
+            <button class="btn btn--danger" id="confirmDeleteBtn">Eliminar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ==========================================
+// Auth
+// ==========================================
+const API_BASE = '/api'; // Will be proxied through the worker
+
+// Check session on load
+(async function() {
+    const session = getSession();
+    if (session) {
+        showAdminPanel();
+        await loadAllData();
+    } else {
+        showLoginPage();
+    }
+})();
+
+function getSession() {
+    return localStorage.getItem('cbvp_session');
+}
+
+function setSession(token) {
+    localStorage.setItem('cbvp_session', token);
+}
+
+function clearSession() {
+    localStorage.removeItem('cbvp_session');
+}
+
+function showLoginPage() {
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('adminPanel').style.display = 'none';
+}
+
+function showAdminPanel() {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'flex';
+}
+
+// Login
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    const btn = document.getElementById('loginBtn');
+    const error = document.getElementById('loginError');
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Verificando...';
+    error.classList.remove('show');
+
+    try {
+        const res = await fetch(`${API_BASE}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            setSession(data.token);
+            showAdminPanel();
+            await loadAllData();
+        } else {
+            error.classList.add('show');
+            document.getElementById('password').classList.add('error');
+        }
+    } catch (err) {
+        error.classList.add('show');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Ingresar al Panel';
+    }
+});
+
+document.getElementById('password').addEventListener('input', function() {
+    this.classList.remove('error');
+    document.getElementById('loginError').classList.remove('show');
+});
+
+function logout() {
+    clearSession();
+    showLoginPage();
+    document.getElementById('password').value = '';
+}
+
+// ==========================================
+// Navigation
+// ==========================================
+function showPage(page) {
+    document.querySelectorAll('.admin-page').forEach(p => p.style.display = 'none');
+    document.getElementById(`page-${page}`).style.display = 'block';
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
+}
+
+// ==========================================
+// Data Loading
+// ==========================================
+let allNews = [];
+let configData = {};
+let deleteTargetId = null;
+
+async function loadAllData() {
+    await Promise.all([loadNews(), loadConfig()]);
+    updateDashboard();
+}
+
+async function loadNews() {
+    try {
+        const res = await fetch(`${API_BASE}/news`);
+        if (res.ok) allNews = await res.json();
+        else {
+            // Fallback: load from local JSON file
+            const local = await fetch('/data/news.json').then(r => r.json()).catch(() => []);
+            allNews = local;
+        }
+    } catch {
+        const local = await fetch('/data/news.json').then(r => r.json()).catch(() => []);
+        allNews = local;
+    }
+    renderNewsTable();
+}
+
+async function loadConfig() {
+    try {
+        const res = await fetch(`${API_BASE}/config`);
+        if (res.ok) configData = await res.json();
+        else configData = await fetch('/data/config.json').then(r => r.json()).catch(() => {});
+    } catch {
+        configData = await fetch('/data/config.json').then(r => r.json()).catch(() => {});
+    }
+    populateConfigForm();
+    populateDonationsForm();
+}
+
+function updateDashboard() {
+    const published = allNews.filter(n => n.published).length;
+    document.getElementById('stat-news').textContent = published;
+    renderDashboardNews();
+}
+
+function renderDashboardNews() {
+    const tbody = document.getElementById('dashboard-news-table');
+    const recent = allNews.slice(0, 5);
+    if (!recent.length) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:32px;color:var(--admin-gray)">No hay noticias aún</td></tr>';
+        return;
+    }
+    tbody.innerHTML = recent.map(n => `
+        <tr>
+            <td><strong>${escapeHtml(n.title)}</strong></td>
+            <td>${n.date}</td>
+            <td><span class="badge badge--${n.published ? 'published' : 'draft'}">${n.published ? 'Publicada' : 'Borrador'}</span></td>
+            <td class="actions">
+                <button class="btn-icon btn-icon--edit" onclick="editNews('${n.id || n.date}')" title="Editar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+                <button class="btn-icon btn-icon--delete" onclick="confirmDelete('${n.id || n.date}')" title="Eliminar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function renderNewsTable() {
+    const tbody = document.getElementById('news-table-body');
+    const empty = document.getElementById('news-empty');
+    if (!allNews.length) {
+        tbody.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+    }
+    empty.style.display = 'none';
+    tbody.innerHTML = allNews.map(n => `
+        <tr>
+            <td><strong>${escapeHtml(n.title)}</strong></td>
+            <td>${n.date}</td>
+            <td>${escapeHtml(n.author || 'CBVP K141')}</td>
+            <td><span class="badge badge--${n.published ? 'published' : 'draft'}">${n.published ? 'Publicada' : 'Borrador'}</span></td>
+            <td class="actions">
+                <button class="btn-icon btn-icon--edit" onclick="editNews('${n.id || n.date}')" title="Editar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+                <button class="btn-icon btn-icon--delete" onclick="confirmDelete('${n.id || n.date}')" title="Eliminar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// ==========================================
+// News CRUD
+// ==========================================
+function openNewsModal(newsItem) {
+    document.getElementById('newsModal').classList.remove('hidden');
+    document.getElementById('news-id').value = newsItem ? (newsItem.id || newsItem.date) : '';
+    document.getElementById('news-title').value = newsItem ? newsItem.title : '';
+    document.getElementById('news-date').value = newsItem ? newsItem.date : new Date().toISOString().split('T')[0];
+    document.getElementById('news-author').value = newsItem ? (newsItem.author || 'Cmdte. Juan Carlos Rodríguez') : 'Cmdte. Juan Carlos Rodríguez';
+    document.getElementById('news-excerpt').value = newsItem ? newsItem.excerpt : '';
+    document.getElementById('news-content').value = newsItem ? newsItem.content : '';
+    document.getElementById('news-image').value = newsItem ? (newsItem.image || '') : '';
+    document.getElementById('news-published').checked = newsItem ? newsItem.published !== false : true;
+    document.getElementById('newsModalTitle').textContent = newsItem ? 'Editar Noticia' : 'Nueva Noticia';
+}
+
+function closeNewsModal() {
+    document.getElementById('newsModal').classList.add('hidden');
+}
+
+function editNews(id) {
+    const item = allNews.find(n => (n.id || n.date) === id);
+    if (item) openNewsModal(item);
+}
+
+async function saveNews() {
+    const newsItem = {
+        id: document.getElementById('news-id').value || `${document.getElementById('news-date').value}-${document.getElementById('news-title').value.toLowerCase().replace(/\s+/g, '-').slice(0,20)}`,
+        title: document.getElementById('news-title').value.trim(),
+        date: document.getElementById('news-date').value,
+        author: document.getElementById('news-author').value.trim() || 'Cmdte. Juan Carlos Rodríguez',
+        excerpt: document.getElementById('news-excerpt').value.trim(),
+        content: document.getElementById('news-content').value.trim(),
+        image: document.getElementById('news-image').value.trim(),
+        published: document.getElementById('news-published').checked
+    };
+
+    if (!newsItem.title || !newsItem.date || !newsItem.excerpt) {
+        showToast('Por favor completá los campos requeridos', 'error');
+        return;
+    }
+
+    const btn = document.getElementById('btn-save-news');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>';
+
+    try {
+        const res = await fetch(`${API_BASE}/news`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getSession()}` },
+            body: JSON.stringify(newsItem)
+        });
+
+        if (res.ok || res.status === 201) {
+            showToast('Noticia guardada correctamente', 'success');
+            closeNewsModal();
+            await loadNews();
+            updateDashboard();
+        } else {
+            showToast('Error al guardar. Verificá tu sesión.', 'error');
+        }
+    } catch {
+        showToast('Error de conexión', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Guardar Noticia';
+    }
+}
+
+function previewNews() {
+    const title = document.getElementById('news-title').value || 'Sin título';
+    const date = document.getElementById('news-date').value;
+    const author = document.getElementById('news-author').value || 'CBVP K141';
+    const excerpt = document.getElementById('news-excerpt').value || '';
+    const content = document.getElementById('news-content').value || '';
+    const formattedDate = date ? new Date(date).toLocaleDateString('es-PY', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+
+    document.getElementById('previewContent').innerHTML = `
+        <div style="background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb">
+            <div style="height:200px;background:linear-gradient(135deg,#B91C1C,#991B1B);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.7)">
+                ${document.getElementById('news-image').value ? `<img src="${document.getElementById('news-image').value}" style="width:100%;height:100%;object-fit:cover">` : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6"/></svg>'}
+            </div>
+            <div style="padding:24px">
+                <div style="font-size:0.8rem;color:#B91C1C;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">${formattedDate} — ${escapeHtml(author)}</div>
+                <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:12px;font-family:Montserrat,sans-serif">${escapeHtml(title)}</h2>
+                <p style="font-size:1rem;color:#6B7280;line-height:1.7;margin-bottom:${content ? '16px' : '0'}">${escapeHtml(excerpt)}</p>
+                ${content ? `<div style="border-top:1px solid #f3f4f6;padding-top:16px;margin-top:16px">
+                    ${escapeHtml(content).split('\n\n').map(p => `<p style="margin-bottom:12px;font-size:0.95rem;color:#374151;line-height:1.8">${p}</p>`).join('')}
+                </div>` : ''}
+            </div>
+        </div>
+    `;
+    document.getElementById('previewModal').classList.remove('hidden');
+}
+
+function closePreviewModal() {
+    document.getElementById('previewModal').classList.add('hidden');
+}
+
+function confirmDelete(id) {
+    deleteTargetId = id;
+    document.getElementById('deleteModal').classList.remove('hidden');
+    document.getElementById('confirmDeleteBtn').onclick = () => deleteNews(id);
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.add('hidden');
+    deleteTargetId = null;
+}
+
+async function deleteNews(id) {
+    try {
+        const res = await fetch(`${API_BASE}/news/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${getSession()}` }
+        });
+        if (res.ok || res.status === 404) {
+            showToast('Noticia eliminada', 'success');
+            closeDeleteModal();
+            await loadNews();
+            updateDashboard();
+        } else {
+            showToast('Error al eliminar', 'error');
+        }
+    } catch {
+        showToast('Error de conexión', 'error');
+    }
+}
+
+// ==========================================
+// Config
+// ==========================================
+function populateConfigForm() {
+    const c = configData;
+    document.getElementById('cfg-nombre-completo').value = c.cuartel?.nombreCompleto || '';
+    document.getElementById('cfg-ciudad').value = c.cuartel?.ciudad || '';
+    document.getElementById('cfg-direccion').value = c.cuartel?.direccion || '';
+    document.getElementById('cfg-tel-emergencias').value = c.contacto?.telefonoEmergencias || '';
+    document.getElementById('cfg-tel-central').value = c.contacto?.telefonoCentral || '';
+    document.getElementById('cfg-tel-comandante').value = c.contacto?.telefonoComandante || '';
+    document.getElementById('cfg-email-inst').value = c.contacto?.emailInstitucional || '';
+    document.getElementById('cfg-email-personal').value = c.contacto?.emailPersonal || '';
+    document.getElementById('cfg-facebook').value = c.redesSociales?.facebook || '';
+    document.getElementById('cfg-instagram').value = c.redesSociales?.instagram || '';
+    document.getElementById('cfg-comandante-nombre').value = c.comandante?.nombre || '';
+    document.getElementById('cfg-comandante-tel').value = c.comandante?.telefono || '';
+}
+
+function populateDonationsForm() {
+    const d = configData.donaciones || {};
+    document.getElementById('don-banco').value = d.banco || '';
+    document.getElementById('don-tipo').value = d.tipoCuenta || '';
+    document.getElementById('don-cuenta').value = d.numeroCuenta || '';
+    document.getElementById('don-titular').value = d.nombreTitular || '';
+    document.getElementById('don-ruc').value = d.ruc || '';
+    document.getElementById('don-moneda').value = d.moneda || 'PYG';
+    document.getElementById('don-obs').value = d.observaciones || '';
+}
+
+async function saveConfig(e) {
+    e.preventDefault();
+    const btn = document.getElementById('configSaveBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Guardando...';
+
+    const updated = {
+        ...configData,
+        cuartel: {
+            ...(configData.cuartel || {}),
+            nombreCompleto: document.getElementById('cfg-nombre-completo').value,
+            ciudad: document.getElementById('cfg-ciudad').value,
+            direccion: document.getElementById('cfg-direccion').value
+        },
+        contacto: {
+            ...(configData.contacto || {}),
+            telefonoEmergencias: document.getElementById('cfg-tel-emergencias').value,
+            telefonoCentral: document.getElementById('cfg-tel-central').value,
+            telefonoComandante: document.getElementById('cfg-tel-comandante').value,
+            emailInstitucional: document.getElementById('cfg-email-inst').value,
+            emailPersonal: document.getElementById('cfg-email-personal').value
+        },
+        redesSociales: {
+            ...(configData.redesSociales || {}),
+            facebook: document.getElementById('cfg-facebook').value,
+            instagram: document.getElementById('cfg-instagram').value
+        },
+        comandante: {
+            nombre: document.getElementById('cfg-comandante-nombre').value,
+            telefono: document.getElementById('cfg-comandante-tel').value
+        }
+    };
+
+    try {
+        const res = await fetch(`${API_BASE}/config`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getSession()}` },
+            body: JSON.stringify(updated)
+        });
+        if (res.ok) {
+            configData = updated;
+            showToast('Configuración guardada', 'success');
+        } else {
+            showToast('Error al guardar', 'error');
+        }
+    } catch {
+        showToast('Error de conexión', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Guardar Cambios';
+    }
+}
+
+async function saveDonations(e) {
+    e.preventDefault();
+    const btn = document.getElementById('donationsSaveBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Guardando...';
+
+    const updated = {
+        ...configData,
+        donaciones: {
+            banco: document.getElementById('don-banco').value,
+            tipoCuenta: document.getElementById('don-tipo').value,
+            numeroCuenta: document.getElementById('don-cuenta').value,
+            nombreTitular: document.getElementById('don-titular').value,
+            ruc: document.getElementById('don-ruc').value,
+            moneda: document.getElementById('don-moneda').value,
+            observaciones: document.getElementById('don-obs').value
+        }
+    };
+
+    try {
+        const res = await fetch(`${API_BASE}/config`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getSession()}` },
+            body: JSON.stringify(updated)
+        });
+        if (res.ok) {
+            configData = updated;
+            showToast('Datos bancarios guardados', 'success');
+        } else {
+            showToast('Error al guardar', 'error');
+        }
+    } catch {
+        showToast('Error de conexión', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Guardar Datos Bancarios';
+    }
+}
+
+// ==========================================
+// Utilities
+// ==========================================
+function showToast(message, type = 'info') {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    const t = document.createElement('div');
+    t.className = `toast toast--${type}`;
+    t.textContent = message;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 4000);
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
 </body>
 </html>

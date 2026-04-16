@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Novedades y noticias del Cuerpo de Bomberos Voluntarios del Paraguay K141 Caazapá. Enterate de nuestras actividades y logros.">
+    <title>Noticias | CBVP K141 Caazapá</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body { background: var(--color-gray-light); }
+        .page-header {
+            background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .page-header__content { position: relative; z-index: 1; }
+        .page-header__label { display: inline-block; color: var(--color-gold-light); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 12px; }
+        .page-header__title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 16px; }
+        .page-header__subtitle { font-size: 1.1rem; opacity: 0.85; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+        .news-listing { padding: 60px 0 100px; }
+        .news-listing .container { max-width: 900px; }
+        .news-full-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            margin-bottom: 32px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-base);
+        }
+        .news-full-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .news-full-card__image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.6);
+            overflow: hidden;
+        }
+        .news-full-card__image img { width: 100%; height: 100%; object-fit: cover; }
+        .news-full-card__body { padding: 40px; }
+        .news-full-card__meta { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+        .news-full-card__date { font-size: 0.8rem; color: var(--color-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+        .news-full-card__author { font-size: 0.85rem; color: var(--color-gray-medium); }
+        .news-full-card__title { font-size: 1.6rem; font-weight: 800; color: var(--color-black); margin-bottom: 16px; font-family: var(--font-heading); line-height: 1.3; }
+        .news-full-card__excerpt { font-size: 1.05rem; color: var(--color-gray-medium); line-height: 1.8; margin-bottom: 20px; }
+        .news-full-card__content { display: none; }
+        .news-full-card__content.expanded { display: block; }
+        .news-full-card__content p { font-size: 1rem; color: var(--color-gray-dark); line-height: 1.9; margin-bottom: 16px; }
+        .news-full-card__toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        .news-full-card__toggle:hover { background: var(--color-primary-light); }
+        .news-full-card__toggle svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+        .news-full-card__toggle.active svg { transform: rotate(180deg); }
+        .no-news { text-align: center; padding: 80px 0; color: var(--color-gray-medium); }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-primary);
+            font-weight: 600;
+            padding: 40px 0 0;
+            font-size: 0.95rem;
+        }
+        .back-link:hover { opacity: 0.8; }
+        .back-link svg { width: 18px; height: 18px; }
+
+        @media (max-width: 768px) {
+            .news-full-card__body { padding: 24px; }
+            .news-full-card__image { height: 200px; }
+            .news-full-card__title { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Saltar al contenido</a>
+
+    <!-- Header (minimal) -->
+    <header class="header" style="position:relative;top:0;">
+        <div class="container">
+            <div class="header__container">
+                <a href="index.html" class="header__logo">
+                    <svg class="header__logo-icon" viewBox="0 0 48 48" fill="none">
+                        <circle cx="24" cy="24" r="22" stroke="#B91C1C" stroke-width="2.5" fill="none"/>
+                        <path d="M24 8L28 16H20L24 8Z" fill="#B91C1C"/>
+                        <rect x="20" y="16" width="8" height="16" rx="2" fill="#B91C1C"/>
+                        <rect x="18" y="32" width="12" height="4" rx="1" fill="#B91C1C"/>
+                        <circle cx="24" cy="24" r="4" fill="#DC2626"/>
+                    </svg>
+                    <div class="header__logo-text">
+                        <span class="header__logo-title">CBVP K141</span>
+                        <span class="header__logo-subtitle">CAAZAPÁ</span>
+                    </div>
+                </a>
+                <nav class="header__nav">
+                    <ul class="header__menu">
+                        <li><a href="index.html#inicio" class="header__menu-link">Inicio</a></li>
+                        <li><a href="index.html#nosotros" class="header__menu-link">Nosotros</a></li>
+                        <li><a href="index.html#servicios" class="header__menu-link">Servicios</a></li>
+                        <li><a href="index.html#noticias" class="header__menu-link">Noticias</a></li>
+                        <li><a href="index.html#contacto" class="header__menu-link">Contacto</a></li>
+                    </ul>
+                    <a href="index.html#donar" class="btn btn--primary">Donar</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <div class="page-header">
+            <div class="container page-header__content">
+                <span class="page-header__label">Novedades</span>
+                <h1 class="page-header__title">Noticias del Cuartel K141</h1>
+                <p class="page-header__subtitle">Enterate de las últimas actividades, logros y actualidad del Cuerpo de Bomberos Voluntarios de Caazapá.</p>
+            </div>
+        </div>
+
+        <section class="news-listing">
+            <div class="container">
+                <div id="news-list"></div>
+                <div style="text-align:center">
+                    <a href="index.html" class="back-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        Volver al Inicio
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__bottom" style="border:none;padding:0;">
+                <p class="footer__copyright">© 2025 CBVP K141 Caazapá — Cuerpo de Bomberos Voluntarios del Paraguay</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    (async function() {
+        const list = document.getElementById('news-list');
+
+        async function loadNews() {
+            try {
+                const res = await fetch('/data/news.json');
+                if (!res.ok) throw new Error();
+                const data = await res.json();
+                return data.filter(n => n.published).sort((a, b) => new Date(b.date) - new Date(a.date));
+            } catch { return []; }
+        }
+
+        function formatDate(str) {
+            if (!str) return '';
+            return new Date(str).toLocaleDateString('es-PY', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        function render(news) {
+            if (!news.length) {
+                list.innerHTML = '<p class="no-news">Próximamente tendremos novedades...</p>';
+                return;
+            }
+            list.innerHTML = news.map(item => `
+                <article class="news-full-card animate-on-scroll">
+                    <div class="news-full-card__image">
+                        ${item.image ? `<img src="${item.image}" alt="${item.title}">` : `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="64" height="64">
+                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>`}
+                    </div>
+                    <div class="news-full-card__body">
+                        <div class="news-full-card__meta">
+                            <span class="news-full-card__date">${formatDate(item.date)}</span>
+                            <span class="news-full-card__author">${item.author || 'CBVP K141'}</span>
+                        </div>
+                        <h2 class="news-full-card__title">${item.title}</h2>
+                        <p class="news-full-card__excerpt">${item.excerpt || ''}</p>
+                        <div class="news-full-card__content" id="content-${item.id}">
+                            ${(item.content || '').split('\n\n').map(p => `<p>${p}</p>`).join('')}
+                        </div>
+                        <button class="news-full-card__toggle" onclick="toggleNews(this, '${item.id}')">
+                            Leer más
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+
+            // Animate
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach((e, i) => {
+                    if (e.isIntersecting) {
+                        setTimeout(() => e.target.classList.add('visible'), i * 80);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        }
+
+        window.toggleNews = function(btn, id) {
+            const content = document.getElementById('content-' + id);
+            const isOpen = content.classList.toggle('expanded');
+            btn.classList.toggle('active', isOpen);
+            btn.innerHTML = isOpen
+                ? `Cerrar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`
+                : `Leer más <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`;
+        };
+
+        const news = await loadNews();
+        render(news);
+    })();
+    </script>
+</body>
+</html>

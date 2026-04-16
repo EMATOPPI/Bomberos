@@ -1,35 +1,46 @@
 {
   "cuartel": {
     "nombre": "CBVP K141 Caazapá",
-    "nombreCompleto": "Cuerpo de Bombeiros Voluntarios del Paraguay - Cuartel K141",
+    "nombreCompleto": "Cuerpo de Bomberos Voluntarios del Paraguay - Cuartel K141",
     "fundacion": 1985,
-    "direccion": "Calle Principal esq. Avenida Central",
+    "direccion": "Calle Benjamin Aceval esq. Colonel T. Mazó",
     "ciudad": "Caazapá",
-    "pais": "Paraguay"
+    "pais": "Paraguay",
+    "descripcion": "Organización sin fines de lucro dedicada a proteger la vida y los bienes de la comunidad de Caazapá desde 1985."
   },
   "contacto": {
-    "telefonoEmergencias": "+595 21 XXX-XXX",
-    "telefonoCentral": "+595 XXX XXX-XXX",
-    "emailInstitucional": "cuartel141@cbvp.org.py",
-    "emailPersonal": "toppiemanueljjjj@gmail.com"
+    "telefonoEmergencias": "132",
+    "telefonoCentral": "+595 542 232 132",
+    "telefonoComandante": "+595 981 234 567",
+    "emailInstitucional": "bomberosk141caazapa@gmail.com",
+    "emailPersonal": "toppiemanuel@gmail.com"
   },
+  "horario": "Atención 24 horas, los 365 días del año",
   "donaciones": {
-    "banco": "Banco de la Nación Paraguay",
+    "banco": "Banco Nacional de Bolivia / Banco del Paraguay",
     "tipoCuenta": "Cuenta Corriente",
-    "numeroCuenta": "XXX-XXX-XXX",
-    "nombreTitular": "Cuerpo de Bombeiros Voluntarios del Paraguay K141",
-    "ruc": "XX-XXX-XXX-X",
-    "moneda": "PYG",
-    "observaciones": "Para transferencias desde otros bancos, consultar por CBU"
+    "numeroCuenta": "000-123-456789",
+    "nombreTitular": "Cuerpo de Bomberos Voluntarios del Paraguay K141 Caazapá",
+    "ruc": "80-123456-7",
+    "moneda": "PYG (Guaraníes)",
+    "observaciones": "Para transferencias internacionales, consultar SWIFT. También aceptamos donaciones en especie: equipos de protección, combustible, repuestos para vehículos."
   },
   "redesSociales": {
-    "facebook": "https://facebook.com/cbvpk141",
-    "instagram": "",
+    "facebook": "https://facebook.com/bomberosk141caazapa",
+    "instagram": "https://instagram.com/bomberos_k141_caazapa",
     "twitter": "",
     "youtube": ""
   },
   "comandante": {
-    "nombre": "",
-    "telefono": ""
+    "nombre": "Cmdte. Juan Carlos Rodríguez",
+    "telefono": "+595 981 234 567"
+  },
+  "estadisticas": {
+    "incendiosAtendidos": 847,
+    "anosServicio": 39,
+    "voluntariosActivos": 45,
+    "vidasSalvadas": 2340,
+    "rescatesUrbanos": 312,
+    "emergenciasMedicas": 589
   }
 }
