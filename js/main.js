@@ -73,7 +73,7 @@ const ConfigModule = (function() {
 const NewsModule = (function() {
     async function loadNews() {
         try {
-            const response = await fetch('/data/news.json');
+            const response = await fetch('/api/news');
             if (!response.ok) return [];
             const data = await response.json();
             return data.filter(n => n.published).sort((a, b) => new Date(b.date) - new Date(a.date));

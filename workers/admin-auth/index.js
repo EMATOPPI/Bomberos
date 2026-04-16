@@ -25,7 +25,6 @@ function generateToken() {
 }
 
 // KV binding — set in wrangler.toml
-// For Pages Functions, we use env.KV from the binding
 async function getKV(env) {
   return env.KV || env.CBVP_KV;
 }
@@ -130,6 +129,164 @@ async function deleteNewsItem(id, env) {
 }
 
 // ==========================================
+// Intervenciones CRUD
+// ==========================================
+async function getAllIntervenciones(env) {
+  const kv = await getKV(env);
+  if (!kv) return [];
+  const data = await kv.get('intervenciones', 'json');
+  return Array.isArray(data) ? data.sort((a, b) => new Date(b.fecha + ' ' + b.hora) - new Date(a.fecha + ' ' + a.hora)) : [];
+}
+
+async function saveIntervencion(item, env) {
+  const kv = await getKV(env);
+  if (!kv) throw new Error('KV not available');
+  const all = await getAllIntervenciones(env);
+  const idx = all.findIndex(i => i.id === item.id);
+  if (idx >= 0) {
+    all[idx] = item;
+  } else {
+    item.id = item.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    all.unshift(item);
+  }
+  await kv.put('intervenciones', JSON.stringify(all));
+  return item;
+}
+
+async function deleteIntervencion(id, env) {
+  const kv = await getKV(env);
+  if (!kv) return;
+  const all = await getAllIntervenciones(env);
+  const filtered = all.filter(i => i.id !== id);
+  await kv.put('intervenciones', JSON.stringify(filtered));
+}
+
+// ==========================================
+// Equipo CRUD
+// ==========================================
+async function getAllEquipo(env) {
+  const kv = await getKV(env);
+  if (!kv) return [];
+  const data = await kv.get('equipo', 'json');
+  return Array.isArray(data) ? data : [];
+}
+
+async function saveEquipoItem(item, env) {
+  const kv = await getKV(env);
+  if (!kv) throw new Error('KV not available');
+  const all = await getAllEquipo(env);
+  const idx = all.findIndex(i => i.id === item.id);
+  if (idx >= 0) {
+    all[idx] = item;
+  } else {
+    item.id = item.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    all.push(item);
+  }
+  await kv.put('equipo', JSON.stringify(all));
+  return item;
+}
+
+async function deleteEquipoItem(id, env) {
+  const kv = await getKV(env);
+  if (!kv) return;
+  const all = await getAllEquipo(env);
+  const filtered = all.filter(i => i.id !== id);
+  await kv.put('equipo', JSON.stringify(filtered));
+}
+
+// ==========================================
+// Voluntarios CRUD
+// ==========================================
+async function getAllVoluntarios(env) {
+  const kv = await getKV(env);
+  if (!kv) return [];
+  const data = await kv.get('voluntarios', 'json');
+  return Array.isArray(data) ? data : [];
+}
+
+async function saveVoluntario(item, env) {
+  const kv = await getKV(env);
+  if (!kv) throw new Error('KV not available');
+  const all = await getAllVoluntarios(env);
+  const idx = all.findIndex(i => i.id === item.id);
+  if (idx >= 0) {
+    all[idx] = item;
+  } else {
+    item.id = item.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    all.push(item);
+  }
+  await kv.put('voluntarios', JSON.stringify(all));
+  return item;
+}
+
+async function deleteVoluntario(id, env) {
+  const kv = await getKV(env);
+  if (!kv) return;
+  const all = await getAllVoluntarios(env);
+  const filtered = all.filter(i => i.id !== id);
+  await kv.put('voluntarios', JSON.stringify(filtered));
+}
+
+// ==========================================
+// Galeria CRUD
+// ==========================================
+async function getAllGaleria(env) {
+  const kv = await getKV(env);
+  if (!kv) return [];
+  const data = await kv.get('galeria', 'json');
+  return Array.isArray(data) ? data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)) : [];
+}
+
+async function saveGaleriaAlbum(album, env) {
+  const kv = await getKV(env);
+  if (!kv) throw new Error('KV not available');
+  const all = await getAllGaleria(env);
+  const idx = all.findIndex(a => a.id === album.id);
+  if (idx >= 0) {
+    all[idx] = album;
+  } else {
+    album.id = album.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    all.unshift(album);
+  }
+  await kv.put('galeria', JSON.stringify(all));
+  return album;
+}
+
+async function deleteGaleriaAlbum(id, env) {
+  const kv = await getKV(env);
+  if (!kv) return;
+  const all = await getAllGaleria(env);
+  const filtered = all.filter(a => a.id !== id);
+  await kv.put('galeria', JSON.stringify(filtered));
+}
+
+// ==========================================
+// Stats CRUD
+// ==========================================
+const DEFAULT_STATS = {
+  incendiosAtendidos: 0,
+  vidasSalvadas: 0,
+  aniosServicio: 39,
+  voluntariosActivos: 0,
+  rescatesUrbanos: 0,
+  emergenciasMedicas: 0
+};
+
+async function getStats(env) {
+  const kv = await getKV(env);
+  if (!kv) return DEFAULT_STATS;
+  const data = await kv.get('stats', 'json');
+  return data || DEFAULT_STATS;
+}
+
+async function saveStats(stats, env) {
+  const kv = await getKV(env);
+  if (!kv) throw new Error('KV not available');
+  await kv.put('stats', JSON.stringify({ ...DEFAULT_STATS, ...stats }));
+  return stats;
+}
+
+// ==========================================
 // Config (KV storage)
 // ==========================================
 async function getConfig(env) {
@@ -157,10 +314,8 @@ async function authenticateRequest(request, env) {
       return [k, v.join('=')];
     })
   );
-
   const token = cookies[SESSION_COOKIE];
   if (!token) return null;
-
   const session = await getSession(token, env);
   return session ? token : null;
 }
@@ -195,9 +350,6 @@ async function handleRequest(request, env, ctx) {
   const url = new URL(request.url);
   const path = url.pathname;
 
-  // Set up KV from context if available (Pages Functions)
-  const kv = env.KV || ctx?.KV || null;
-
   // Preflight
   if (request.method === 'OPTIONS') {
     return new Response('', { headers: corsHeaders() });
@@ -209,24 +361,18 @@ async function handleRequest(request, env, ctx) {
   if (path === '/api/auth/login' && request.method === 'POST') {
     try {
       const { password } = await request.json();
-      if (!password) {
-        return errorResponse('Password required', 400);
-      }
+      if (!password) return errorResponse('Password required', 400);
 
-      // Get stored admin user or create default
-      let adminUser = await kv?.get('admin:user', 'json');
+      let adminUser = await getAdminUser(env);
       if (!adminUser) {
-        // First time setup — hash the default password
         const defaultPassword = 'bomberos2025';
         const hash = await hashPassword(defaultPassword);
         adminUser = { username: 'admin', passwordHash: hash };
-        await kv?.put('admin:user', JSON.stringify(adminUser));
+        await setAdminUser(adminUser, env);
       }
 
       const valid = await verifyPassword(password, adminUser.passwordHash);
-      if (!valid) {
-        return errorResponse('Invalid password', 401);
-      }
+      if (!valid) return errorResponse('Invalid password', 401);
 
       const token = generateToken();
       await createSession(token, env);
@@ -271,13 +417,11 @@ async function handleRequest(request, env, ctx) {
   if (path === '/api/news' && request.method === 'POST') {
     const token = await authenticateRequest(request, env);
     if (!token) return errorResponse('Unauthorized', 401);
-
     try {
       const item = await request.json();
       if (!item.title || !item.date || !item.excerpt) {
         return errorResponse('Missing required fields', 400);
       }
-      // Generate ID if not provided
       if (!item.id) {
         item.id = `${item.date}-${item.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').slice(0, 30)}`;
       }
@@ -289,12 +433,10 @@ async function handleRequest(request, env, ctx) {
     }
   }
 
-  // /api/news/:id DELETE
   const newsDeleteMatch = path.match(/^\/api\/news\/(.+)$/);
   if (newsDeleteMatch && request.method === 'DELETE') {
     const token = await authenticateRequest(request, env);
     if (!token) return errorResponse('Unauthorized', 401);
-
     try {
       await deleteNewsItem(newsDeleteMatch[1], env);
       return jsonResponse({ success: true });
@@ -304,13 +446,184 @@ async function handleRequest(request, env, ctx) {
   }
 
   // ==========================================
+  // Intervenciones Routes
+  // ==========================================
+  if (path === '/api/intervenciones' && request.method === 'GET') {
+    try {
+      const data = await getAllIntervenciones(env);
+      return jsonResponse(data);
+    } catch (err) {
+      return errorResponse('Failed to load intervenciones', 500);
+    }
+  }
+
+  if (path === '/api/intervenciones' && request.method === 'POST') {
+    const token = await authenticateRequest(request, env);
+    if (!token) return errorResponse('Unauthorized', 401);
+    try {
+      const item = await request.json();
+      item.id = item.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      await saveIntervencion(item, env);
+      return jsonResponse(item, 201);
+    } catch (err) {
+      return errorResponse('Failed to save intervención', 500);
+    }
+  }
+
+  const intDeleteMatch = path.match(/^\/api\/intervenciones\/(.+)$/);
+  if (intDeleteMatch && request.method === 'DELETE') {
+    const token = await authenticateRequest(request, env);
+    if (!token) return errorResponse('Unauthorized', 401);
+    try {
+      await deleteIntervencion(intDeleteMatch[1], env);
+      return jsonResponse({ success: true });
+    } catch (err) {
+      return errorResponse('Failed to delete', 500);
+    }
+  }
+
+  // ==========================================
+  // Equipo Routes
+  // ==========================================
+  if (path === '/api/equipo' && request.method === 'GET') {
+    try {
+      const data = await getAllEquipo(env);
+      return jsonResponse(data);
+    } catch (err) {
+      return errorResponse('Failed to load equipo', 500);
+    }
+  }
+
+  if (path === '/api/equipo' && request.method === 'POST') {
+    const token = await authenticateRequest(request, env);
+    if (!token) return errorResponse('Unauthorized', 401);
+    try {
+      const item = await request.json();
+      item.id = item.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      await saveEquipoItem(item, env);
+      return jsonResponse(item, 201);
+    } catch (err) {
+      return errorResponse('Failed to save equipo', 500);
+    }
+  }
+
+  const eqDeleteMatch = path.match(/^\/api\/equipo\/(.+)$/);
+  if (eqDeleteMatch && request.method === 'DELETE') {
+    const token = await authenticateRequest(request, env);
+    if (!token) return errorResponse('Unauthorized', 401);
+    try {
+      await deleteEquipoItem(eqDeleteMatch[1], env);
+      return jsonResponse({ success: true });
+    } catch (err) {
+      return errorResponse('Failed to delete', 500);
+    }
+  }
+
+  // ==========================================
+  // Voluntarios Routes
+  // ==========================================
+  if (path === '/api/voluntarios' && request.method === 'GET') {
+    try {
+      const data = await getAllVoluntarios(env);
+      return jsonResponse(data);
+    } catch (err) {
+      return errorResponse('Failed to load voluntarios', 500);
+    }
+  }
+
+  if (path === '/api/voluntarios' && request.method === 'POST') {
+    const token = await authenticateRequest(request, env);
+    if (!token) return errorResponse('Unauthorized', 401);
+    try {
+      const item = await request.json();
+      item.id = item.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      await saveVoluntario(item, env);
+      return jsonResponse(item, 201);
+    } catch (err) {
+      return errorResponse('Failed to save voluntario', 500);
+    }
+  }
+
+  const volDeleteMatch = path.match(/^\/api\/voluntarios\/(.+)$/);
+  if (volDeleteMatch && request.method === 'DELETE') {
+    const token = await authenticateRequest(request, env);
+    if (!token) return errorResponse('Unauthorized', 401);
+    try {
+      await deleteVoluntario(volDeleteMatch[1], env);
+      return jsonResponse({ success: true });
+    } catch (err) {
+      return errorResponse('Failed to delete', 500);
+    }
+  }
+
+  // ==========================================
+  // Galeria Routes
+  // ==========================================
+  if (path === '/api/galeria' && request.method === 'GET') {
+    try {
+      const data = await getAllGaleria(env);
+      return jsonResponse(data);
+    } catch (err) {
+      return errorResponse('Failed to load galeria', 500);
+    }
+  }
+
+  if (path === '/api/galeria' && request.method === 'POST') {
+    const token = await authenticateRequest(request, env);
+    if (!token) return errorResponse('Unauthorized', 401);
+    try {
+      const album = await request.json();
+      album.id = album.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      await saveGaleriaAlbum(album, env);
+      return jsonResponse(album, 201);
+    } catch (err) {
+      return errorResponse('Failed to save álbum', 500);
+    }
+  }
+
+  const galDeleteMatch = path.match(/^\/api\/galeria\/(.+)$/);
+  if (galDeleteMatch && request.method === 'DELETE') {
+    const token = await authenticateRequest(request, env);
+    if (!token) return errorResponse('Unauthorized', 401);
+    try {
+      await deleteGaleriaAlbum(galDeleteMatch[1], env);
+      return jsonResponse({ success: true });
+    } catch (err) {
+      return errorResponse('Failed to delete', 500);
+    }
+  }
+
+  // ==========================================
+  // Stats Routes
+  // ==========================================
+  if (path === '/api/stats' && request.method === 'GET') {
+    try {
+      const data = await getStats(env);
+      return jsonResponse(data);
+    } catch (err) {
+      return errorResponse('Failed to load stats', 500);
+    }
+  }
+
+  if (path === '/api/stats' && request.method === 'PUT') {
+    const token = await authenticateRequest(request, env);
+    if (!token) return errorResponse('Unauthorized', 401);
+    try {
+      const stats = await request.json();
+      await saveStats(stats, env);
+      return jsonResponse({ success: true });
+    } catch (err) {
+      return errorResponse('Failed to save stats', 500);
+    }
+  }
+
+  // ==========================================
   // Config Routes
   // ==========================================
   if (path === '/api/config' && request.method === 'GET') {
     try {
       let config = await getConfig(env);
-      if (!config && kv) {
-        // Try to fetch from original file as fallback
+      if (!config) {
         const original = await fetch(new URL('/data/config.json', request.url).toString()).catch(() => null);
         if (original?.ok) {
           config = await original.json();
@@ -327,7 +640,6 @@ async function handleRequest(request, env, ctx) {
   if (path === '/api/config' && request.method === 'PUT') {
     const token = await authenticateRequest(request, env);
     if (!token) return errorResponse('Unauthorized', 401);
-
     try {
       const config = await request.json();
       await saveConfig(config, env);
@@ -348,11 +660,7 @@ async function handleRequest(request, env, ctx) {
 export default {
   async fetch(request, env, ctx) {
     try {
-      // For Pages Functions compatibility
-      if (typeof handleRequest === 'function') {
-        return await handleRequest(request, env, ctx);
-      }
-      return handleRequest(request, env, ctx);
+      return await handleRequest(request, env, ctx);
     } catch (err) {
       console.error('Worker error:', err);
       return new Response(JSON.stringify({ error: 'Internal server error' }), {

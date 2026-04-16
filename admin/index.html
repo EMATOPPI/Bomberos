@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | CBVP K141 Caazapá</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/admin/styles.css">
 </head>
 <body>
 
+<!-- Mobile sidebar toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <!-- ============================================
-     LOGIN PAGE (shown when not authenticated)
+     LOGIN PAGE
      ============================================ -->
 <div class="login-page" id="loginPage">
     <div class="login-card">
@@ -29,20 +35,18 @@
                 <input type="password" id="password" class="form-input" placeholder="Ingresá tu contraseña" autocomplete="current-password">
                 <p class="form-error" id="loginError">Contraseña incorrecta. Intentá de nuevo.</p>
             </div>
-            <button type="submit" class="btn btn--primary" id="loginBtn">
-                Ingresar al Panel
-            </button>
+            <button type="submit" class="btn btn--primary" id="loginBtn">Ingresar al Panel</button>
         </form>
     </div>
 </div>
 
 <!-- ============================================
-     ADMIN PANEL (shown when authenticated)
+     ADMIN PANEL
      ============================================ -->
 <div class="admin-layout" id="adminPanel" style="display:none">
 
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar__header">
             <div class="sidebar__logo">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -62,9 +66,36 @@
                 Dashboard
             </button>
             <button class="nav-item" data-page="news" onclick="showPage('news')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
                 Noticias
+                <span class="nav-badge" id="badge-news" style="display:none">0</span>
             </button>
+            <button class="nav-item" data-page="intervenciones" onclick="showPage('intervenciones')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                Intervenciones
+                <span class="nav-badge" id="badge-intervenciones" style="display:none">0</span>
+            </button>
+            <button class="nav-item" data-page="equipo" onclick="showPage('equipo')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                Equipo
+                <span class="nav-badge badge--warning" id="badge-equipo-alert" style="display:none">!</span>
+            </button>
+            <button class="nav-item" data-page="voluntarios" onclick="showPage('voluntarios')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Voluntarios
+                <span class="nav-badge" id="badge-voluntarios" style="display:none">0</span>
+            </button>
+            <button class="nav-item" data-page="stats" onclick="showPage('stats')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Estadísticas
+            </button>
+            <button class="nav-item" data-page="galeria" onclick="showPage('galeria')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                Galería
+                <span class="nav-badge" id="badge-galeria" style="display:none">0</span>
+            </button>
+
+            <span class="sidebar__section-label">Configuración</span>
             <button class="nav-item" data-page="config" onclick="showPage('config')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                 Configuración
@@ -79,10 +110,6 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 Ver Sitio
             </a>
-            <a class="nav-item" href="noticias.html" target="_blank">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                Ver Noticias
-            </a>
         </nav>
 
         <div class="sidebar__footer">
@@ -94,7 +121,7 @@
                 </div>
             </div>
             <button class="btn btn--logout" onclick="logout()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                 Cerrar Sesión
             </button>
         </div>
@@ -102,94 +129,210 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Dashboard Page -->
-        <div class="admin-page" id="page-dashboard">
+        <!-- ============================================
+             PAGE: DASHBOARD
+             ============================================ -->
+        <div class="admin-page active" id="page-dashboard">
             <div class="main-header">
-                <div>
-                    <h1 class="main-header__title">Dashboard</h1>
-                    <div class="main-header__breadcrumb">Inicio / Dashboard</div>
+                <div class="main-header__left">
+                    <div>
+                        <h1 class="main-header__title">Dashboard</h1>
+                        <div class="main-header__breadcrumb">Inicio / Dashboard</div>
+                    </div>
                 </div>
                 <div class="main-header__right">
-                    <a href="../index.html" class="main-header__link" target="_blank">
+                    <a class="main-header__link" href="../index.html" target="_blank">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         Ver sitio
                     </a>
                 </div>
             </div>
             <div class="main-body">
-                <div class="dashboard-grid">
-                    <div class="stat-card">
-                        <div class="stat-card__icon stat-card__icon--red">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <!-- Hero Banner -->
+                <div class="dashboard-hero">
+                    <div class="dashboard-hero__content">
+                        <div class="dashboard-hero__greeting">Bienvenido al panel</div>
+                        <div class="dashboard-hero__title">Cuerpo de Bomberos Voluntarios K141</div>
+                        <div class="dashboard-hero__subtitle">Gestioná todas las operaciones del cuartel desde este panel: intervenciones, equipo, voluntarios y más.</div>
+                        <div class="dashboard-hero__actions">
+                            <button class="btn--outline-white" onclick="showPage('intervenciones'); setTimeout(() => document.getElementById('btn-new-intervencion').click(), 100)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                Nueva Intervención
+                            </button>
+                            <button class="btn--outline-white" onclick="showPage('news')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                                Nueva Noticia
+                            </button>
                         </div>
-                        <div class="stat-card__number" id="stat-news">0</div>
-                        <div class="stat-card__label">Noticias Publicadas</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card__icon stat-card__icon--blue">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3"/></svg>
-                        </div>
-                        <div class="stat-card__number">132</div>
-                        <div class="stat-card__label">Emergencias</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card__icon stat-card__icon--green">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                        </div>
-                        <div class="stat-card__number">39</div>
-                        <div class="stat-card__label">Años de Servicio</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card__icon stat-card__icon--gold">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                        </div>
-                        <div class="stat-card__number">45</div>
-                        <div class="stat-card__label">Voluntarios</div>
                     </div>
                 </div>
 
-                <div class="content-card">
-                    <div class="content-card__header">
-                        <h2 class="content-card__title">Últimas Noticias</h2>
-                        <button class="btn btn--primary btn--small" onclick="showPage('news'); setTimeout(() => document.getElementById('btn-new-news').click(), 100);">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                            Nueva Noticia
-                        </button>
+                <!-- Quick Stats -->
+                <div class="dashboard-stats" id="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-card__icon stat-card__icon--red">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                        </div>
+                        <div class="stat-card__number" id="dash-news-count">0</div>
+                        <div class="stat-card__label">Noticias</div>
                     </div>
-                    <div class="content-card__body" style="padding:0">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Título</th>
-                                    <th>Fecha</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dashboard-news-table"></tbody>
-                        </table>
+                    <div class="stat-card">
+                        <div class="stat-card__icon stat-card__icon--orange">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                        </div>
+                        <div class="stat-card__number" id="dash-intervenciones-mes">0</div>
+                        <div class="stat-card__label">Intervenciones (mes)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__icon stat-card__icon--blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                        </div>
+                        <div class="stat-card__number" id="dash-voluntarios-activos">0</div>
+                        <div class="stat-card__label">Voluntarios Activos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__icon stat-card__icon--gold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                        </div>
+                        <div class="stat-card__number" id="dash-equipo-alert">0</div>
+                        <div class="stat-card__label">Eq. Mantenimiento</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__icon stat-card__icon--purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                        <div class="stat-card__number" id="dash-albums">0</div>
+                        <div class="stat-card__label">Álbumes</div>
+                    </div>
+                </div>
+
+                <!-- Two column layout -->
+                <div class="dashboard-grid-2">
+                    <!-- Recent Activity -->
+                    <div class="activity-feed">
+                        <div class="activity-feed__header">
+                            <h2 class="activity-feed__title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                                Actividad Reciente
+                            </h2>
+                        </div>
+                        <div class="activity-feed__body" id="activity-feed-body">
+                            <div style="padding:40px;text-align:center;color:var(--admin-gray)">
+                                <div class="spinner spinner--dark" style="margin:0 auto 12px"></div>
+                                Cargando...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div>
+                        <div class="quick-actions">
+                            <div class="quick-actions__header">
+                                <h2 class="quick-actions__title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                    Acciones Rápidas
+                                </h2>
+                            </div>
+                            <div class="quick-actions__body">
+                                <button class="quick-action-btn" onclick="showPage('intervenciones'); setTimeout(() => document.getElementById('btn-new-intervencion').click(), 100)">
+                                    <div class="quick-action-btn__icon" style="background:rgba(185,28,28,0.1);color:var(--admin-primary)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                                    </div>
+                                    <div class="quick-action-btn__text">
+                                        <div class="quick-action-btn__label">Registrar Intervención</div>
+                                        <div class="quick-action-btn__sub">Loggear una emergencia</div>
+                                    </div>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                                <button class="quick-action-btn" onclick="showPage('equipo'); setTimeout(() => document.getElementById('btn-new-equipo').click(), 100)">
+                                    <div class="quick-action-btn__icon" style="background:rgba(217,119,6,0.1);color:var(--admin-gold)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                    </div>
+                                    <div class="quick-action-btn__text">
+                                        <div class="quick-action-btn__label">Agregar Equipo</div>
+                                        <div class="quick-action-btn__sub">Inventario de equipment</div>
+                                    </div>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                                <button class="quick-action-btn" onclick="showPage('voluntarios'); setTimeout(() => document.getElementById('btn-new-voluntario').click(), 100)">
+                                    <div class="quick-action-btn__icon" style="background:rgba(59,130,246,0.1);color:var(--admin-blue)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                                    </div>
+                                    <div class="quick-action-btn__text">
+                                        <div class="quick-action-btn__label">Nuevo Voluntario</div>
+                                        <div class="quick-action-btn__sub">Registrar miembro</div>
+                                    </div>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                                <button class="quick-action-btn" onclick="showPage('galeria'); setTimeout(() => document.getElementById('btn-new-galeria').click(), 100)">
+                                    <div class="quick-action-btn__icon" style="background:rgba(139,92,246,0.1);color:var(--admin-purple)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                    </div>
+                                    <div class="quick-action-btn__text">
+                                        <div class="quick-action-btn__label">Nuevo Álbum</div>
+                                        <div class="quick-action-btn__sub">Agregar álbum de fotos</div>
+                                    </div>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                                <button class="quick-action-btn" onclick="showPage('news'); setTimeout(() => document.getElementById('btn-new-news').click(), 100)">
+                                    <div class="quick-action-btn__icon" style="background:rgba(16,185,129,0.1);color:var(--admin-green)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                                    </div>
+                                    <div class="quick-action-btn__text">
+                                        <div class="quick-action-btn__label">Nueva Noticia</div>
+                                        <div class="quick-action-btn__sub">Publicar actualización</div>
+                                    </div>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                                <button class="quick-action-btn" onclick="showPage('stats')">
+                                    <div class="quick-action-btn__icon" style="background:rgba(185,28,28,0.1);color:var(--admin-primary)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                                    </div>
+                                    <div class="quick-action-btn__text">
+                                        <div class="quick-action-btn__label">Actualizar Estadísticas</div>
+                                        <div class="quick-action-btn__sub">Modificar contadores públicos</div>
+                                    </div>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- News Page -->
-        <div class="admin-page" id="page-news" style="display:none">
+        <!-- ============================================
+             PAGE: NOTICIAS
+             ============================================ -->
+        <div class="admin-page" id="page-news">
             <div class="main-header">
-                <div>
-                    <h1 class="main-header__title">Gestión de Noticias</h1>
-                    <div class="main-header__breadcrumb">Inicio / Noticias</div>
+                <div class="main-header__left">
+                    <div>
+                        <h1 class="main-header__title">Gestión de Noticias</h1>
+                        <div class="main-header__breadcrumb">Inicio / Noticias</div>
+                    </div>
                 </div>
                 <div class="main-header__right">
                     <button class="btn btn--primary btn--small" id="btn-new-news" onclick="openNewsModal()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         Nueva Noticia
                     </button>
                 </div>
             </div>
             <div class="main-body">
                 <div class="content-card">
-                    <div class="content-card__body" style="padding:0;overflow-x:auto">
+                    <div class="filter-bar">
+                        <span class="filter-bar__label">Filtros</span>
+                        <input type="text" class="filter-bar__input" placeholder="Buscar noticia..." id="news-search" oninput="filterNews()">
+                        <select class="filter-bar__select" id="news-filter-status" onchange="filterNews()">
+                            <option value="">Todos los estados</option>
+                            <option value="published">Publicadas</option>
+                            <option value="draft">Borradores</option>
+                        </select>
+                        <div class="filter-bar__spacer"></div>
+                        <span class="filter-results" id="news-results-count"></span>
+                    </div>
+                    <div class="table-wrapper">
                         <table class="data-table">
                             <thead>
                                 <tr>
@@ -202,155 +345,589 @@
                             </thead>
                             <tbody id="news-table-body"></tbody>
                         </table>
-                        <div class="empty-state" id="news-empty" style="display:none">
-                            <div class="empty-state__icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                            </div>
-                            <h3 class="empty-state__title">No hay noticias</h3>
-                            <p class="empty-state__text">Empezá creando tu primera noticia.</p>
-                            <button class="btn btn--primary" onclick="openNewsModal()">Crear Noticia</button>
+                    </div>
+                    <div class="empty-state" id="news-empty" style="display:none">
+                        <div class="empty-state__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
                         </div>
+                        <h3 class="empty-state__title">No hay noticias</h3>
+                        <p class="empty-state__text">Empezá creando tu primera noticia para mantener informada a la comunidad.</p>
+                        <button class="btn btn--primary" onclick="openNewsModal()">Crear Noticia</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Config Page -->
-        <div class="admin-page" id="page-config" style="display:none">
+        <!-- ============================================
+             PAGE: INTERVENCIONES
+             ============================================ -->
+        <div class="admin-page" id="page-intervenciones">
             <div class="main-header">
-                <div>
-                    <h1 class="main-header__title">Configuración General</h1>
-                    <div class="main-header__breadcrumb">Inicio / Configuración</div>
+                <div class="main-header__left">
+                    <div>
+                        <h1 class="main-header__title">Intervenciones</h1>
+                        <div class="main-header__breadcrumb">Inicio / Intervenciones</div>
+                    </div>
+                </div>
+                <div class="main-header__right">
+                    <button class="btn btn--primary btn--small" id="btn-new-intervencion" onclick="openIntervencionModal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Nueva Intervención
+                    </button>
+                </div>
+            </div>
+            <div class="main-body">
+                <div class="content-card">
+                    <div class="filter-bar">
+                        <span class="filter-bar__label">Filtros</span>
+                        <select class="filter-bar__select" id="int-filter-type" onchange="filterIntervenciones()">
+                            <option value="">Todos los tipos</option>
+                            <option value="Incendio">Incendio</option>
+                            <option value="Rescate">Rescate</option>
+                            <option value="Médica">Médica</option>
+                            <option value="Comunitaria">Comunitaria</option>
+                        </select>
+                        <input type="date" class="filter-bar__input" id="int-filter-date-from" onchange="filterIntervenciones()" style="min-width:140px">
+                        <input type="date" class="filter-bar__input" id="int-filter-date-to" onchange="filterIntervenciones()" style="min-width:140px">
+                        <input type="text" class="filter-bar__input" placeholder="Buscar ubicación..." id="int-filter-search" oninput="filterIntervenciones()" style="min-width:180px">
+                        <div class="filter-bar__spacer"></div>
+                        <span class="filter-results" id="int-results-count"></span>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha / Hora</th>
+                                    <th>Tipo</th>
+                                    <th>Ubicación</th>
+                                    <th>Voluntarios</th>
+                                    <th>Víctimas</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="intervenciones-table-body"></tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="intervenciones-empty" style="display:none">
+                        <div class="empty-state__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                        </div>
+                        <h3 class="empty-state__title">Sin intervenciones registradas</h3>
+                        <p class="empty-state__text">Registrá la primera intervención de emergencia del cuartel.</p>
+                        <button class="btn btn--primary" onclick="openIntervencionModal()">Registrar Intervención</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             PAGE: EQUIPO
+             ============================================ -->
+        <div class="admin-page" id="page-equipo">
+            <div class="main-header">
+                <div class="main-header__left">
+                    <div>
+                        <h1 class="main-header__title">Inventario de Equipo</h1>
+                        <div class="main-header__breadcrumb">Inicio / Equipo</div>
+                    </div>
+                </div>
+                <div class="main-header__right">
+                    <button class="btn btn--primary btn--small" id="btn-new-equipo" onclick="openEquipoModal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Agregar Equipo
+                    </button>
+                </div>
+            </div>
+            <div class="main-body">
+                <!-- Status summary cards -->
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
+                    <div class="stat-card" style="cursor:pointer" onclick="filterEquipoStatus('operacional')">
+                        <div class="stat-card__icon stat-card__icon--green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <div class="stat-card__number" id="equipo-op-count">0</div>
+                        <div class="stat-card__label">Operacional</div>
+                    </div>
+                    <div class="stat-card" style="cursor:pointer" onclick="filterEquipoStatus('mantenimiento')">
+                        <div class="stat-card__icon stat-card__icon--gold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                        </div>
+                        <div class="stat-card__number" id="equipo-mant-count">0</div>
+                        <div class="stat-card__label">En Mantenimiento</div>
+                    </div>
+                    <div class="stat-card" style="cursor:pointer" onclick="filterEquipoStatus('deprecated')">
+                        <div class="stat-card__icon stat-card__icon--blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                        </div>
+                        <div class="stat-card__number" id="equipo-dep-count">0</div>
+                        <div class="stat-card__label">Deprecado</div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="filter-bar">
+                        <span class="filter-bar__label">Filtros</span>
+                        <select class="filter-bar__select" id="eq-filter-status" onchange="filterEquipo()">
+                            <option value="">Todos los estados</option>
+                            <option value="operacional">Operacional</option>
+                            <option value="mantenimiento">En Mantenimiento</option>
+                            <option value="deprecated">Deprecado</option>
+                        </select>
+                        <select class="filter-bar__select" id="eq-filter-type" onchange="filterEquipo()">
+                            <option value="">Todos los tipos</option>
+                            <option value="Vehículo">Vehículo</option>
+                            <option value="Herramienta">Herramienta</option>
+                            <option value="Respiratoria">Equipamiento Respiratorio</option>
+                            <option value="Protección">Protección Personal</option>
+                            <option value="Comunicación">Comunicación</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <input type="text" class="filter-bar__input" placeholder="Buscar equipo..." id="eq-filter-search" oninput="filterEquipo()" style="min-width:180px">
+                        <div class="filter-bar__spacer"></div>
+                        <span class="filter-results" id="eq-results-count"></span>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Equipo</th>
+                                    <th>Tipo</th>
+                                    <th>Vehículo Asignado</th>
+                                    <th>Estado</th>
+                                    <th>Último Mant.</th>
+                                    <th>Próximo Mant.</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="equipo-table-body"></tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="equipo-empty" style="display:none">
+                        <div class="empty-state__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                        </div>
+                        <h3 class="empty-state__title">Inventario vacío</h3>
+                        <p class="empty-state__text">Agregá el primer equipo al inventario del cuartel.</p>
+                        <button class="btn btn--primary" onclick="openEquipoModal()">Agregar Equipo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             PAGE: VOLUNTARIOS
+             ============================================ -->
+        <div class="admin-page" id="page-voluntarios">
+            <div class="main-header">
+                <div class="main-header__left">
+                    <div>
+                        <h1 class="main-header__title">Voluntarios</h1>
+                        <div class="main-header__breadcrumb">Inicio / Voluntarios</div>
+                    </div>
+                </div>
+                <div class="main-header__right">
+                    <button class="btn btn--primary btn--small" id="btn-new-voluntario" onclick="openVoluntarioModal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Nuevo Voluntario
+                    </button>
+                </div>
+            </div>
+            <div class="main-body">
+                <div class="content-card">
+                    <div class="filter-bar">
+                        <span class="filter-bar__label">Filtros</span>
+                        <select class="filter-bar__select" id="vol-filter-status" onchange="filterVoluntarios()">
+                            <option value="">Todos los estados</option>
+                            <option value="Activo">Activo</option>
+                            <option value="En capacitación">En capacitación</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                        <select class="filter-bar__select" id="vol-filter-rank" onchange="filterVoluntarios()">
+                            <option value="">Todos los rangos</option>
+                            <option value="Cmdte.">Cmdte.</option>
+                            <option value="Cap.">Cap.</option>
+                            <option value="Sgte.">Sgte.</option>
+                            <option value="Cabo">Cabo</option>
+                            <option value="Voluntario">Voluntario</option>
+                        </select>
+                        <input type="text" class="filter-bar__input" placeholder="Buscar voluntario..." id="vol-filter-search" oninput="filterVoluntarios()" style="min-width:180px">
+                        <div class="filter-bar__spacer"></div>
+                        <span class="filter-results" id="vol-results-count"></span>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Rango / Rol</th>
+                                    <th>Teléfono</th>
+                                    <th>Estado</th>
+                                    <th>Cursos</th>
+                                    <th>Ingreso</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="voluntarios-table-body"></tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="voluntarios-empty" style="display:none">
+                        <div class="empty-state__icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                        </div>
+                        <h3 class="empty-state__title">No hay voluntarios registrados</h3>
+                        <p class="empty-state__text">Registrá el primer voluntario del cuerpo de bomberos.</p>
+                        <button class="btn btn--primary" onclick="openVoluntarioModal()">Agregar Voluntario</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             PAGE: ESTADÍSTICAS
+             ============================================ -->
+        <div class="admin-page" id="page-stats">
+            <div class="main-header">
+                <div class="main-header__left">
+                    <div>
+                        <h1 class="main-header__title">Estadísticas Públicas</h1>
+                        <div class="main-header__breadcrumb">Inicio / Estadísticas</div>
+                    </div>
+                </div>
+                <div class="main-header__right">
+                    <button class="btn btn--primary" onclick="saveStats()" id="stats-save-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Guardar Cambios
+                    </button>
+                </div>
+            </div>
+            <div class="main-body">
+                <div class="content-card" style="margin-bottom:24px">
+                    <div class="content-card__body">
+                        <p style="font-size:0.9rem;color:var(--admin-gray);margin-bottom:24px;line-height:1.6">
+                            Estos valores se muestran en la página principal del sitio público. Actualizalos después de cada intervención o evento importante.
+                        </p>
+                    </div>
+                </div>
+                <div class="stats-grid" id="stats-grid">
+                    <div class="stat-editor-card stat-editor-card--red">
+                        <div class="stat-editor-card__icon" style="background:rgba(185,28,28,0.1);margin:0 auto 12px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:48px;height:48px">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:var(--admin-primary)"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                        </div>
+                        <div class="stat-editor-card__number">
+                            <input type="number" id="stat-incendios" value="0" min="0">
+                        </div>
+                        <div class="stat-editor-card__label">Incendios Atendidos</div>
+                    </div>
+                    <div class="stat-editor-card stat-editor-card--green">
+                        <div class="stat-editor-card__icon" style="background:rgba(16,185,129,0.1);margin:0 auto 12px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:48px;height:48px">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:var(--admin-green)"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </div>
+                        <div class="stat-editor-card__number">
+                            <input type="number" id="stat-vidas" value="0" min="0">
+                        </div>
+                        <div class="stat-editor-card__label">Vidas Salvadas</div>
+                    </div>
+                    <div class="stat-editor-card stat-editor-card--gold">
+                        <div class="stat-editor-card__icon" style="background:rgba(217,119,6,0.1);margin:0 auto 12px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:48px;height:48px">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:var(--admin-gold)"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div class="stat-editor-card__number">
+                            <input type="number" id="stat-anios" value="39" min="0">
+                        </div>
+                        <div class="stat-editor-card__label">Años de Servicio</div>
+                    </div>
+                    <div class="stat-editor-card stat-editor-card--blue">
+                        <div class="stat-editor-card__icon" style="background:rgba(59,130,246,0.1);margin:0 auto 12px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:48px;height:48px">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:var(--admin-blue)"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="stat-editor-card__number">
+                            <input type="number" id="stat-voluntarios" value="0" min="0">
+                        </div>
+                        <div class="stat-editor-card__label">Voluntarios Activos</div>
+                    </div>
+                    <div class="stat-editor-card stat-editor-card--orange">
+                        <div class="stat-editor-card__icon" style="background:rgba(245,158,11,0.1);margin:0 auto 12px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:48px;height:48px">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:var(--admin-orange)"><polyline points="3 11 19 11 11 3 3 11 11 19 11 3 19 11"/></svg>
+                        </div>
+                        <div class="stat-editor-card__number">
+                            <input type="number" id="stat-rescates" value="0" min="0">
+                        </div>
+                        <div class="stat-editor-card__label">Rescates Urbanos</div>
+                    </div>
+                    <div class="stat-editor-card stat-editor-card--purple">
+                        <div class="stat-editor-card__icon" style="background:rgba(139,92,246,0.1);margin:0 auto 12px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:48px;height:48px">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:var(--admin-purple)"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        </div>
+                        <div class="stat-editor-card__number">
+                            <input type="number" id="stat-emergencias" value="0" min="0">
+                        </div>
+                        <div class="stat-editor-card__label">Emergencias Médicas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             PAGE: GALERÍA
+             ============================================ -->
+        <div class="admin-page" id="page-galeria">
+            <div class="main-header">
+                <div class="main-header__left">
+                    <div>
+                        <h1 class="main-header__title">Galería de Fotos</h1>
+                        <div class="main-header__breadcrumb">Inicio / Galería</div>
+                    </div>
+                </div>
+                <div class="main-header__right">
+                    <button class="btn btn--primary btn--small" id="btn-new-galeria" onclick="openGaleriaModal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Nuevo Álbum
+                    </button>
+                </div>
+            </div>
+            <div class="main-body">
+                <div class="gallery-grid" id="galeria-grid">
+                    <div style="padding:40px;text-align:center;color:var(--admin-gray);grid-column:1/-1">
+                        <div class="spinner spinner--dark" style="margin:0 auto 12px"></div>
+                        Cargando álbumes...
+                    </div>
+                </div>
+                <div class="empty-state" id="galeria-empty" style="display:none">
+                    <div class="empty-state__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                    <h3 class="empty-state__title">No hay álbumes</h3>
+                    <p class="empty-state__text">Creá el primer álbum para mostrar las fotos del cuartel.</p>
+                    <button class="btn btn--primary" onclick="openGaleriaModal()">Crear Álbum</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             PAGE: CONFIGURACIÓN
+             ============================================ -->
+        <div class="admin-page" id="page-config">
+            <div class="main-header">
+                <div class="main-header__left">
+                    <div>
+                        <h1 class="main-header__title">Configuración General</h1>
+                        <div class="main-header__breadcrumb">Inicio / Configuración</div>
+                    </div>
                 </div>
             </div>
             <div class="main-body">
                 <form id="configForm" onsubmit="saveConfig(event)">
                     <div class="content-card">
-                        <div class="content-card__header"><h2 class="content-card__title">Datos del Cuartel</h2></div>
+                        <div class="content-card__header">
+                            <h2 class="content-card__title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                                Datos del Cuartel
+                            </h2>
+                        </div>
+                        <div class="content-card__body">
+                            <div class="config-section">
+                                <div class="config-section__title">Información General</div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Nombre Completo</label>
+                                        <input type="text" class="form-input" id="cfg-nombre-completo" placeholder="Cuerpo de Bomberos Voluntarios K141">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Ciudad</label>
+                                        <input type="text" class="form-input" id="cfg-ciudad" placeholder="Caazapá">
+                                    </div>
+                                    <div class="form-group form-group--full">
+                                        <label class="form-label">Dirección</label>
+                                        <input type="text" class="form-input" id="cfg-direccion" placeholder="Av. Principal S/N">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" style="margin-top:20px">
+                        <div class="content-card__header">
+                            <h2 class="content-card__title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3"/></svg>
+                                Teléfonos de Contacto
+                            </h2>
+                        </div>
+                        <div class="content-card__body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Emergencias <span>*</span></label>
+                                    <input type="text" class="form-input" id="cfg-tel-emergencias" placeholder="132">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Central del Cuartel</label>
+                                    <input type="text" class="form-input" id="cfg-tel-central" placeholder="+595 21 XXX XXX">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono Comandante</label>
+                                    <input type="text" class="form-input" id="cfg-tel-comandante" placeholder="+595 9XX XXX XXX">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Línea de Emergencia Adicional</label>
+                                    <input type="text" class="form-input" id="cfg-tel-emergencia2" placeholder="+595 9XX XXX XXX">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" style="margin-top:20px">
+                        <div class="content-card__header">
+                            <h2 class="content-card__title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                Correo Electrónico
+                            </h2>
+                        </div>
+                        <div class="content-card__body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Email Institucional</label>
+                                    <input type="email" class="form-input" id="cfg-email-inst" placeholder="contacto@cbvp-k141.org.py">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email Personal</label>
+                                    <input type="email" class="form-input" id="cfg-email-personal" placeholder="Email privado">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" style="margin-top:20px">
+                        <div class="content-card__header">
+                            <h2 class="content-card__title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                                Redes Sociales
+                            </h2>
+                        </div>
+                        <div class="content-card__body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Facebook</label>
+                                    <input type="url" class="form-input" id="cfg-facebook" placeholder="https://facebook.com/cbvpk141">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Instagram</label>
+                                    <input type="url" class="form-input" id="cfg-instagram" placeholder="https://instagram.com/cbvpk141">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Twitter / X</label>
+                                    <input type="url" class="form-input" id="cfg-twitter" placeholder="https://x.com/cbvpk141">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">YouTube</label>
+                                    <input type="url" class="form-input" id="cfg-youtube" placeholder="https://youtube.com/@cbvpk141">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-card" style="margin-top:20px">
+                        <div class="content-card__header">
+                            <h2 class="content-card__title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                Comandante
+                            </h2>
+                        </div>
                         <div class="content-card__body">
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label class="form-label">Nombre Completo</label>
-                                    <input type="text" class="form-input" id="cfg-nombre-completo">
+                                    <input type="text" class="form-input" id="cfg-comandante-nombre" placeholder="Cmdte. Juan Carlos Rodríguez">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Ciudad</label>
-                                    <input type="text" class="form-input" id="cfg-ciudad">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Dirección</label>
-                                    <input type="text" class="form-input" id="cfg-direccion">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Teléfono de Emergencias (132)</label>
-                                    <input type="text" class="form-input" id="cfg-tel-emergencias">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Teléfono Central</label>
-                                    <input type="text" class="form-input" id="cfg-tel-central">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Teléfono Comandante</label>
-                                    <input type="text" class="form-input" id="cfg-tel-comandante">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Email Institucional</label>
-                                    <input type="email" class="form-input" id="cfg-email-inst">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Email Personal</label>
-                                    <input type="email" class="form-input" id="cfg-email-personal">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-card" style="margin-top:24px">
-                        <div class="content-card__header"><h2 class="content-card__title">Redes Sociales</h2></div>
-                        <div class="content-card__body">
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">Facebook URL</label>
-                                    <input type="url" class="form-input" id="cfg-facebook" placeholder="https://facebook.com/...">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Instagram URL</label>
-                                    <input type="url" class="form-input" id="cfg-instagram" placeholder="https://instagram.com/...">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-card" style="margin-top:24px">
-                        <div class="content-card__header"><h2 class="content-card__title">Comandante</h2></div>
-                        <div class="content-card__body">
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">Nombre del Comandante</label>
-                                    <input type="text" class="form-input" id="cfg-comandante-nombre">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Teléfono del Comandante</label>
-                                    <input type="text" class="form-input" id="cfg-comandante-tel">
+                                    <label class="form-label">Teléfono</label>
+                                    <input type="text" class="form-input" id="cfg-comandante-tel" placeholder="+595 9XX XXX XXX">
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit" class="btn btn--primary" id="configSaveBtn">Guardar Cambios</button>
+                        <button type="submit" class="btn btn--primary" id="configSaveBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+                            Guardar Configuración
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Donations Page -->
-        <div class="admin-page" id="page-donations" style="display:none">
+        <!-- ============================================
+             PAGE: DONACIONES
+             ============================================ -->
+        <div class="admin-page" id="page-donations">
             <div class="main-header">
-                <div>
-                    <h1 class="main-header__title">Información para Donaciones</h1>
-                    <div class="main-header__breadcrumb">Inicio / Donaciones</div>
+                <div class="main-header__left">
+                    <div>
+                        <h1 class="main-header__title">Información para Donaciones</h1>
+                        <div class="main-header__breadcrumb">Inicio / Donaciones</div>
+                    </div>
                 </div>
             </div>
             <div class="main-body">
+                <div class="content-card" style="margin-bottom:24px">
+                    <div class="content-card__body">
+                        <p style="font-size:0.9rem;color:var(--admin-gray);line-height:1.6">
+                            Estos datos se muestran en la sección de donaciones del sitio público. Mantené la información actualizada para facilitar las contribuciones a favor del cuartel.
+                        </p>
+                    </div>
+                </div>
                 <form id="donationsForm" onsubmit="saveDonations(event)">
                     <div class="content-card">
-                        <div class="content-card__header"><h2 class="content-card__title">Datos Bancarios</h2></div>
+                        <div class="content-card__header">
+                            <h2 class="content-card__title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                                Datos Bancarios
+                            </h2>
+                        </div>
                         <div class="content-card__body">
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label class="form-label">Banco</label>
-                                    <input type="text" class="form-input" id="don-banco">
+                                    <input type="text" class="form-input" id="don-banco" placeholder="Banco Continental">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Tipo de Cuenta</label>
-                                    <input type="text" class="form-input" id="don-tipo">
+                                    <select class="form-input" id="don-tipo">
+                                        <option value="">Seleccionar...</option>
+                                        <option value="Cuenta Corriente">Cuenta Corriente</option>
+                                        <option value="Cuenta de Ahorro">Cuenta de Ahorro</option>
+                                    </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group form-group--full">
                                     <label class="form-label">Número de Cuenta / CBU</label>
-                                    <input type="text" class="form-input" id="don-cuenta">
+                                    <input type="text" class="form-input" id="don-cuenta" placeholder="XXXX XXXX XXXX XXXX">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Nombre del Titular</label>
-                                    <input type="text" class="form-input" id="don-titular">
+                                    <input type="text" class="form-input" id="don-titular" placeholder="Cuerpo de Bomberos Voluntarios K141">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">RUC</label>
-                                    <input type="text" class="form-input" id="don-ruc">
+                                    <input type="text" class="form-input" id="don-ruc" placeholder="XX-XXXXXX-X">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Moneda</label>
-                                    <input type="text" class="form-input" id="don-moneda" placeholder="PYG">
+                                    <select class="form-input" id="don-moneda">
+                                        <option value="PYG">PYG - Guaraní</option>
+                                        <option value="USD">USD - Dólar</option>
+                                    </select>
                                 </div>
-                            </div>
-                            <div class="form-group" style="margin-top:16px">
-                                <label class="form-label">Observaciones</label>
-                                <textarea class="form-input" id="don-obs" rows="3" placeholder="Notas adicionales para transferencias..."></textarea>
+                                <div class="form-group form-group--full">
+                                    <label class="form-label">Observaciones</label>
+                                    <textarea class="form-input" id="don-obs" rows="3" placeholder="Notas adicionales para transferencias, ej: 'Transferir a nombre de...'"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="btn btn--primary" id="donationsSaveBtn">Guardar Datos Bancarios</button>
+                        <button type="submit" class="btn btn--primary" id="donationsSaveBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+                            Guardar Datos Bancarios
+                        </button>
                     </div>
                 </form>
             </div>
@@ -360,12 +937,15 @@
 </div>
 
 <!-- ============================================
-     NEWS MODAL
+     MODAL: NEWS
      ============================================ -->
 <div class="modal-overlay hidden" id="newsModal">
     <div class="modal">
         <div class="modal__header">
-            <h2 class="modal__title" id="newsModalTitle">Nueva Noticia</h2>
+            <h2 class="modal__title" id="newsModalTitle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Nueva Noticia
+            </h2>
             <button class="modal__close" onclick="closeNewsModal()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
@@ -373,31 +953,31 @@
         <div class="modal__body">
             <form id="newsForm">
                 <input type="hidden" id="news-id">
-                <div class="form-group">
-                    <label class="form-label">Título *</label>
-                    <input type="text" class="form-input" id="news-title" required placeholder="Título de la noticia">
-                </div>
                 <div class="form-grid">
+                    <div class="form-group form-group--full">
+                        <label class="form-label">Título <span>*</span></label>
+                        <input type="text" class="form-input" id="news-title" required placeholder="Título de la noticia">
+                    </div>
                     <div class="form-group">
-                        <label class="form-label">Fecha *</label>
+                        <label class="form-label">Fecha <span>*</span></label>
                         <input type="date" class="form-input" id="news-date" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Autor</label>
-                        <input type="text" class="form-input" id="news-author" placeholder="Nombre del autor">
+                        <input type="text" class="form-input" id="news-author" placeholder="CBVP K141">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Extracto (breve descripción) *</label>
-                    <textarea class="form-input" id="news-excerpt" rows="2" required placeholder="Breve resumen que aparece en la tarjeta..."></textarea>
+                <div class="form-group" style="margin-top:16px">
+                    <label class="form-label">Extracto <span>*</span></label>
+                    <textarea class="form-input" id="news-excerpt" rows="2" required placeholder="Breve descripción para la tarjeta..."></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Contenido Completo</label>
-                    <textarea class="form-input" id="news-content" rows="6" placeholder="Contenido completo de la noticia. Separá párrafos con doble línea."></textarea>
+                    <textarea class="form-input" id="news-content" rows="5" placeholder="Contenido de la noticia. Separar párrafos con doble línea."></textarea>
                     <p class="form-hint">Separar párrafos con una línea en blanco.</p>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">URL de Imagen (opcional)</label>
+                    <label class="form-label">URL de Imagen</label>
                     <input type="url" class="form-input" id="news-image" placeholder="https://...">
                     <p class="form-hint">Dejá vacío si no tenés imagen.</p>
                 </div>
@@ -405,43 +985,338 @@
                     <label class="toggle">
                         <input type="checkbox" id="news-published" checked>
                         <span class="toggle__slider"></span>
-                        <span>Publicada</span>
+                        <span class="toggle__label">Publicada</span>
                     </label>
                 </div>
             </form>
         </div>
         <div class="modal__footer">
             <button class="btn btn--secondary" onclick="closeNewsModal()">Cancelar</button>
-            <button class="btn btn--success" id="btn-preview" onclick="previewNews()" style="margin-right:auto;background:var(--admin-blue)">Vista Previa</button>
             <button class="btn btn--primary" id="btn-save-news" onclick="saveNews()">Guardar Noticia</button>
         </div>
     </div>
 </div>
 
-<!-- Preview Modal -->
-<div class="modal-overlay hidden" id="previewModal">
-    <div class="modal" style="max-width:700px">
+<!-- ============================================
+     MODAL: INTERVENCIONES
+     ============================================ -->
+<div class="modal-overlay hidden" id="intervencionModal">
+    <div class="modal modal--large">
         <div class="modal__header">
-            <h2 class="modal__title">Vista Previa</h2>
-            <button class="modal__close" onclick="closePreviewModal()">
+            <h2 class="modal__title" id="intModalTitle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                Nueva Intervención
+            </h2>
+            <button class="modal__close" onclick="closeIntervencionModal()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
         </div>
-        <div class="modal__body" id="previewContent"></div>
+        <div class="modal__body">
+            <form id="intervencionForm">
+                <input type="hidden" id="int-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Fecha <span>*</span></label>
+                        <input type="date" class="form-input" id="int-fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hora <span>*</span></label>
+                        <input type="time" class="form-input" id="int-hora" required>
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label class="form-label">Tipo de Emergencia <span>*</span></label>
+                        <select class="form-input" id="int-tipo" required>
+                            <option value="">Seleccionar tipo...</option>
+                            <option value="Incendio">Incendio</option>
+                            <option value="Rescate">Rescate</option>
+                            <option value="Médica">Médica</option>
+                            <option value="Comunitaria">Comunitaria</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:16px">
+                    <label class="form-label">Ubicación (texto) <span>*</span></label>
+                    <input type="text" class="form-input" id="int-ubicacion" required placeholder="Barrio, calle, referencia...">
+                </div>
+                <div class="form-grid" style="margin-top:16px">
+                    <div class="form-group">
+                        <label class="form-label">Latitud</label>
+                        <input type="text" class="form-input" id="int-lat" placeholder="-25.XXXX">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Longitud</label>
+                        <input type="text" class="form-input" id="int-lng" placeholder="-56.XXXX">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:16px">
+                    <label class="form-label">Descripción de lo Sucedido</label>
+                    <textarea class="form-input" id="int-descripcion" rows="3" placeholder="Detallá qué ocurrió, las circunstancias, causas présuntas..."></textarea>
+                </div>
+                <div class="form-grid" style="margin-top:16px">
+                    <div class="form-group">
+                        <label class="form-label">Voluntarios que Respondieron</label>
+                        <input type="number" class="form-input" id="int-voluntarios" min="0" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Víctimas / Lesionados</label>
+                        <input type="number" class="form-input" id="int-victimas" min="0" placeholder="0">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:16px">
+                    <label class="form-label">Daños Materiales</label>
+                    <textarea class="form-input" id="int-danos" rows="2" placeholder="Descripción de daños a propiedades, vehículos, etc."></textarea>
+                </div>
+                <div class="form-group" style="margin-top:16px">
+                    <label class="form-label">Fotos (URLs separadas por coma)</label>
+                    <textarea class="form-input" id="int-fotos" rows="2" placeholder="https://..., https://..."></textarea>
+                    <p class="form-hint">Separar múltiples URLs con coma.</p>
+                </div>
+                <div class="form-group" style="margin-top:16px">
+                    <label class="form-label">Acciones Tomadas</label>
+                    <textarea class="form-input" id="int-acciones" rows="3" placeholder="Detallá las acciones de rescate, extinción, primeros auxilios..."></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal__footer">
+            <button class="btn btn--secondary" onclick="closeIntervencionModal()">Cancelar</button>
+            <button class="btn btn--primary" id="btn-save-intervencion" onclick="saveIntervencion()">Guardar Intervención</button>
+        </div>
     </div>
 </div>
 
-<!-- Delete Confirm Modal -->
-<div class="modal-overlay hidden" id="deleteModal">
-    <div class="modal" style="max-width:400px">
+<!-- ============================================
+     MODAL: EQUIPO
+     ============================================ -->
+<div class="modal-overlay hidden" id="equipoModal">
+    <div class="modal">
         <div class="modal__header">
-            <h2 class="modal__title">Confirmar Eliminación</h2>
+            <h2 class="modal__title" id="eqModalTitle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                Agregar Equipo
+            </h2>
+            <button class="modal__close" onclick="closeEquipoModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="modal__body">
+            <form id="equipoForm">
+                <input type="hidden" id="eq-id">
+                <div class="form-grid">
+                    <div class="form-group form-group--full">
+                        <label class="form-label">Nombre del Equipo <span>*</span></label>
+                        <input type="text" class="form-input" id="eq-nombre" required placeholder="Ej: Manguera de 2.5 pulgadas">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tipo <span>*</span></label>
+                        <select class="form-input" id="eq-tipo" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="Vehículo">Vehículo</option>
+                            <option value="Herramienta">Herramienta</option>
+                            <option value="Respiratoria">Equipamiento Respiratorio</option>
+                            <option value="Protección">Protección Personal</option>
+                            <option value="Comunicación">Comunicación</option>
+                            <option value="Iluminación">Iluminación</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Estado <span>*</span></label>
+                        <select class="form-input" id="eq-estado" required>
+                            <option value="operacional">Operacional</option>
+                            <option value="mantenimiento">En Mantenimiento</option>
+                            <option value="deprecated">Deprecado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Vehículo Asignado</label>
+                        <input type="text" class="form-input" id="eq-vehiculo" placeholder="Unidad 1, Unidad 2...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Fecha de Compra</label>
+                        <input type="date" class="form-input" id="eq-fecha-compra">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Último Mantenimiento</label>
+                        <input type="date" class="form-input" id="eq-ult-mant">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Próximo Mantenimiento</label>
+                        <input type="date" class="form-input" id="eq-prox-mant">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Notas</label>
+                        <textarea class="form-input" id="eq-notas" rows="2" placeholder="Condición, observaciones..."></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal__footer">
+            <button class="btn btn--secondary" onclick="closeEquipoModal()">Cancelar</button>
+            <button class="btn btn--primary" id="btn-save-equipo" onclick="saveEquipo()">Guardar Equipo</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================
+     MODAL: VOLUNTARIOS
+     ============================================ -->
+<div class="modal-overlay hidden" id="voluntarioModal">
+    <div class="modal modal--large">
+        <div class="modal__header">
+            <h2 class="modal__title" id="volModalTitle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg>
+                Nuevo Voluntario
+            </h2>
+            <button class="modal__close" onclick="closeVoluntarioModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="modal__body">
+            <form id="voluntarioForm">
+                <input type="hidden" id="vol-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Nombre Completo <span>*</span></label>
+                        <input type="text" class="form-input" id="vol-nombre" required placeholder="Juan Carlos Rodríguez">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Rango / Rol <span>*</span></label>
+                        <select class="form-input" id="vol-rango" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="Cmdte.">Cmdte. (Comandante)</option>
+                            <option value="Cap.">Cap. (Capitán)</option>
+                            <option value="Sgte.">Sgte. (Sargento)</option>
+                            <option value="Cabo">Cabo</option>
+                            <option value="Voluntario">Voluntario</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Teléfono</label>
+                        <input type="text" class="form-input" id="vol-telefono" placeholder="+595 9XX XXX XXX">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="vol-email" placeholder="email@ejemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Fecha de Ingreso <span>*</span></label>
+                        <input type="date" class="form-input" id="vol-fecha-ingreso" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Estado <span>*</span></label>
+                        <select class="form-input" id="vol-estado" required>
+                            <option value="Activo">Activo</option>
+                            <option value="En capacitación">En capacitación</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:16px">
+                    <label class="form-label">Certificaciones y Cursos</label>
+                    <textarea class="form-input" id="vol-cursos" rows="3" placeholder="Listá certificaciones con fecha de vencimiento&#10;Ej: RCP/BLS - 12/2025&#10;Rescate Urbano - 03/2026"></textarea>
+                    <p class="form-hint">Separar cada certificación con un salto de línea.</p>
+                </div>
+                <div class="form-group" style="margin-top:16px">
+                    <label class="form-label">Notas</label>
+                    <textarea class="form-input" id="vol-notas" rows="2" placeholder="Observaciones adicionales, especialidades..."></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal__footer">
+            <button class="btn btn--secondary" onclick="closeVoluntarioModal()">Cancelar</button>
+            <button class="btn btn--primary" id="btn-save-voluntario" onclick="saveVoluntario()">Guardar Voluntario</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================
+     MODAL: GALERÍA
+     ============================================ -->
+<div class="modal-overlay hidden" id="galeriaModal">
+    <div class="modal modal--large">
+        <div class="modal__header">
+            <h2 class="modal__title" id="galModalTitle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                Nuevo Álbum
+            </h2>
+            <button class="modal__close" onclick="closeGaleriaModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="modal__body">
+            <form id="galeriaForm">
+                <input type="hidden" id="gal-id">
+                <div class="form-grid">
+                    <div class="form-group form-group--full">
+                        <label class="form-label">Nombre del Álbum <span>*</span></label>
+                        <input type="text" class="form-input" id="gal-titulo" required placeholder="Ej: Simulacro 2025, Visita Escolar,etc.">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Fecha del Evento <span>*</span></label>
+                        <input type="date" class="form-input" id="gal-fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">URL de Portada</label>
+                        <input type="url" class="form-input" id="gal-cover" placeholder="https://...">
+                        <p class="form-hint">URL de la imagen de portada del álbum.</p>
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-input" id="gal-descripcion" rows="2" placeholder="Descripción breve del álbum..."></textarea>
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label class="form-label">Fotos (URLs)</label>
+                        <textarea class="form-input" id="gal-fotos" rows="4" placeholder="https://...&#10;https://...&#10;https://..."></textarea>
+                        <p class="form-hint">Una URL por línea.</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal__footer">
+            <button class="btn btn--secondary" onclick="closeGaleriaModal()">Cancelar</button>
+            <button class="btn btn--primary" id="btn-save-galeria" onclick="saveGaleria()">Guardar Álbum</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================
+     MODAL: VIEW INTERVENCION
+     ============================================ -->
+<div class="modal-overlay hidden" id="viewIntervencionModal">
+    <div class="modal modal--large">
+        <div class="modal__header">
+            <h2 class="modal__title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                Detalle de Intervención
+            </h2>
+            <button class="modal__close" onclick="closeViewIntervencionModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="modal__body" id="viewIntervencionContent"></div>
+        <div class="modal__footer">
+            <button class="btn btn--secondary" onclick="closeViewIntervencionModal()">Cerrar</button>
+            <button class="btn btn--primary" id="btn-edit-intervencion" onclick="editIntervencionFromView()">Editar</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================
+     MODAL: DELETE CONFIRM
+     ============================================ -->
+<div class="modal-overlay hidden" id="deleteModal">
+    <div class="modal" style="max-width:420px">
+        <div class="modal__header">
+            <h2 class="modal__title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--admin-red)"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                Confirmar Eliminación
+            </h2>
             <button class="modal__close" onclick="closeDeleteModal()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
         </div>
         <div class="modal__body">
-            <p>¿Estás seguro de que querés eliminar esta noticia? Esta acción no se puede deshacer.</p>
+            <p id="delete-message">¿Estás seguro de que querés eliminar este elemento? Esta acción no se puede deshacer.</p>
         </div>
         <div class="modal__footer">
             <button class="btn btn--secondary" onclick="closeDeleteModal()">Cancelar</button>
@@ -451,33 +1326,36 @@
 </div>
 
 <script>
-// ==========================================
-// Auth
-// ==========================================
-const API_BASE = '/api'; // Will be proxied through the worker
+'use strict';
 
-// Check session on load
-(async function() {
-    const session = getSession();
-    if (session) {
+// ==========================================
+// GLOBAL STATE
+// ==========================================
+const API = '/api';
+let sessionToken = null;
+let deleteTarget = null;
+let currentViewIntervencion = null;
+
+let allNews = [];
+let allIntervenciones = [];
+let allEquipo = [];
+let allVoluntarios = [];
+let allGaleria = [];
+let configData = {};
+let statsData = {};
+
+// ==========================================
+// INIT
+// ==========================================
+(async function init() {
+    sessionToken = localStorage.getItem('cbvp_session');
+    if (sessionToken) {
         showAdminPanel();
         await loadAllData();
     } else {
         showLoginPage();
     }
 })();
-
-function getSession() {
-    return localStorage.getItem('cbvp_session');
-}
-
-function setSession(token) {
-    localStorage.setItem('cbvp_session', token);
-}
-
-function clearSession() {
-    localStorage.removeItem('cbvp_session');
-}
 
 function showLoginPage() {
     document.getElementById('loginPage').style.display = 'flex';
@@ -489,7 +1367,16 @@ function showAdminPanel() {
     document.getElementById('adminPanel').style.display = 'flex';
 }
 
-// Login
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.toggle('open');
+    overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+}
+
+// ==========================================
+// AUTH
+// ==========================================
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const password = document.getElementById('password').value;
@@ -501,22 +1388,22 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     error.classList.remove('show');
 
     try {
-        const res = await fetch(`${API_BASE}/auth/login`, {
+        const res = await fetch(`${API}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password })
         });
-
         if (res.ok) {
             const data = await res.json();
-            setSession(data.token);
+            sessionToken = data.token;
+            localStorage.setItem('cbvp_session', sessionToken);
             showAdminPanel();
             await loadAllData();
         } else {
             error.classList.add('show');
             document.getElementById('password').classList.add('error');
         }
-    } catch (err) {
+    } catch {
         error.classList.add('show');
     } finally {
         btn.disabled = false;
@@ -530,111 +1417,98 @@ document.getElementById('password').addEventListener('input', function() {
 });
 
 function logout() {
-    clearSession();
+    sessionToken = null;
+    localStorage.removeItem('cbvp_session');
     showLoginPage();
     document.getElementById('password').value = '';
 }
 
+function authHeaders() {
+    return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${sessionToken}` };
+}
+
+async function apiFetch(path, options = {}) {
+    const res = await fetch(`${API}${path}`, {
+        ...options,
+        headers: { ...authHeaders(), ...(options.headers || {}) }
+    });
+    if (res.status === 401) {
+        logout();
+        throw new Error('Session expired');
+    }
+    return res;
+}
+
 // ==========================================
-// Navigation
+// NAVIGATION
 // ==========================================
 function showPage(page) {
-    document.querySelectorAll('.admin-page').forEach(p => p.style.display = 'none');
-    document.getElementById(`page-${page}`).style.display = 'block';
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
+    document.querySelectorAll('.admin-page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(`page-${page}`);
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => {
+        n.classList.toggle('active', n.dataset.page === page);
+    });
+    // Close mobile sidebar
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').style.display = 'none';
 }
 
 // ==========================================
-// Data Loading
+// LOAD ALL DATA
 // ==========================================
-let allNews = [];
-let configData = {};
-let deleteTargetId = null;
-
 async function loadAllData() {
-    await Promise.all([loadNews(), loadConfig()]);
+    await Promise.all([
+        loadNews(),
+        loadIntervenciones(),
+        loadEquipo(),
+        loadVoluntarios(),
+        loadGaleria(),
+        loadConfig(),
+        loadStats()
+    ]);
     updateDashboard();
+    updateSidebarBadges();
 }
 
+// ==========================================
+// NEWS
+// ==========================================
 async function loadNews() {
     try {
-        const res = await fetch(`${API_BASE}/news`);
-        if (res.ok) allNews = await res.json();
-        else {
-            // Fallback: load from local JSON file
-            const local = await fetch('/data/news.json').then(r => r.json()).catch(() => []);
-            allNews = local;
-        }
-    } catch {
-        const local = await fetch('/data/news.json').then(r => r.json()).catch(() => []);
-        allNews = local;
-    }
+        const res = await fetch(`${API}/news`);
+        allNews = res.ok ? await res.json() : [];
+    } catch { allNews = []; }
     renderNewsTable();
+    document.getElementById('badge-news').textContent = allNews.length;
+    document.getElementById('badge-news').style.display = allNews.length ? 'inline' : 'none';
 }
 
-async function loadConfig() {
-    try {
-        const res = await fetch(`${API_BASE}/config`);
-        if (res.ok) configData = await res.json();
-        else configData = await fetch('/data/config.json').then(r => r.json()).catch(() => {});
-    } catch {
-        configData = await fetch('/data/config.json').then(r => r.json()).catch(() => {});
-    }
-    populateConfigForm();
-    populateDonationsForm();
-}
-
-function updateDashboard() {
-    const published = allNews.filter(n => n.published).length;
-    document.getElementById('stat-news').textContent = published;
-    renderDashboardNews();
-}
-
-function renderDashboardNews() {
-    const tbody = document.getElementById('dashboard-news-table');
-    const recent = allNews.slice(0, 5);
-    if (!recent.length) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:32px;color:var(--admin-gray)">No hay noticias aún</td></tr>';
-        return;
-    }
-    tbody.innerHTML = recent.map(n => `
-        <tr>
-            <td><strong>${escapeHtml(n.title)}</strong></td>
-            <td>${n.date}</td>
-            <td><span class="badge badge--${n.published ? 'published' : 'draft'}">${n.published ? 'Publicada' : 'Borrador'}</span></td>
-            <td class="actions">
-                <button class="btn-icon btn-icon--edit" onclick="editNews('${n.id || n.date}')" title="Editar">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                </button>
-                <button class="btn-icon btn-icon--delete" onclick="confirmDelete('${n.id || n.date}')" title="Eliminar">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                </button>
-            </td>
-        </tr>
-    `).join('');
-}
-
-function renderNewsTable() {
+function renderNewsTable(filtered) {
+    const list = filtered || allNews;
     const tbody = document.getElementById('news-table-body');
     const empty = document.getElementById('news-empty');
-    if (!allNews.length) {
+    const results = document.getElementById('news-results-count');
+
+    if (!list.length) {
         tbody.innerHTML = '';
         empty.style.display = 'block';
+        results.textContent = '';
         return;
     }
     empty.style.display = 'none';
-    tbody.innerHTML = allNews.map(n => `
+    results.textContent = `${list.length} resultado${list.length !== 1 ? 's' : ''}`;
+    tbody.innerHTML = list.map(n => `
         <tr>
-            <td><strong>${escapeHtml(n.title)}</strong></td>
-            <td>${n.date}</td>
-            <td>${escapeHtml(n.author || 'CBVP K141')}</td>
+            <td><strong>${e(n.title)}</strong></td>
+            <td>${n.date ? formatDate(n.date) : '—'}</td>
+            <td>${e(n.author || 'CBVP K141')}</td>
             <td><span class="badge badge--${n.published ? 'published' : 'draft'}">${n.published ? 'Publicada' : 'Borrador'}</span></td>
             <td class="actions">
-                <button class="btn-icon btn-icon--edit" onclick="editNews('${n.id || n.date}')" title="Editar">
+                <button class="btn-icon btn-icon--edit" onclick="editNews('${n.id}')" title="Editar">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                 </button>
-                <button class="btn-icon btn-icon--delete" onclick="confirmDelete('${n.id || n.date}')" title="Eliminar">
+                <button class="btn-icon btn-icon--delete" onclick="confirmDelete('news', '${n.id}')" title="Eliminar">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                 </button>
             </td>
@@ -642,36 +1516,46 @@ function renderNewsTable() {
     `).join('');
 }
 
-// ==========================================
-// News CRUD
-// ==========================================
-function openNewsModal(newsItem) {
-    document.getElementById('newsModal').classList.remove('hidden');
-    document.getElementById('news-id').value = newsItem ? (newsItem.id || newsItem.date) : '';
-    document.getElementById('news-title').value = newsItem ? newsItem.title : '';
-    document.getElementById('news-date').value = newsItem ? newsItem.date : new Date().toISOString().split('T')[0];
-    document.getElementById('news-author').value = newsItem ? (newsItem.author || 'Cmdte. Juan Carlos Rodríguez') : 'Cmdte. Juan Carlos Rodríguez';
-    document.getElementById('news-excerpt').value = newsItem ? newsItem.excerpt : '';
-    document.getElementById('news-content').value = newsItem ? newsItem.content : '';
-    document.getElementById('news-image').value = newsItem ? (newsItem.image || '') : '';
-    document.getElementById('news-published').checked = newsItem ? newsItem.published !== false : true;
-    document.getElementById('newsModalTitle').textContent = newsItem ? 'Editar Noticia' : 'Nueva Noticia';
+function filterNews() {
+    const q = document.getElementById('news-search').value.toLowerCase();
+    const status = document.getElementById('news-filter-status').value;
+    const filtered = allNews.filter(n => {
+        const matchQ = !q || n.title?.toLowerCase().includes(q) || n.excerpt?.toLowerCase().includes(q);
+        const matchStatus = !status || (status === 'published' && n.published) || (status === 'draft' && !n.published);
+        return matchQ && matchStatus;
+    });
+    renderNewsTable(filtered);
 }
 
-function closeNewsModal() {
-    document.getElementById('newsModal').classList.add('hidden');
+function openNewsModal(item) {
+    document.getElementById('newsModal').classList.remove('hidden');
+    document.getElementById('news-id').value = item ? item.id : '';
+    document.getElementById('news-title').value = item ? item.title : '';
+    document.getElementById('news-date').value = item ? item.date : new Date().toISOString().split('T')[0];
+    document.getElementById('news-author').value = item ? (item.author || '') : 'Cmdte. Juan Carlos Rodríguez';
+    document.getElementById('news-excerpt').value = item ? item.excerpt : '';
+    document.getElementById('news-content').value = item ? item.content : '';
+    document.getElementById('news-image').value = item ? (item.image || '') : '';
+    document.getElementById('news-published').checked = item ? item.published !== false : true;
+    document.getElementById('newsModalTitle').innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg> ${item ? 'Editar Noticia' : 'Nueva Noticia'}`;
 }
+
+function closeNewsModal() { document.getElementById('newsModal').classList.add('hidden'); }
 
 function editNews(id) {
-    const item = allNews.find(n => (n.id || n.date) === id);
+    const item = allNews.find(n => n.id === id);
     if (item) openNewsModal(item);
 }
 
 async function saveNews() {
-    const newsItem = {
-        id: document.getElementById('news-id').value || `${document.getElementById('news-date').value}-${document.getElementById('news-title').value.toLowerCase().replace(/\s+/g, '-').slice(0,20)}`,
-        title: document.getElementById('news-title').value.trim(),
-        date: document.getElementById('news-date').value,
+    const id = document.getElementById('news-id').value;
+    const title = document.getElementById('news-title').value.trim();
+    const date = document.getElementById('news-date').value;
+    if (!title || !date) { showToast('Completá los campos requeridos', 'error'); return; }
+
+    const item = {
+        id: id || `${date}-${title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').slice(0, 30)}`,
+        title, date,
         author: document.getElementById('news-author').value.trim() || 'Cmdte. Juan Carlos Rodríguez',
         excerpt: document.getElementById('news-excerpt').value.trim(),
         content: document.getElementById('news-content').value.trim(),
@@ -679,101 +1563,636 @@ async function saveNews() {
         published: document.getElementById('news-published').checked
     };
 
-    if (!newsItem.title || !newsItem.date || !newsItem.excerpt) {
-        showToast('Por favor completá los campos requeridos', 'error');
-        return;
-    }
-
     const btn = document.getElementById('btn-save-news');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>';
-
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
     try {
-        const res = await fetch(`${API_BASE}/news`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getSession()}` },
-            body: JSON.stringify(newsItem)
-        });
-
+        const res = await apiFetch('/news', { method: 'POST', body: JSON.stringify(item) });
         if (res.ok || res.status === 201) {
             showToast('Noticia guardada correctamente', 'success');
             closeNewsModal();
             await loadNews();
             updateDashboard();
-        } else {
-            showToast('Error al guardar. Verificá tu sesión.', 'error');
-        }
-    } catch {
-        showToast('Error de conexión', 'error');
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = 'Guardar Noticia';
-    }
+        } else { showToast('Error al guardar', 'error'); }
+    } catch { showToast('Error de conexión', 'error'); }
+    finally { btn.disabled = false; btn.innerHTML = 'Guardar Noticia'; }
 }
 
-function previewNews() {
-    const title = document.getElementById('news-title').value || 'Sin título';
-    const date = document.getElementById('news-date').value;
-    const author = document.getElementById('news-author').value || 'CBVP K141';
-    const excerpt = document.getElementById('news-excerpt').value || '';
-    const content = document.getElementById('news-content').value || '';
-    const formattedDate = date ? new Date(date).toLocaleDateString('es-PY', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+// ==========================================
+// INTERVENCIONES
+// ==========================================
+async function loadIntervenciones() {
+    try {
+        const res = await fetch(`${API}/intervenciones`);
+        allIntervenciones = res.ok ? await res.json() : [];
+    } catch { allIntervenciones = []; }
+    renderIntervencionesTable();
+    const badge = document.getElementById('badge-intervenciones');
+    badge.textContent = allIntervenciones.length;
+    badge.style.display = allIntervenciones.length ? 'inline' : 'none';
+}
 
-    document.getElementById('previewContent').innerHTML = `
-        <div style="background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb">
-            <div style="height:200px;background:linear-gradient(135deg,#B91C1C,#991B1B);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.7)">
-                ${document.getElementById('news-image').value ? `<img src="${document.getElementById('news-image').value}" style="width:100%;height:100%;object-fit:cover">` : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6"/></svg>'}
+function renderIntervencionesTable(filtered) {
+    const list = filtered || allIntervenciones;
+    const tbody = document.getElementById('intervenciones-table-body');
+    const empty = document.getElementById('intervenciones-empty');
+    const results = document.getElementById('int-results-count');
+
+    if (!list.length) {
+        tbody.innerHTML = '';
+        empty.style.display = 'block';
+        results.textContent = '';
+        return;
+    }
+    empty.style.display = 'none';
+    results.textContent = `${list.length} resultado${list.length !== 1 ? 's' : ''}`;
+    tbody.innerHTML = list.map(item => {
+        const tipoClass = item.tipo?.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') || 'comunitaria';
+        const dateStr = item.fecha ? formatDate(item.fecha) : '—';
+        return `
+        <tr>
+            <td><strong>${dateStr}</strong><br><span style="font-size:0.78rem;color:var(--admin-gray)">${item.hora || ''}</span></td>
+            <td><span class="badge badge--${tipoClass.replace(/[áéíóú]/g, 'a').replace(/ñ/,'n')}">${e(item.tipo || '—')}</span></td>
+            <td>${e(item.ubicacion || '—')}</td>
+            <td>${item.voluntarios ?? '—'}</td>
+            <td>${item.victimas ?? '0'}</td>
+            <td class="actions">
+                <button class="btn-icon btn-icon--view" onclick="viewIntervencion('${item.id}')" title="Ver detalle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+                <button class="btn-icon btn-icon--edit" onclick="editIntervencion('${item.id}')" title="Editar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+                <button class="btn-icon btn-icon--delete" onclick="confirmDelete('intervencion', '${item.id}')" title="Eliminar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+function filterIntervenciones() {
+    const tipo = document.getElementById('int-filter-type').value;
+    const from = document.getElementById('int-filter-date-from').value;
+    const to = document.getElementById('int-filter-date-to').value;
+    const q = document.getElementById('int-filter-search').value.toLowerCase();
+
+    const filtered = allIntervenciones.filter(item => {
+        const matchTipo = !tipo || item.tipo === tipo;
+        const matchFrom = !from || item.fecha >= from;
+        const matchTo = !to || item.fecha <= to;
+        const matchQ = !q || item.ubicacion?.toLowerCase().includes(q) || item.descripcion?.toLowerCase().includes(q);
+        return matchTipo && matchFrom && matchTo && matchQ;
+    });
+    renderIntervencionesTable(filtered);
+}
+
+function openIntervencionModal(item) {
+    document.getElementById('intervencionModal').classList.remove('hidden');
+    document.getElementById('int-id').value = item ? item.id : '';
+    document.getElementById('int-fecha').value = item ? item.fecha : new Date().toISOString().split('T')[0];
+    document.getElementById('int-hora').value = item ? (item.hora || '') : new Date().toTimeString().slice(0,5);
+    document.getElementById('int-tipo').value = item ? item.tipo : '';
+    document.getElementById('int-ubicacion').value = item ? item.ubicacion : '';
+    document.getElementById('int-lat').value = item ? (item.lat || '') : '';
+    document.getElementById('int-lng').value = item ? (item.lng || '') : '';
+    document.getElementById('int-descripcion').value = item ? item.descripcion : '';
+    document.getElementById('int-voluntarios').value = item ? item.voluntarios : '';
+    document.getElementById('int-victimas').value = item ? item.victimas : '';
+    document.getElementById('int-danos').value = item ? item.danosMateriales : '';
+    document.getElementById('int-fotos').value = item ? (item.fotos?.join('\n') || '') : '';
+    document.getElementById('int-acciones').value = item ? item.acciones : '';
+    document.getElementById('intModalTitle').innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg> ${item ? 'Editar Intervención' : 'Nueva Intervención'}`;
+}
+
+function closeIntervencionModal() { document.getElementById('intervencionModal').classList.add('hidden'); }
+
+function editIntervencion(id) {
+    const item = allIntervenciones.find(i => i.id === id);
+    if (item) openIntervencionModal(item);
+}
+
+function viewIntervencion(id) {
+    currentViewIntervencion = allIntervenciones.find(i => i.id === id);
+    if (!currentViewIntervencion) return;
+    const item = currentViewIntervencion;
+    const tipoClass = (item.tipo || 'comunitaria').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace('ñ','n');
+
+    document.getElementById('viewIntervencionContent').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+            <div style="background:#fafafa;border-radius:8px;padding:14px">
+                <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--admin-gray);margin-bottom:4px;font-weight:700">Fecha</div>
+                <div style="font-weight:700">${formatDate(item.fecha)}</div>
+                <div style="font-size:0.875rem;color:var(--admin-gray)">${item.hora || ''}</div>
             </div>
-            <div style="padding:24px">
-                <div style="font-size:0.8rem;color:#B91C1C;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">${formattedDate} — ${escapeHtml(author)}</div>
-                <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:12px;font-family:Montserrat,sans-serif">${escapeHtml(title)}</h2>
-                <p style="font-size:1rem;color:#6B7280;line-height:1.7;margin-bottom:${content ? '16px' : '0'}">${escapeHtml(excerpt)}</p>
-                ${content ? `<div style="border-top:1px solid #f3f4f6;padding-top:16px;margin-top:16px">
-                    ${escapeHtml(content).split('\n\n').map(p => `<p style="margin-bottom:12px;font-size:0.95rem;color:#374151;line-height:1.8">${p}</p>`).join('')}
-                </div>` : ''}
+            <div style="background:#fafafa;border-radius:8px;padding:14px">
+                <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--admin-gray);margin-bottom:4px;font-weight:700">Tipo</div>
+                <span class="badge badge--${tipoClass.replace(/[áéíóú]/g,'a')}">${e(item.tipo || '—')}</span>
+            </div>
+            <div style="background:#fafafa;border-radius:8px;padding:14px;grid-column:1/-1">
+                <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--admin-gray);margin-bottom:4px;font-weight:700">Ubicación</div>
+                <div style="font-weight:600">${e(item.ubicacion || '—')}</div>
+                ${item.lat && item.lng ? `<div style="font-size:0.78rem;color:var(--admin-gray);margin-top:4px">📍 ${item.lat}, ${item.lng}</div>` : ''}
+            </div>
+            <div style="background:#fafafa;border-radius:8px;padding:14px">
+                <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--admin-gray);margin-bottom:4px;font-weight:700">Voluntarios</div>
+                <div style="font-size:1.4rem;font-weight:900;color:var(--admin-blue)">${item.voluntarios ?? '—'}</div>
+            </div>
+            <div style="background:#fafafa;border-radius:8px;padding:14px">
+                <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--admin-gray);margin-bottom:4px;font-weight:700">Víctimas</div>
+                <div style="font-size:1.4rem;font-weight:900;color:${item.victimas > 0 ? 'var(--admin-red)' : 'var(--admin-green)'}">${item.victimas ?? 0}</div>
             </div>
         </div>
+        ${item.descripcion ? `<div style="margin-bottom:16px"><div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;color:var(--admin-gray);margin-bottom:8px;font-weight:700">Descripción</div><div style="background:#fafafa;border-radius:8px;padding:14px;font-size:0.9rem;line-height:1.7">${e(item.descripcion).replace(/\n/g,'<br>')}</div></div>` : ''}
+        ${item.danosMateriales ? `<div style="margin-bottom:16px"><div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;color:var(--admin-gray);margin-bottom:8px;font-weight:700">Daños Materiales</div><div style="background:#fafafa;border-radius:8px;padding:14px;font-size:0.9rem;line-height:1.7">${e(item.danosMateriales).replace(/\n/g,'<br>')}</div></div>` : ''}
+        ${item.acciones ? `<div style="margin-bottom:16px"><div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;color:var(--admin-gray);margin-bottom:8px;font-weight:700">Acciones Tomadas</div><div style="background:#fafafa;border-radius:8px;padding:14px;font-size:0.9rem;line-height:1.7">${e(item.acciones).replace(/\n/g,'<br>')}</div></div>` : ''}
+        ${item.fotos?.length ? `<div><div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;color:var(--admin-gray);margin-bottom:8px;font-weight:700">Fotos</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px">
+            ${item.fotos.filter(Boolean).map(f => `<div style="aspect-ratio:1;border-radius:8px;overflow:hidden"><img src="${e(f)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<div style=height:100%;display:flex;align-items:center;justify-content:center;background:#f3f4f6;color:var(--admin-gray);font-size:0.7rem>Imagen no disponible</div>'"></div>`).join('')}
+        </div></div>` : ''}
     `;
-    document.getElementById('previewModal').classList.remove('hidden');
+    document.getElementById('intervencionModal').classList.add('hidden');
+    document.getElementById('viewIntervencionModal').classList.remove('hidden');
 }
 
-function closePreviewModal() {
-    document.getElementById('previewModal').classList.add('hidden');
+function closeViewIntervencionModal() {
+    document.getElementById('viewIntervencionModal').classList.add('hidden');
 }
 
-function confirmDelete(id) {
-    deleteTargetId = id;
-    document.getElementById('deleteModal').classList.remove('hidden');
-    document.getElementById('confirmDeleteBtn').onclick = () => deleteNews(id);
+function editIntervencionFromView() {
+    if (!currentViewIntervencion) return;
+    closeViewIntervencionModal();
+    openIntervencionModal(currentViewIntervencion);
 }
 
-function closeDeleteModal() {
-    document.getElementById('deleteModal').classList.add('hidden');
-    deleteTargetId = null;
-}
+async function saveIntervencion() {
+    const id = document.getElementById('int-id').value;
+    const fecha = document.getElementById('int-fecha').value;
+    const tipo = document.getElementById('int-tipo').value;
+    const ubicacion = document.getElementById('int-ubicacion').value.trim();
+    if (!fecha || !tipo || !ubicacion) { showToast('Completá los campos requeridos', 'error'); return; }
 
-async function deleteNews(id) {
+    const fotosInput = document.getElementById('int-fotos').value;
+    const fotos = fotosInput ? fotosInput.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+    const item = {
+        id: id || undefined,
+        fecha, tipo, ubicacion,
+        hora: document.getElementById('int-hora').value,
+        lat: document.getElementById('int-lat').value,
+        lng: document.getElementById('int-lng').value,
+        descripcion: document.getElementById('int-descripcion').value.trim(),
+        voluntarios: parseInt(document.getElementById('int-voluntarios').value) || 0,
+        victimas: parseInt(document.getElementById('int-victimas').value) || 0,
+        danosMateriales: document.getElementById('int-danos').value.trim(),
+        fotos,
+        acciones: document.getElementById('int-acciones').value.trim()
+    };
+    if (id) item.id = id;
+
+    const btn = document.getElementById('btn-save-intervencion');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
     try {
-        const res = await fetch(`${API_BASE}/news/${id}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${getSession()}` }
-        });
-        if (res.ok || res.status === 404) {
-            showToast('Noticia eliminada', 'success');
-            closeDeleteModal();
-            await loadNews();
+        const res = await apiFetch('/intervenciones', { method: 'POST', body: JSON.stringify(item) });
+        if (res.ok || res.status === 201) {
+            showToast('Intervención guardada correctamente', 'success');
+            closeIntervencionModal();
+            await loadIntervenciones();
             updateDashboard();
-        } else {
-            showToast('Error al eliminar', 'error');
-        }
-    } catch {
-        showToast('Error de conexión', 'error');
-    }
+        } else { showToast('Error al guardar', 'error'); }
+    } catch { showToast('Error de conexión', 'error'); }
+    finally { btn.disabled = false; btn.innerHTML = 'Guardar Intervención'; }
 }
 
 // ==========================================
-// Config
+// EQUIPO
 // ==========================================
+async function loadEquipo() {
+    try {
+        const res = await fetch(`${API}/equipo`);
+        allEquipo = res.ok ? await res.json() : [];
+    } catch { allEquipo = []; }
+    renderEquipoTable();
+    updateEquipoStatusCards();
+    const alertBadge = document.getElementById('badge-equipo-alert');
+    const maintenance = allEquipo.filter(e => e.estado === 'mantenimiento' || isOverdue(e.proximoMantenimiento)).length;
+    alertBadge.textContent = maintenance;
+    alertBadge.style.display = maintenance ? 'inline' : 'none';
+}
+
+function isOverdue(dateStr) {
+    if (!dateStr) return false;
+    return new Date(dateStr) < new Date();
+}
+
+function getDaysUntil(dateStr) {
+    if (!dateStr) return null;
+    const diff = new Date(dateStr) - new Date();
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
+}
+
+function renderEquipoTable(filtered) {
+    const list = filtered || allEquipo;
+    const tbody = document.getElementById('equipo-table-body');
+    const empty = document.getElementById('equipo-empty');
+    const results = document.getElementById('eq-results-count');
+
+    if (!list.length) {
+        tbody.innerHTML = '';
+        empty.style.display = 'block';
+        results.textContent = '';
+        return;
+    }
+    empty.style.display = 'none';
+    results.textContent = `${list.length} resultado${list.length !== 1 ? 's' : ''}`;
+    tbody.innerHTML = list.map(item => {
+        const statusClass = item.estado === 'operacional' ? 'active' : item.estado === 'mantenimiento' ? 'maintenance' : 'inactive';
+        const statusLabel = item.estado === 'operacional' ? 'Operacional' : item.estado === 'mantenimiento' ? 'Mantenimiento' : 'Deprecado';
+        const mantBadge = isOverdue(item.proximoMantenimiento) ? 'badge badge--overdue' : getDaysUntil(item.proximoMantenimiento) <= 30 && getDaysUntil(item.proximoMantenimiento) > 0 ? 'badge badge--due-soon' : '';
+        return `
+        <tr>
+            <td><strong>${e(item.nombre || '—')}</strong></td>
+            <td>${e(item.tipo || '—')}</td>
+            <td>${e(item.vehiculo || '—')}</td>
+            <td><span class="badge badge--${statusClass}">${statusLabel}</span></td>
+            <td>${item.ultimoMantenimiento ? formatDate(item.ultimoMantenimiento) : '—'}</td>
+            <td>${item.proximoMantenimiento ? `<span class="${mantBadge}">${formatDate(item.proximoMantenimiento)}</span>` : '—'}</td>
+            <td class="actions">
+                <button class="btn-icon btn-icon--edit" onclick="editEquipo('${item.id}')" title="Editar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+                <button class="btn-icon btn-icon--delete" onclick="confirmDelete('equipo', '${item.id}')" title="Eliminar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+function filterEquipo(statusFilter) {
+    if (statusFilter) document.getElementById('eq-filter-status').value = statusFilter;
+    const status = document.getElementById('eq-filter-status').value;
+    const tipo = document.getElementById('eq-filter-type').value;
+    const q = document.getElementById('eq-filter-search').value.toLowerCase();
+
+    const filtered = allEquipo.filter(item => {
+        const matchStatus = !status || item.estado === status;
+        const matchTipo = !tipo || item.tipo === tipo;
+        const matchQ = !q || item.nombre?.toLowerCase().includes(q) || item.tipo?.toLowerCase().includes(q);
+        return matchStatus && matchTipo && matchQ;
+    });
+    renderEquipoTable(filtered);
+}
+
+function updateEquipoStatusCards() {
+    document.getElementById('equipo-op-count').textContent = allEquipo.filter(e => e.estado === 'operacional').length;
+    document.getElementById('equipo-mant-count').textContent = allEquipo.filter(e => e.estado === 'mantenimiento' || isOverdue(e.proximoMantenimiento)).length;
+    document.getElementById('equipo-dep-count').textContent = allEquipo.filter(e => e.estado === 'deprecated').length;
+    document.getElementById('dash-equipo-alert').textContent = allEquipo.filter(e => e.estado === 'mantenimiento' || isOverdue(e.proximoMantenimiento)).length;
+}
+
+function openEquipoModal(item) {
+    document.getElementById('equipoModal').classList.remove('hidden');
+    document.getElementById('eq-id').value = item ? item.id : '';
+    document.getElementById('eq-nombre').value = item ? item.nombre : '';
+    document.getElementById('eq-tipo').value = item ? item.tipo : '';
+    document.getElementById('eq-estado').value = item ? item.estado : 'operacional';
+    document.getElementById('eq-vehiculo').value = item ? (item.vehiculo || '') : '';
+    document.getElementById('eq-fecha-compra').value = item ? (item.fechaCompra || '') : '';
+    document.getElementById('eq-ult-mant').value = item ? (item.ultimoMantenimiento || '') : '';
+    document.getElementById('eq-prox-mant').value = item ? (item.proximoMantenimiento || '') : '';
+    document.getElementById('eq-notas').value = item ? (item.notas || '') : '';
+    document.getElementById('eqModalTitle').innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> ${item ? 'Editar Equipo' : 'Agregar Equipo'}`;
+}
+
+function closeEquipoModal() { document.getElementById('equipoModal').classList.add('hidden'); }
+
+function editEquipo(id) {
+    const item = allEquipo.find(e => e.id === id);
+    if (item) openEquipoModal(item);
+}
+
+async function saveEquipo() {
+    const id = document.getElementById('eq-id').value;
+    const nombre = document.getElementById('eq-nombre').value.trim();
+    const tipo = document.getElementById('eq-tipo').value;
+    if (!nombre || !tipo) { showToast('Completá los campos requeridos', 'error'); return; }
+
+    const item = {
+        id: id || undefined,
+        nombre, tipo,
+        estado: document.getElementById('eq-estado').value,
+        vehiculo: document.getElementById('eq-vehiculo').value.trim(),
+        fechaCompra: document.getElementById('eq-fecha-compra').value,
+        ultimoMantenimiento: document.getElementById('eq-ult-mant').value,
+        proximoMantenimiento: document.getElementById('eq-prox-mant').value,
+        notas: document.getElementById('eq-notas').value.trim()
+    };
+    if (id) item.id = id;
+
+    const btn = document.getElementById('btn-save-equipo');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+    try {
+        const res = await apiFetch('/equipo', { method: 'POST', body: JSON.stringify(item) });
+        if (res.ok || res.status === 201) {
+            showToast('Equipo guardado correctamente', 'success');
+            closeEquipoModal();
+            await loadEquipo();
+            updateDashboard();
+        } else { showToast('Error al guardar', 'error'); }
+    } catch { showToast('Error de conexión', 'error'); }
+    finally { btn.disabled = false; btn.innerHTML = 'Guardar Equipo'; }
+}
+
+// ==========================================
+// VOLUNTARIOS
+// ==========================================
+async function loadVoluntarios() {
+    try {
+        const res = await fetch(`${API}/voluntarios`);
+        allVoluntarios = res.ok ? await res.json() : [];
+    } catch { allVoluntarios = []; }
+    renderVoluntariosTable();
+    const badge = document.getElementById('badge-voluntarios');
+    badge.textContent = allVoluntarios.length;
+    badge.style.display = allVoluntarios.length ? 'inline' : 'none';
+}
+
+function renderVoluntariosTable(filtered) {
+    const list = filtered || allVoluntarios;
+    const tbody = document.getElementById('voluntarios-table-body');
+    const empty = document.getElementById('voluntarios-empty');
+    const results = document.getElementById('vol-results-count');
+
+    if (!list.length) {
+        tbody.innerHTML = '';
+        empty.style.display = 'block';
+        results.textContent = '';
+        return;
+    }
+    empty.style.display = 'none';
+    results.textContent = `${list.length} resultado${list.length !== 1 ? 's' : ''}`;
+    tbody.innerHTML = list.map(item => {
+        const statusClass = item.estado === 'Activo' ? 'active' : item.estado === 'En capacitación' ? 'maintenance' : 'inactive';
+        const cursos = item.cursos || [];
+        const cursoCount = Array.isArray(cursos) ? cursos.length : (cursos.split('\n').filter(Boolean).length);
+        return `
+        <tr>
+            <td><strong>${e(item.nombre || '—')}</strong></td>
+            <td>${e(item.rango || '—')}</td>
+            <td>${e(item.telefono || '—')}</td>
+            <td><span class="badge badge--${statusClass}">${e(item.estado || '—')}</span></td>
+            <td><span class="badge badge--info">${cursoCount} curso${cursoCount !== 1 ? 's' : ''}</span></td>
+            <td>${item.fechaIngreso ? formatDate(item.fechaIngreso) : '—'}</td>
+            <td class="actions">
+                <button class="btn-icon btn-icon--view" onclick="viewVoluntario('${item.id}')" title="Ver detalle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+                <button class="btn-icon btn-icon--edit" onclick="editVoluntario('${item.id}')" title="Editar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+                <button class="btn-icon btn-icon--delete" onclick="confirmDelete('voluntario', '${item.id}')" title="Eliminar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+function filterVoluntarios() {
+    const status = document.getElementById('vol-filter-status').value;
+    const rango = document.getElementById('vol-filter-rank').value;
+    const q = document.getElementById('vol-filter-search').value.toLowerCase();
+
+    const filtered = allVoluntarios.filter(item => {
+        const matchStatus = !status || item.estado === status;
+        const matchRango = !rango || item.rango === rango;
+        const matchQ = !q || item.nombre?.toLowerCase().includes(q) || item.telefono?.includes(q);
+        return matchStatus && matchRango && matchQ;
+    });
+    renderVoluntariosTable(filtered);
+}
+
+function viewVoluntario(id) {
+    const item = allVoluntarios.find(v => v.id === id);
+    if (!item) return;
+    const statusClass = item.estado === 'Activo' ? 'active' : item.estado === 'En capacitación' ? 'maintenance' : 'inactive';
+    const cursos = Array.isArray(item.cursos) ? item.cursos : (item.cursos || '').split('\n').filter(Boolean);
+    showToast(`Voluntario: ${item.nombre} — ${item.rango || 'Voluntario'}`, 'info');
+    // Simple view using alert for now - in production you'd open a proper modal
+    openVoluntarioModal(item);
+}
+
+function openVoluntarioModal(item) {
+    document.getElementById('voluntarioModal').classList.remove('hidden');
+    document.getElementById('vol-id').value = item ? item.id : '';
+    document.getElementById('vol-nombre').value = item ? item.nombre : '';
+    document.getElementById('vol-rango').value = item ? item.rango : '';
+    document.getElementById('vol-telefono').value = item ? (item.telefono || '') : '';
+    document.getElementById('vol-email').value = item ? (item.email || '') : '';
+    document.getElementById('vol-fecha-ingreso').value = item ? (item.fechaIngreso || '') : '';
+    document.getElementById('vol-estado').value = item ? item.estado : 'Activo';
+    document.getElementById('vol-cursos').value = item ? (Array.isArray(item.cursos) ? item.cursos.join('\n') : item.cursos || '') : '';
+    document.getElementById('vol-notas').value = item ? (item.notas || '') : '';
+    document.getElementById('volModalTitle').innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> ${item ? 'Editar Voluntario' : 'Nuevo Voluntario'}`;
+}
+
+function closeVoluntarioModal() { document.getElementById('voluntarioModal').classList.add('hidden'); }
+
+function editVoluntario(id) {
+    const item = allVoluntarios.find(v => v.id === id);
+    if (item) openVoluntarioModal(item);
+}
+
+async function saveVoluntario() {
+    const id = document.getElementById('vol-id').value;
+    const nombre = document.getElementById('vol-nombre').value.trim();
+    const rango = document.getElementById('vol-rango').value;
+    const fechaIngreso = document.getElementById('vol-fecha-ingreso').value;
+    if (!nombre || !rango || !fechaIngreso) { showToast('Completá los campos requeridos', 'error'); return; }
+
+    const cursosInput = document.getElementById('vol-cursos').value;
+    const cursos = cursosInput ? cursosInput.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+    const item = {
+        id: id || undefined,
+        nombre, rango, fechaIngreso,
+        telefono: document.getElementById('vol-telefono').value.trim(),
+        email: document.getElementById('vol-email').value.trim(),
+        estado: document.getElementById('vol-estado').value,
+        cursos,
+        notas: document.getElementById('vol-notas').value.trim()
+    };
+    if (id) item.id = id;
+
+    const btn = document.getElementById('btn-save-voluntario');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+    try {
+        const res = await apiFetch('/voluntarios', { method: 'POST', body: JSON.stringify(item) });
+        if (res.ok || res.status === 201) {
+            showToast('Voluntario guardado correctamente', 'success');
+            closeVoluntarioModal();
+            await loadVoluntarios();
+            updateDashboard();
+        } else { showToast('Error al guardar', 'error'); }
+    } catch { showToast('Error de conexión', 'error'); }
+    finally { btn.disabled = false; btn.innerHTML = 'Guardar Voluntario'; }
+}
+
+// ==========================================
+// ESTADÍSTICAS
+// ==========================================
+async function loadStats() {
+    try {
+        const res = await fetch(`${API}/stats`);
+        statsData = res.ok ? await res.json() : {};
+    } catch { statsData = {}; }
+    populateStatsForm();
+}
+
+function populateStatsForm() {
+    document.getElementById('stat-incendios').value = statsData.incendiosAtendidos || 0;
+    document.getElementById('stat-vidas').value = statsData.vidasSalvadas || 0;
+    document.getElementById('stat-anios').value = statsData.aniosServicio || 39;
+    document.getElementById('stat-voluntarios').value = statsData.voluntariosActivos || 0;
+    document.getElementById('stat-rescates').value = statsData.rescatesUrbanos || 0;
+    document.getElementById('stat-emergencias').value = statsData.emergenciasMedicas || 0;
+}
+
+async function saveStats() {
+    const btn = document.getElementById('stats-save-btn');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Guardando...';
+
+    const stats = {
+        incendiosAtendidos: parseInt(document.getElementById('stat-incendios').value) || 0,
+        vidasSalvadas: parseInt(document.getElementById('stat-vidas').value) || 0,
+        aniosServicio: parseInt(document.getElementById('stat-anios').value) || 0,
+        voluntariosActivos: parseInt(document.getElementById('stat-voluntarios').value) || 0,
+        rescatesUrbanos: parseInt(document.getElementById('stat-rescates').value) || 0,
+        emergenciasMedicas: parseInt(document.getElementById('stat-emergencias').value) || 0
+    };
+
+    try {
+        const res = await apiFetch('/stats', { method: 'PUT', body: JSON.stringify(stats) });
+        if (res.ok) {
+            statsData = stats;
+            showToast('Estadísticas actualizadas correctamente', 'success');
+            updateDashboard();
+        } else { showToast('Error al guardar', 'error'); }
+    } catch { showToast('Error de conexión', 'error'); }
+    finally { btn.disabled = false; btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg> Guardar Cambios`; }
+}
+
+// ==========================================
+// GALERÍA
+// ==========================================
+async function loadGaleria() {
+    try {
+        const res = await fetch(`${API}/galeria`);
+        allGaleria = res.ok ? await res.json() : [];
+    } catch { allGaleria = []; }
+    renderGaleriaGrid();
+    const badge = document.getElementById('badge-galeria');
+    badge.textContent = allGaleria.length;
+    badge.style.display = allGaleria.length ? 'inline' : 'none';
+}
+
+function renderGaleriaGrid() {
+    const grid = document.getElementById('galeria-grid');
+    const empty = document.getElementById('galeria-empty');
+
+    if (!allGaleria.length) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+    }
+    empty.style.display = 'none';
+    grid.innerHTML = allGaleria.map(album => `
+        <div class="gallery-album-card">
+            <div class="gallery-album-card__cover">
+                ${album.cover ? `<img src="${e(album.cover)}" alt="${e(album.titulo)}" onerror="this.style.display='none';this.parentElement.querySelector('svg').style.display='block'">` : ''}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:40px;height:40px;color:rgba(255,255,255,0.2);${album.cover?'display:none':''}"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                ${album.fotos?.length ? `<span class="gallery-album-card__count">${album.fotos.length} fotos</span>` : ''}
+            </div>
+            <div class="gallery-album-card__body">
+                <div class="gallery-album-card__title">${e(album.titulo || '—')}</div>
+                <div class="gallery-album-card__date">${album.fecha ? formatDate(album.fecha) : '—'}</div>
+                <div class="gallery-album-card__desc">${e(album.descripcion || '')}</div>
+                <div class="gallery-album-card__actions">
+                    <button class="btn btn--primary btn--small" onclick="editGaleria('${album.id}')" style="flex:1">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        Editar
+                    </button>
+                    <button class="btn btn--danger btn--small" onclick="confirmDelete('galeria', '${album.id}')" style="flex:1">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openGaleriaModal(item) {
+    document.getElementById('galeriaModal').classList.remove('hidden');
+    document.getElementById('gal-id').value = item ? item.id : '';
+    document.getElementById('gal-titulo').value = item ? item.titulo : '';
+    document.getElementById('gal-fecha').value = item ? item.fecha : new Date().toISOString().split('T')[0];
+    document.getElementById('gal-cover').value = item ? (item.cover || '') : '';
+    document.getElementById('gal-descripcion').value = item ? (item.descripcion || '') : '';
+    document.getElementById('gal-fotos').value = item ? (Array.isArray(item.fotos) ? item.fotos.join('\n') : item.fotos || '') : '';
+    document.getElementById('galModalTitle').innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> ${item ? 'Editar Álbum' : 'Nuevo Álbum'}`;
+}
+
+function closeGaleriaModal() { document.getElementById('galeriaModal').classList.add('hidden'); }
+
+function editGaleria(id) {
+    const album = allGaleria.find(a => a.id === id);
+    if (album) openGaleriaModal(album);
+}
+
+async function saveGaleria() {
+    const id = document.getElementById('gal-id').value;
+    const titulo = document.getElementById('gal-titulo').value.trim();
+    const fecha = document.getElementById('gal-fecha').value;
+    if (!titulo || !fecha) { showToast('Completá los campos requeridos', 'error'); return; }
+
+    const fotosInput = document.getElementById('gal-fotos').value;
+    const fotos = fotosInput ? fotosInput.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+    const album = {
+        id: id || undefined,
+        titulo, fecha,
+        cover: document.getElementById('gal-cover').value.trim(),
+        descripcion: document.getElementById('gal-descripcion').value.trim(),
+        fotos
+    };
+    if (id) album.id = id;
+
+    const btn = document.getElementById('btn-save-galeria');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+    try {
+        const res = await apiFetch('/galeria', { method: 'POST', body: JSON.stringify(album) });
+        if (res.ok || res.status === 201) {
+            showToast('Álbum guardado correctamente', 'success');
+            closeGaleriaModal();
+            await loadGaleria();
+            updateDashboard();
+        } else { showToast('Error al guardar', 'error'); }
+    } catch { showToast('Error de conexión', 'error'); }
+    finally { btn.disabled = false; btn.innerHTML = 'Guardar Álbum'; }
+}
+
+// ==========================================
+// CONFIG
+// ==========================================
+async function loadConfig() {
+    try {
+        const res = await fetch(`${API}/config`);
+        configData = res.ok ? await res.json() : {};
+    } catch { configData = {}; }
+    populateConfigForm();
+    populateDonationsForm();
+}
+
 function populateConfigForm() {
     const c = configData;
     document.getElementById('cfg-nombre-completo').value = c.cuartel?.nombreCompleto || '';
@@ -782,10 +2201,13 @@ function populateConfigForm() {
     document.getElementById('cfg-tel-emergencias').value = c.contacto?.telefonoEmergencias || '';
     document.getElementById('cfg-tel-central').value = c.contacto?.telefonoCentral || '';
     document.getElementById('cfg-tel-comandante').value = c.contacto?.telefonoComandante || '';
+    document.getElementById('cfg-tel-emergencia2').value = c.contacto?.telefonoEmergencia2 || '';
     document.getElementById('cfg-email-inst').value = c.contacto?.emailInstitucional || '';
     document.getElementById('cfg-email-personal').value = c.contacto?.emailPersonal || '';
     document.getElementById('cfg-facebook').value = c.redesSociales?.facebook || '';
     document.getElementById('cfg-instagram').value = c.redesSociales?.instagram || '';
+    document.getElementById('cfg-twitter').value = c.redesSociales?.twitter || '';
+    document.getElementById('cfg-youtube').value = c.redesSociales?.youtube || '';
     document.getElementById('cfg-comandante-nombre').value = c.comandante?.nombre || '';
     document.getElementById('cfg-comandante-tel').value = c.comandante?.telefono || '';
 }
@@ -804,29 +2226,28 @@ function populateDonationsForm() {
 async function saveConfig(e) {
     e.preventDefault();
     const btn = document.getElementById('configSaveBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Guardando...';
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Guardando...';
 
     const updated = {
         ...configData,
         cuartel: {
-            ...(configData.cuartel || {}),
             nombreCompleto: document.getElementById('cfg-nombre-completo').value,
             ciudad: document.getElementById('cfg-ciudad').value,
             direccion: document.getElementById('cfg-direccion').value
         },
         contacto: {
-            ...(configData.contacto || {}),
             telefonoEmergencias: document.getElementById('cfg-tel-emergencias').value,
             telefonoCentral: document.getElementById('cfg-tel-central').value,
             telefonoComandante: document.getElementById('cfg-tel-comandante').value,
+            telefonoEmergencia2: document.getElementById('cfg-tel-emergencia2').value,
             emailInstitucional: document.getElementById('cfg-email-inst').value,
             emailPersonal: document.getElementById('cfg-email-personal').value
         },
         redesSociales: {
-            ...(configData.redesSociales || {}),
             facebook: document.getElementById('cfg-facebook').value,
-            instagram: document.getElementById('cfg-instagram').value
+            instagram: document.getElementById('cfg-instagram').value,
+            twitter: document.getElementById('cfg-twitter').value,
+            youtube: document.getElementById('cfg-youtube').value
         },
         comandante: {
             nombre: document.getElementById('cfg-comandante-nombre').value,
@@ -835,30 +2256,17 @@ async function saveConfig(e) {
     };
 
     try {
-        const res = await fetch(`${API_BASE}/config`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getSession()}` },
-            body: JSON.stringify(updated)
-        });
-        if (res.ok) {
-            configData = updated;
-            showToast('Configuración guardada', 'success');
-        } else {
-            showToast('Error al guardar', 'error');
-        }
-    } catch {
-        showToast('Error de conexión', 'error');
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = 'Guardar Cambios';
-    }
+        const res = await apiFetch('/config', { method: 'PUT', body: JSON.stringify(updated) });
+        if (res.ok) { configData = updated; showToast('Configuración guardada correctamente', 'success'); }
+        else { showToast('Error al guardar', 'error'); }
+    } catch { showToast('Error de conexión', 'error'); }
+    finally { btn.disabled = false; btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg> Guardar Configuración`; }
 }
 
 async function saveDonations(e) {
     e.preventDefault();
     const btn = document.getElementById('donationsSaveBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Guardando...';
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Guardando...';
 
     const updated = {
         ...configData,
@@ -874,41 +2282,136 @@ async function saveDonations(e) {
     };
 
     try {
-        const res = await fetch(`${API_BASE}/config`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getSession()}` },
-            body: JSON.stringify(updated)
-        });
-        if (res.ok) {
-            configData = updated;
-            showToast('Datos bancarios guardados', 'success');
-        } else {
-            showToast('Error al guardar', 'error');
-        }
-    } catch {
-        showToast('Error de conexión', 'error');
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = 'Guardar Datos Bancarios';
-    }
+        const res = await apiFetch('/config', { method: 'PUT', body: JSON.stringify(updated) });
+        if (res.ok) { configData = updated; showToast('Datos bancarios guardados correctamente', 'success'); }
+        else { showToast('Error al guardar', 'error'); }
+    } catch { showToast('Error de conexión', 'error'); }
+    finally { btn.disabled = false; btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg> Guardar Datos Bancarios`; }
 }
 
 // ==========================================
-// Utilities
+// DELETE CONFIRM
 // ==========================================
+function confirmDelete(type, id) {
+    deleteTarget = { type, id };
+    const messages = {
+        news: '¿Estás seguro de que querés eliminar esta noticia? Esta acción no se puede deshacer.',
+        intervencion: '¿Estás seguro de que querés eliminar esta intervención? Esta acción no se puede deshacer.',
+        equipo: '¿Estás seguro de que querés eliminar este equipo? Esta acción no se puede deshacer.',
+        voluntario: '¿Estás seguro de que querés eliminar este voluntario? Esta acción no se puede deshacer.',
+        galeria: '¿Estás seguro de que querés eliminar este álbum? Esta acción no se puede deshacer.'
+    };
+    document.getElementById('delete-message').textContent = messages[type] || '¿Estás seguro de que querés eliminar este elemento?';
+    document.getElementById('confirmDeleteBtn').onclick = executeDelete;
+    document.getElementById('deleteModal').classList.remove('hidden');
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.add('hidden');
+    deleteTarget = null;
+}
+
+async function executeDelete() {
+    if (!deleteTarget) return;
+    const { type, id } = deleteTarget;
+    const endpoints = { news: '/news', intervencion: '/intervenciones', equipo: '/equipo', voluntario: '/voluntarios', galeria: '/galeria' };
+    const endpoint = endpoints[type];
+    if (!endpoint) return;
+
+    try {
+        const res = await apiFetch(`${endpoint}/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        if (res.ok || res.status === 404) {
+            showToast('Eliminado correctamente', 'success');
+            closeDeleteModal();
+            if (type === 'news') await loadNews();
+            else if (type === 'intervencion') await loadIntervenciones();
+            else if (type === 'equipo') await loadEquipo();
+            else if (type === 'voluntario') await loadVoluntarios();
+            else if (type === 'galeria') await loadGaleria();
+            updateDashboard();
+        } else { showToast('Error al eliminar', 'error'); }
+    } catch { showToast('Error de conexión', 'error'); }
+}
+
+// ==========================================
+// DASHBOARD
+// ==========================================
+function updateDashboard() {
+    const now = new Date();
+    const thisMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    document.getElementById('dash-news-count').textContent = allNews.length;
+    document.getElementById('dash-intervenciones-mes').textContent = allIntervenciones.filter(i => i.fecha && i.fecha.startsWith(thisMonth)).length;
+    document.getElementById('dash-voluntarios-activos').textContent = allVoluntarios.filter(v => v.estado === 'Activo').length;
+    document.getElementById('dash-equipo-alert').textContent = allEquipo.filter(e => e.estado === 'mantenimiento' || isOverdue(e.proximoMantenimiento)).length;
+    document.getElementById('dash-albums').textContent = allGaleria.length;
+    renderActivityFeed();
+}
+
+function renderActivityFeed() {
+    const body = document.getElementById('activity-feed-body');
+    const items = [];
+    allNews.slice(0,3).forEach(n => items.push({ text: `<strong>Noticia:</strong> ${e(n.title)}`, time: n.date, icon: 'news' }));
+    allIntervenciones.slice(0,5).forEach(i => items.push({ text: `<strong>${e(i.tipo || 'Intervención')}:</strong> ${e(i.ubicacion || '')}`, time: i.fecha, icon: 'int' }));
+    items.sort((a, b) => { if (!a.time || !b.time) return 0; return new Date(b.time) - new Date(a.time); });
+
+    if (!items.length) {
+        body.innerHTML = '<div style="padding:32px;text-align:center;color:var(--admin-gray);font-size:0.875rem">No hay actividad reciente</div>';
+        return;
+    }
+    body.innerHTML = items.slice(0,10).map(item => {
+        const iconClass = item.icon === 'news' ? 'activity-item__icon--red' : 'activity-item__icon--gold';
+        const iconSvg = item.icon === 'news'
+            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>'
+            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>';
+        return `<div class="activity-item"><div class="activity-item__icon ${iconClass}">${iconSvg}</div><div class="activity-item__content"><div class="activity-item__text">${item.text}</div><div class="activity-item__time">${item.time ? formatDate(item.time) : '—'}</div></div></div>`;
+    }).join('');
+}
+
+function updateSidebarBadges() {
+    const nb = document.getElementById('badge-news');
+    nb.textContent = allNews.length;
+    nb.style.display = allNews.length ? 'inline' : 'none';
+    const ib = document.getElementById('badge-intervenciones');
+    ib.textContent = allIntervenciones.length;
+    ib.style.display = allIntervenciones.length ? 'inline' : 'none';
+    const vb = document.getElementById('badge-voluntarios');
+    vb.textContent = allVoluntarios.length;
+    vb.style.display = allVoluntarios.length ? 'inline' : 'none';
+    const gb = document.getElementById('badge-galeria');
+    gb.textContent = allGaleria.length;
+    gb.style.display = allGaleria.length ? 'inline' : 'none';
+}
+
+// ==========================================
+// UTILITIES
+// ==========================================
+function e(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return '—';
+    try {
+        const d = new Date(dateStr + 'T00:00:00');
+        return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch { return dateStr; }
+}
+
 function showToast(message, type = 'info') {
     const existing = document.querySelector('.toast');
     if (existing) existing.remove();
     const t = document.createElement('div');
     t.className = `toast toast--${type}`;
-    t.textContent = message;
+    const icons = {
+        success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>',
+        error: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+        info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+        warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+    };
+    t.innerHTML = (icons[type] || icons.info) + ' ' + message;
     document.body.appendChild(t);
     setTimeout(() => t.remove(), 4000);
-}
-
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
 </body>
