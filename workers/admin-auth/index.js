@@ -30,6 +30,33 @@ async function getKV(env) {
 }
 
 // ==========================================
+// Validation helpers
+// ==========================================
+function validateRequired(obj, fields, label) {
+  const missing = fields.filter(f => !obj[f] && obj[f] !== 0);
+  if (missing.length > 0) {
+    throw new Error(`Missing required fields: ${missing.join(', ')}`);
+  }
+  return true;
+}
+
+function cleanOrphans(list) {
+  // Remove items with null/undefined/empty string IDs or id="None"
+  return list.filter(item => {
+    if (!item) return false;
+    const id = item.id ?? item._id;
+    return id && id !== 'None' && id !== 'null' && id !== 'undefined' && String(id).trim() !== '';
+  });
+}
+
+function assignId(item) {
+  if (!item.id || item.id === 'None' || item.id === 'null' || item.id === 'undefined') {
+    item.id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  }
+  return item;
+}
+
+// ==========================================
 // Password hashing helpers
 // ==========================================
 async function hashPassword(password) {
@@ -135,7 +162,12 @@ async function getAllIntervenciones(env) {
   const kv = await getKV(env);
   if (!kv) return [];
   const data = await kv.get('intervenciones', 'json');
-  return Array.isArray(data) ? data.sort((a, b) => new Date(b.fecha + ' ' + b.hora) - new Date(a.fecha + ' ' + a.hora)) : [];
+  if (!Array.isArray(data)) return [];
+  const cleaned = cleanOrphans(data);
+  if (cleaned.length !== data.length) {
+    await kv.put('intervenciones', JSON.stringify(cleaned));
+  }
+  return cleaned.sort((a, b) => new Date(b.date + ' ' + (b.time || '00:00')) - new Date(a.date + ' ' + (a.time || '00:00')));
 }
 
 async function saveIntervencion(item, env) {
@@ -168,7 +200,12 @@ async function getAllEquipo(env) {
   const kv = await getKV(env);
   if (!kv) return [];
   const data = await kv.get('equipo', 'json');
-  return Array.isArray(data) ? data : [];
+  if (!Array.isArray(data)) return [];
+  const cleaned = cleanOrphans(data);
+  if (cleaned.length !== data.length) {
+    await kv.put('equipo', JSON.stringify(cleaned));
+  }
+  return cleaned;
 }
 
 async function saveEquipoItem(item, env) {
@@ -201,7 +238,12 @@ async function getAllVoluntarios(env) {
   const kv = await getKV(env);
   if (!kv) return [];
   const data = await kv.get('voluntarios', 'json');
-  return Array.isArray(data) ? data : [];
+  if (!Array.isArray(data)) return [];
+  const cleaned = cleanOrphans(data);
+  if (cleaned.length !== data.length) {
+    await kv.put('voluntarios', JSON.stringify(cleaned));
+  }
+  return cleaned;
 }
 
 async function saveVoluntario(item, env) {
@@ -234,7 +276,12 @@ async function getAllGaleria(env) {
   const kv = await getKV(env);
   if (!kv) return [];
   const data = await kv.get('galeria', 'json');
-  return Array.isArray(data) ? data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)) : [];
+  if (!Array.isArray(data)) return [];
+  const cleaned = cleanOrphans(data);
+  if (cleaned.length !== data.length) {
+    await kv.put('galeria', JSON.stringify(cleaned));
+  }
+  return cleaned.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 async function saveGaleriaAlbum(album, env) {
@@ -282,8 +329,9 @@ async function getStats(env) {
 async function saveStats(stats, env) {
   const kv = await getKV(env);
   if (!kv) throw new Error('KV not available');
-  await kv.put('stats', JSON.stringify({ ...DEFAULT_STATS, ...stats }));
-  return stats;
+  const merged = { ...DEFAULT_STATS, ...stats };
+  await kv.put('stats', JSON.stringify(merged));
+  return merged;
 }
 
 // ==========================================
@@ -462,7 +510,10 @@ async function handleRequest(request, env, ctx) {
     if (!token) return errorResponse('Unauthorized', 401);
     try {
       const item = await request.json();
-      item.id = item.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      if (!item.date || !item.type || !item.location) {
+        return errorResponse('Missing required fields: date, type, location', 400);
+      }
+      assignId(item);
       await saveIntervencion(item, env);
       return jsonResponse(item, 201);
     } catch (err) {
@@ -499,7 +550,10 @@ async function handleRequest(request, env, ctx) {
     if (!token) return errorResponse('Unauthorized', 401);
     try {
       const item = await request.json();
-      item.id = item.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      if (!item.name || !item.type) {
+        return errorResponse('Missing required fields: name, type', 400);
+      }
+      assignId(item);
       await saveEquipoItem(item, env);
       return jsonResponse(item, 201);
     } catch (err) {
@@ -536,7 +590,10 @@ async function handleRequest(request, env, ctx) {
     if (!token) return errorResponse('Unauthorized', 401);
     try {
       const item = await request.json();
-      item.id = item.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      if (!item.name || !item.rank) {
+        return errorResponse('Missing required fields: name, rank', 400);
+      }
+      assignId(item);
       await saveVoluntario(item, env);
       return jsonResponse(item, 201);
     } catch (err) {
@@ -573,7 +630,10 @@ async function handleRequest(request, env, ctx) {
     if (!token) return errorResponse('Unauthorized', 401);
     try {
       const album = await request.json();
-      album.id = album.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      if (!album.title || !album.date) {
+        return errorResponse('Missing required fields: title, date', 400);
+      }
+      assignId(album);
       await saveGaleriaAlbum(album, env);
       return jsonResponse(album, 201);
     } catch (err) {
@@ -610,8 +670,8 @@ async function handleRequest(request, env, ctx) {
     if (!token) return errorResponse('Unauthorized', 401);
     try {
       const stats = await request.json();
-      await saveStats(stats, env);
-      return jsonResponse({ success: true });
+      const saved = await saveStats(stats, env);
+      return jsonResponse(saved);
     } catch (err) {
       return errorResponse('Failed to save stats', 500);
     }
